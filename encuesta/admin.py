@@ -9,7 +9,7 @@ class FincaInline(admin.StackedInline):
     fieldsets = (
         (None, {
             'fields': ('nombre_productor', ('sexo', 'cedula_productor', 'finca'), 
-                ('municipio', 'microcuenca', 'comunidad'), 'area_finca', 
+                ('municipio', 'comunidad', 'microcuenca'), 'area_finca', 
                 ('coordenadas_gps', 'coordenadas_lg' ))
         }),
         ('Numero de animales en la finca', {
@@ -28,6 +28,13 @@ class FincaInline(admin.StackedInline):
 class EncuestaAdmin(admin.ModelAdmin):
     inlines = (FincaInline, )
     list_display = ('fecha', 'recolector', 'oficina')
+
+    # class Media:
+    #     js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js', 
+    #           'js/select2.js', 'js/select2_locale_es.js', 'js/my_customjs.js',)    
+    #     css = {
+    #          'all': ('css/select2.css',)
+    #     }
 
 # Register your models here.
 admin.site.register(Productores)
