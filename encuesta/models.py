@@ -207,8 +207,8 @@ class SeguridadSaf(models.Model):
     precio_promedio_orga = models.FloatField('Precio promedio')
 
     class Meta:
-        verbose_name = ('SeguridadSaf')
-        verbose_name_plural = ('SeguridadSaf')
+        verbose_name = ('Seguridad Saf')
+        verbose_name_plural = ('Seguridad Saf')
 
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
@@ -216,4 +216,229 @@ class SeguridadSaf(models.Model):
 
 class SeguridadCAnuales(models.Model):
     cultivos = models.IntegerField(choices)
-    area_produccion
+    area_produccion = models.FloatField('Area en producción (en Mz)')
+    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    produccion = models.FloatField('Producción')
+    auto_consumo = models.FloatField('Auto-consumo')
+    perdidas = models.FloatField()
+    venta_no = models.FloatField('Venta no organizada')
+    precio_promedio_no = models.FloatField('Precio promedio')
+    venta_organizada = models.FloatField('Venta organizada')
+    precio_promedio_orga = models.FloatField('Precio promedio')
+
+    class Meta:
+        verbose_name = 'Seguridad A. Ingresos en cultivos anuales'
+        verbose_name_plural = 'Seguridad A. Ingresos en cultivos anuales'
+
+#---------------------------------------------------------------------
+# Modelo: seguridad cultivos anuales
+#---------------------------------------------------------------------
+
+CHOICE_ANIAMLES = (
+        (1,'Leche'),
+        (2,'Crema'),
+        (3,'Cuajada/Queso'),
+        (4,'Mantequilla'),
+        (5,'Bovinas'),
+        (6,'Cerdos'),
+        (7,'Manteca'),
+        (8,'Aves'),
+        (9,'Huevos'),
+        (10,'Pelibuey'),
+        (11,'Embutidos'),
+        (12,'Pescado'),
+        (13,'Mariscos'),
+        (14,'Otros'),
+    )
+
+class SeguridadPAnimal(models.Model):
+    producto = models.IntegerField(choices=CHOICE_ANIAMLES)
+    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    area_produccion = models.FloatField('Area en producción (en Mz)')
+    produccion = models.FloatField('Producción')
+    auto_consumo = models.FloatField('Auto-consumo')
+    perdidas = models.FloatField()
+    venta_no = models.FloatField('Venta no organizada')
+    precio_promedio_no = models.FloatField('Precio promedio')
+    venta_organizada = models.FloatField('Venta organizada')
+    precio_promedio_orga = models.FloatField('Precio promedio')
+
+    class Meta:
+        verbose_name = 'Seguridad A. Ingresos en producto animal'
+        verbose_name_plural = 'Seguridad A. Ingresos en producto animales'
+
+
+#---------------------------------------------------------------------
+# Modelo: seguridad y productos procesados
+#---------------------------------------------------------------------
+CHOICE_PRODUCTOS_PROCESADOS = (
+        (1,'Aceite de coco,palma'),
+        (2,'Vinagres'),
+        (3,'Chocolate, cacao polvo'),
+        (4,'Café molido'),
+        (5,'Harinas(banano,pejib, fruta de pan)'),
+        (6,'Encurtidos, salsas'),
+        (7,'Pinolillos, pozoles'),
+        (8,'Especias molidas(canela, curcuma, achiote)'),
+        (9,'Chips(platanitos,hojuela de yuca)'),
+        (10,'Jaleas, Mermeladas'),
+        (11,'Bebidas(frescos,jugos,agua de coco)'),
+        (12,'Pan, reposterias'),
+        (13,'Plantas cuales:'),
+        (14,'Semillas cuales'),
+        (15,'Otros productos procesados'),
+    )
+CHOICE_MANEJA = (
+        (1, "Mujer"),
+        (2, "Hombre"),
+        (3, "Ambos"),
+    )
+CHOICE_PLAN_NEGOCIO = (
+        (1, "Mujer"),
+        (2, "Hombre"),
+        (3, "Ambos"),
+    )
+
+class SeguridadPProcesados(models.Model):
+    producto = models.IntegerField(choices=CHOICE_ANIAMLES)
+    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    produccion = models.FloatField('Producción')
+    auto_consumo = models.FloatField('Auto-consumo')
+    perdidas = models.FloatField()
+    venta_no = models.FloatField('Venta no organizada')
+    precio_promedio_no = models.FloatField('Precio promedio')
+    venta_organizada = models.FloatField('Venta organizada')
+    maneja = models.IntegerField(choices=CHOICE_MANEJA)
+    plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
+
+    class Meta:
+        verbose_name = 'Seguridad A. Ingresos en productos procesados'
+        verbose_name_plural = 'Seguridad A. Ingresos en productos procesados'
+
+#---------------------------------------------------------------------
+# Modelo: ingreso familiar por servicios y negocios
+#---------------------------------------------------------------------
+
+class ServiciosActividades(models.Model):
+    nombre = models.CharField('Servicio y actividad', max_length=250)
+    unidad = models.CharField('unidad de medida', max_length=200)
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.nombre, self.unidad)
+
+class IngresoServicioNegocio(models.Model):
+    servicios = models.ForeignKey(ServiciosActividades)
+    cantidad = models.IntegerField('Cantidad de unidades por año')
+    precio = models.FloatField('Precio/unidad en C$')
+    ingresos = models.FloatField('Ingreso anual en C$')
+    maneja = models.IntegerField(choices=CHOICE_MANEJA)
+    plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
+
+    class Meta:
+        verbose_name = 'Ingreso familiar por servicios y negocios'
+        verbose_name_plural = 'Ingreso familiar por servicios y negocios'
+
+#---------------------------------------------------------------------
+# Modelo: seguridad alimentaria: consumo y adquisiciones
+#---------------------------------------------------------------------
+
+ALIMENTO_CHOICES=(
+    (1,'Agua'),(2,'Maiz'),
+    (3,'Frijol'),(4,'Arroz'),
+    (5,'Azucar'),(6,'Yuca'),
+    (7,'Malanga'),(8,'Quequisque'),
+    (9,'Naranjilla'),(10,'Parras'),
+    (11,'Cafe'),(12,'Cacao'),
+    (13,'Coco'),(14,'Leña'),
+    (15,'Guineo'),(16,'Platano'),
+    (17,'Madera'),(18,'Naranja'),
+    (19,'Aguacate'),(20,'Pejibaye'),
+    (21,'Achiote'),(22,'Leche'),
+    (23,'Cuajada'),(24,'Queso'),
+    (25,'Crema'),(26,'Carne de Res'),
+    (27,'Huevos'),(28,'Gallinas'),
+    (29,'Carne de Cerdo'),(30,'Pinolillo'),
+    (31,'Avena'),(32,'Pescado'),
+    (33,'Pan'),(34,'Aceite'),(35,'Manteca'),
+    (36,'Papa'),(37,'Cebolla'),(38,'Chiltoma'),(39,'Tomate'))
+
+
+CONSUMO_CHOICES=((1,'No suficiente'),(2,'Si suficiente'))
+
+class SeguridadAlimentaria(models.Model):
+    alimentos = models.IntegerField(choices=ALIMENTO_CHOICES)
+    comprar = models.BooleanField()
+    porcentaje_compran = models.IntegerField()
+    nivel_consumo_suficiente = models.IntegerField(choices=CONSUMO_CHOICES)
+    porcentaje_nivel = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = "Consumo y adquisiciones" 
+
+
+#---------------------------------------------------------------------
+# Modelo: credito
+#---------------------------------------------------------------------
+class OrganizacionesDanCredito(models.Model):
+    nombre = models.CharField('Nombre de la organización', max_length=250)
+
+    def __unicode__(self):
+        return self.nombre
+
+class UsoCredito(models.Model):
+    nombre = models.CharField('Uso del credito', max_length=250)
+
+    def __unicode__(self):
+        return self.nombre
+
+class Credito(models.Model):
+    organizacion = models.ForeignKey(OrganizacionesDanCredito, 
+                   verbose_name='Con qué organización tiene crédito actualmente?')
+    uso = models.ManyToManyField(UsoCredito, verbose_name='Uso del crédito')
+    personas = models.IntegerField('Número de personas beneficiarias de la familia')
+
+    class Meta:
+        verbose_name_plural = 'Creditos'
+
+
+#---------------------------------------------------------------------
+# Modelo: innovaciones
+#---------------------------------------------------------------------
+
+class TipoInnovacion(models.Model):
+    nombre = models.CharField('Innovación', max_length=250)
+
+    def __unicode__(self):
+        return self.nombre
+
+CHOICE_SI_NO = (
+        (1, "Si"),
+        (2, "No"),
+    )
+
+class Innovacion(models.Model):
+    innovacion = models.ForeignKey(TipoInnovacion)
+    aplica = models.IntegerField(choices=CHOICE_SI_NO)
+
+    class Meta:
+        verbose_name_plural = 'Innovaciones'
+
+#---------------------------------------------------------------------
+# Modelo: innovaciones
+#---------------------------------------------------------------------
+
+class Fotos(models.Model):
+    nombre = models.CharField(max_length=200,help_text="Nombre de la foto a subir")
+    adjunto = ImageWithThumbsField(upload_to="attachments",blank=True,help_text="Suba su archivo aqui",sizes=((125,125),(200,200)))
+
+    def get_absolute_url(self):
+        return '%s%s/%s' % (settings.MEDIA_URL,settings.ATTACHMENT_FOLDER, self.id)
+
+    def get_download_url(self):
+        return '%s%s/%s' % (settings.MEDIA_URL,settings.ATTACHMENT_FOLDER, self.nombre)
+
+    class Meta:
+        verbose_name_plural = "Subir archivos fotograficos de las familia"
+
+    def __unicode__(self):
+        return self.nombre
