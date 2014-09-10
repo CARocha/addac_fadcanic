@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
 from lugar.models import *
-from smart_selects.db_fields import ChainedForeignKey 
+from smart_selects.db_fields import ChainedForeignKey
+from sorl.thumbnail import ImageField 
 
 class Productores(models.Model):
     nombre = models.CharField('Nombre y apellido', max_length=250)
@@ -133,6 +134,8 @@ class UsoTierra(models.Model):
     plantaciones_forestales = models.DecimalField(max_digits=10,decimal_places=2)
     forestales_observacion = models.CharField('Observaciones', max_length=250)
 
+    encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name= 'Uso de tierra'
 
@@ -168,6 +171,7 @@ class Educacion(models.Model):
     estudiando = models.IntegerField()
     circ_estudio_adulto = models.IntegerField(choices=CHOICE_EBA)
     
+    encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         ordering = ('sexo_edad',)
@@ -206,16 +210,18 @@ class SeguridadSaf(models.Model):
     venta_organizada = models.FloatField('Venta organizada')
     precio_promedio_orga = models.FloatField('Precio promedio')
 
+    encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
-        verbose_name = ('Seguridad Saf')
-        verbose_name_plural = ('Seguridad Saf')
+        verbose_name = 'Seguridad Saf'
+        verbose_name_plural = 'Seguridad Saf'
 
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
 #---------------------------------------------------------------------
 
 class SeguridadCAnuales(models.Model):
-    cultivos = models.IntegerField(choices)
+    cultivos = models.IntegerField(choices=SISTEMAS_CHOICES)
     area_produccion = models.FloatField('Area en producción (en Mz)')
     unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
     produccion = models.FloatField('Producción')
@@ -225,6 +231,8 @@ class SeguridadCAnuales(models.Model):
     precio_promedio_no = models.FloatField('Precio promedio')
     venta_organizada = models.FloatField('Venta organizada')
     precio_promedio_orga = models.FloatField('Precio promedio')
+
+    encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         verbose_name = 'Seguridad A. Ingresos en cultivos anuales'
@@ -262,6 +270,8 @@ class SeguridadPAnimal(models.Model):
     precio_promedio_no = models.FloatField('Precio promedio')
     venta_organizada = models.FloatField('Venta organizada')
     precio_promedio_orga = models.FloatField('Precio promedio')
+
+    encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         verbose_name = 'Seguridad A. Ingresos en producto animal'
@@ -311,6 +321,8 @@ class SeguridadPProcesados(models.Model):
     maneja = models.IntegerField(choices=CHOICE_MANEJA)
     plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
 
+    encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name = 'Seguridad A. Ingresos en productos procesados'
         verbose_name_plural = 'Seguridad A. Ingresos en productos procesados'
@@ -333,6 +345,8 @@ class IngresoServicioNegocio(models.Model):
     ingresos = models.FloatField('Ingreso anual en C$')
     maneja = models.IntegerField(choices=CHOICE_MANEJA)
     plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
+
+    encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         verbose_name = 'Ingreso familiar por servicios y negocios'
@@ -372,6 +386,8 @@ class SeguridadAlimentaria(models.Model):
     nivel_consumo_suficiente = models.IntegerField(choices=CONSUMO_CHOICES)
     porcentaje_nivel = models.IntegerField()
 
+    encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = "Consumo y adquisiciones" 
 
@@ -397,6 +413,8 @@ class Credito(models.Model):
     uso = models.ManyToManyField(UsoCredito, verbose_name='Uso del crédito')
     personas = models.IntegerField('Número de personas beneficiarias de la familia')
 
+    encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = 'Creditos'
 
@@ -420,6 +438,8 @@ class Innovacion(models.Model):
     innovacion = models.ForeignKey(TipoInnovacion)
     aplica = models.IntegerField(choices=CHOICE_SI_NO)
 
+    encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = 'Innovaciones'
 
@@ -429,7 +449,10 @@ class Innovacion(models.Model):
 
 class Fotos(models.Model):
     nombre = models.CharField(max_length=200,help_text="Nombre de la foto a subir")
-    adjunto = ImageWithThumbsField(upload_to="attachments",blank=True,help_text="Suba su archivo aqui",sizes=((125,125),(200,200)))
+    adjunto = ImageField(upload_to="attachments", blank=True, 
+                         help_text="Suba su archivo aqui")
+
+    encuesta = models.ForeignKey(Encuesta)
 
     def get_absolute_url(self):
         return '%s%s/%s' % (settings.MEDIA_URL,settings.ATTACHMENT_FOLDER, self.id)

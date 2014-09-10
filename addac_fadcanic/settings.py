@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'lugar',
     'smart_selects',
     'south',
+    'sorl.thumbnail',
 )
 
 MIDDLEWARE_CLASSES = (
