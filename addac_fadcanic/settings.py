@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'smart_selects',
     'south',
     'sorl.thumbnail',
+    'report_builder',
 )
 
 MIDDLEWARE_CLASSES = (

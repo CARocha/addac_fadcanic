@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^chaining/', include('smart_selects.urls')),
+    url(r'^report_builder/', include('report_builder.urls')),
 )
 
 urlpatterns += staticfiles_urlpatterns()
