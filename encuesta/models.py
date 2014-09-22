@@ -4,8 +4,17 @@ from lugar.models import *
 from smart_selects.db_fields import ChainedForeignKey
 from sorl.thumbnail import ImageField 
 
+SEXO_PRODUCTOR_CHOICES = (
+    (1,'Mujer'),
+    (3,'Hombre')
+)
+
 class Productores(models.Model):
     nombre = models.CharField('Nombre y apellido', max_length=250)
+    cedula_productor = models.CharField(max_length=25,null=True,blank=True,
+                                        help_text='Introduzca cedula del productor')
+    sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
+                                null = True, blank=True)
 
     class Meta:
         verbose_name= 'Productores'
@@ -31,10 +40,6 @@ TIPO_CHOICES = (
     (3,'Casa de madera con techo de zinc'),
     (4,'Casa minifalda con techo de zinc'),
     (5,'Casa de concreto con techo de zinc')
-)
-SEXO_PRODUCTOR_CHOICES = (
-    (1,'Mujer'),
-    (3,'Hombre')
 )
 AGUA_CHOICES = (
     (1,'Ojo de agua'),
@@ -68,7 +73,6 @@ DUENO_CHOICES = (
 
 class Finca(models.Model):
     nombre_productor = models.ForeignKey(Productores)
-    sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, null = True, blank=True)
     finca = models.CharField("Nombre Finca",max_length=50,null=True,blank=True,help_text='Introduzca nombre de la finca')
     municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio', 
                                  related_name="municipio")
@@ -86,7 +90,7 @@ class Finca(models.Model):
         show_all=False, 
         auto_choose=True
     )
-    cedula_productor = models.CharField(max_length=25,null=True,blank=True,help_text='Introduzca cedula del productor')
+    
     area_finca = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca el area de la finca en MZ')
     coordenadas_gps = models.DecimalField('Coordenadas Latitud',max_digits=8, decimal_places=6 ,null=True,blank=True,help_text='Introduzca las coordenadas Latitud')
     coordenadas_lg = models.DecimalField('Coordenadas Longitud', max_digits=8, decimal_places=6, null=True, blank=True, help_text="Introduzca las coordenadas Longitud")

@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    var flag = true;
+    $(document).ready(function(){
+        $('#mas').click(function(){
+            if(flag==true){
+                $('.botonera').slideDown('slow');
+                $('#estado').html('<span class="glyphicon glyphicon-arrow-up"></span>');
+                flag = false;
+            }else if (flag==false){
+                $('.botonera').slideUp('slow');
+                $('#estado').html('<span class="glyphicon glyphicon-arrow-down"></span>');
+                flag = true;
+            }
+            return false;
+        });
+    });
+</script>
+{% endblock extra_js %}
+{% block contenido %}
+<!--Tabla y Grafico -->
+
+<div class="container">
+<hr class="separador">
+<h3 class="text-success">Sistema de información de agroforesteria</h3>
+<hr class="separador">
+  <div class="row" id="formularios">
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+
+
+    <ul class="nav nav-pills nav-justified">
+        <li class="active"><a href="#consultar" data-toggle="tab">Consultar</a></li>
+        <li><a href="#bespecifica" data-toggle="tab">Busqueda Especifica</a></li>
+    </ul>
+
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="consultar">
+      
+                     <div class="panel-body">
+            <form action="" method="POST" role="form">
+                    <div class="form-group">
+                      <label class="control-label col-md-12 col-lg-5">Fecha</label>
+
+                    <div class="input-group col-md-12 col-lg-7">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-calendar"></label></span>
+                        <select  class="form-control ">
+                            <option value="2009">2009</option>
+                            <option value="2011">2011</option>
+                            <option value="2013">2013</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-12 col-lg-5">Departamento</label>
+
+                    <div class="input-group col-md-12 col-lg-7">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-globe"></label></span>
+                        <select  class="form-control ">
+                            <option value="RAAS">RAAS</option>
+                            <option value="Matagalpa">Matagalpa</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-12 col-lg-5">Municipio</label>
+
+                    <div class="input-group col-md-12 col-lg-7">
+                        <span class="input-group-addon"><label class="fa fa-map-marker fa-lg"></label></span>
+                        <select  class="form-control ">
+                            <option value="Rama">Rama</option>
+                            <option value="Bluefield">Bluefield</option>  
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-12 col-lg-5">Comunidad</label>
+
+                    <div class="input-group col-md-12 col-lg-7">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-home"></label></span>
+                        <select  class="form-control ">
+                            <option value="Los Angeles">Los Angeles</option>
+                            <option value="Carolina">Carolina</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-12 col-lg-5">Propietario</label>
+
+                    <div class="input-group col-md-12 col-lg-7">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-user"></label></span>
+                        <select  class="form-control ">
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Repetido</label>
+                  </div>
+
+              <div class="input-group col-lg-12">
+                <button type="button" data-loading-text="Consultando..." class="btn btn-success">Consultar</button>
+              </div>
+              </form>
+                        </div>
+           
+      
+    </div>
+
+
+    <div class="tab-pane" id="bespecifica">
+            
+              <div class="panel-body">
+                <form action="" method="POST" role="form">
+                  <div class="form-group">
+                      <label class="control-label col-md-12 col-lg-4">Fecha</label>
+
+                  <div class="input-group col-md-12 col-lg-8">
+                      <span class="input-group-addon"><label class="glyphicon glyphicon-calendar"></label></span>
+                      <select  class="form-control ">
+                        <option value="2009">2009</option>
+                        <option value="2011">2011</option>
+                        <option value="2013">2013</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                      <label class="control-label col-md-12 col-lg-4">Nombre</label>
+
+                  <div class="input-group col-md-12 col-lg-8">
+                      <span class="input-group-addon"><label class="glyphicon glyphicon-user"></label></span>
+                <input type="text" class="form-control" placeholder="Nombre">
+                  </div>
+                </div>
+                <div class="input-group col-lg-12">
+              <button type="button" data-loading-text="Consultando..." class="btn btn-success">Consultar</button>
+            </div>
+                
+                </form>
+                 
+
+              </div>
+            </div>
+      
+    </div>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+    <ul class="nav nav-pills nav-justified">
+        <li class="active"><a href="#tabla" data-toggle="tab">Tabla</a></li>
+        <li><a href="#grafico" data-toggle="tab">Grafico</a></li>
+
+
+      <li id="mas" class="text-right btnindicador">
+        <span id="estado">
+          <span class="glyphicon glyphicon-arrow-down"></span>
+        </span> Cambiar de Indicador
+      </li>
+
+
+    </ul>
+
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="tabla">
+
+              
+
+                      <div class="panel-body">
+                          <div class="botonera">
+                  <span class="btn btn-success">
+                    Datos Generales
+                  </span>
+                   <span class="btn btn-success">
+                    Educación
+                  </span>
+                  <span class="btn btn-success">
+                    Credito
+                  </span>
+                  <span class="btn btn-success">
+                    Corbertura Boscosa
+                  </span>
+                  <span class="btn btn-success">
+                    sistema Agroforestal
+                  </span>
+                  <span class="btn btn-success">
+                    Producción y Comercialización 
+                  </span>
+                  <span class="btn btn-success">
+                    Ingreso Familiar
+                  </span>
+                  <span class="btn btn-success">
+                    Seguridad alimentaria
+                  </span>
+
+              </div>
+            
+              <div class="table-responsive">
+                            <table class="table">
+                 <thead>
+                      <tr>
+                          <th>3</th>
+                          <th>#Total</th>
+                          <th>%No sabe leer</th>
+                          <th>% Prim Incompleta</th>
+                          <th>% Prim Completa</th>
+                          <th>% Secun Incompleta</th>
+                          <th>% Secun Completa</th>
+                          <th>% Univ. o Tecnico</th>
+                          <th>% Estudi.</th>
+                          <th>% Cir. de Estudio</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Hombre adultos de 25 adelante</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                        <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                      </tr>
+                      <tr>
+                          <td>Hombre adultos de 25 adelante</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                      </tr>
+                      <tr>
+                          <td>Hombre adultos de 25 adelante</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                          <td>265%</td>
+                      </tr>
+
+                  </tbody>
+
+              </table>
+            </div>
+                       </div>
+          </div>
+
+
+
+          <div class="tab-pane" id="grafico">
+               <div class="panel-body" >
+                          <div class="botonera">
+                  <span class="btn btn-success">
+                    Datos Generales
+                  </span>
+                   <span class="btn btn-success">
+                    Educación
+                  </span>
+                  <span class="btn btn-success">
+                    Credito
+                  </span>
+                  <span class="btn btn-success">
+                    Corbertura Boscosa
+                  </span>
+                  <span class="btn btn-success">
+                    sistema Agroforestal
+                  </span>
+                  <span class="btn btn-success">
+                    Producción y Comercialización 
+                  </span>
+                  <span class="btn btn-success">
+                    Ingreso Familiar
+                  </span>
+                  <span class="btn btn-success">
+                    Seguridad alimentaria
+                  </span>
+                </div>
+
+            
+            <div class="container-fluid ">
+              <div id="piecolsulta" class="center-block"></div>
+            </div>
+            </div>
+          </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock contenido %}
