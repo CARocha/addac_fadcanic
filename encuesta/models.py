@@ -21,18 +21,32 @@ class Productores(models.Model):
         verbose_name_plural = 'Productores'
 
     def __unicode__(self):
+        return u'%s ' % (self.nombre)
+
+class Recolector(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ('nombre',)
+
+    def __unicode__(self):
         return self.nombre
 
 class Encuesta(models.Model):
     fecha = models.DateField('Fecha de la encuesta', help_text='Introduzca año-mes-dia')
-    ano = models.IntegerField('año')
-    recolector = models.CharField('Nombre recolector de datos', max_length=250)
+    ano = models.IntegerField('año', editable=False)
+    recolector = models.ForeignKey(Recolector, verbose_name='Nombre recolector de datos')
     fecha2 = models.DateField('Fecha de ingreso de la encuesta')
     personas = models.CharField('Personas que introdujeron los datos', max_length=250)
     oficina = models.CharField('Oficina de introducción de datos', max_length=50)
 
     def __unicode__(self):
         return u'%s - %s' % (str(self.fecha),str(self.recolector))
+
+    def save(self, *args, **kwargs):
+        self.ano = self.fecha.year
+        super(Encuesta, self).save(*args, **kwargs)
+
 
 TIPO_CHOICES = (
     (1,'Casa de madera rolliza con techo de paja'),
@@ -112,30 +126,30 @@ class Finca(models.Model):
 
     class Meta:
         ordering = ('finca',)
-        verbose_name= 'Datos generales de la familia socia'
+        verbose_name= 'Datos generales de la finca'
 
 #-------------------------------------------------------------
 #     uso de la tierra
 #-------------------------------------------------------------
 
 class UsoTierra(models.Model):
-    bosque_primario = models.DecimalField(max_digits=10,decimal_places=2)
+    bosque_primario = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     primario_observacion = models.CharField('Observaciones', max_length=250)
-    bosque_secundario = models.DecimalField(max_digits=10,decimal_places=2)
+    bosque_secundario = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     secundario_observacion = models.CharField('Observaciones', max_length=250)
-    tacotal =  models.DecimalField(max_digits=10,decimal_places=2)
+    tacotal =  models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     tacotal_observacion = models.CharField('Observaciones', max_length=250)
-    cultivos_perennes = models.DecimalField(max_digits=10,decimal_places=2)
+    cultivos_perennes = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     perennes_observacion = models.CharField('Observaciones', max_length=250)
-    cultivos_semiperennes = models.DecimalField(max_digits=10,decimal_places=2)
+    cultivos_semiperennes = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     semiperennes_observacion = models.CharField('Observaciones', max_length=250)
-    cultivos_anuales = models.DecimalField(max_digits=10,decimal_places=2)
+    cultivos_anuales = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     anuales_observacion = models.CharField('Observaciones', max_length=250)
-    potrero_sin_arboles = models.DecimalField(max_digits=10,decimal_places=2)
+    potrero_sin_arboles = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     sin_arboles_observacion = models.CharField('Observaciones', max_length=250)
-    potrero_arboles = models.DecimalField(max_digits=10,decimal_places=2)
+    potrero_arboles = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     arboles_observacion = models.CharField('Observaciones', max_length=250)
-    plantaciones_forestales = models.DecimalField(max_digits=10,decimal_places=2)
+    plantaciones_forestales = models.DecimalField(max_digits=10,decimal_places=2, default='0.00')
     forestales_observacion = models.CharField('Observaciones', max_length=250)
 
     encuesta = models.ForeignKey(Encuesta)

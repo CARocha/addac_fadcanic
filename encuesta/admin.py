@@ -9,7 +9,7 @@ class FincaInline(admin.StackedInline):
     min_num = 1
     fieldsets = (
         (None, {
-            'fields': ('nombre_productor', ('sexo', 'cedula_productor', 'finca'), 
+            'fields': ('nombre_productor', ('finca'), 
                 ('municipio', 'comunidad', 'microcuenca'), 'area_finca', 
                 ('coordenadas_gps', 'coordenadas_lg' ))
         }),
@@ -26,8 +26,17 @@ class FincaInline(admin.StackedInline):
     )
     
 
-class UsoTierraAdmin(admin.TabularInline):
+class UsoTierraAdmin(admin.StackedInline):
     model = UsoTierra
+    fields = (('bosque_primario','primario_observacion'),
+              ('bosque_secundario', 'secundario_observacion'),
+              ('tacotal', 'tacotal_observacion'),
+              ('cultivos_perennes', 'perennes_observacion'),
+              ('cultivos_semiperennes', 'semiperennes_observacion'),
+              ('cultivos_anuales', 'anuales_observacion'),
+              ('potrero_sin_arboles', 'sin_arboles_observacion'),
+              ('potrero_arboles', 'arboles_observacion'),
+              ('plantaciones_forestales', 'forestales_observacion'),)
     extra = 1
     max_num = 1
     min_num = 1
@@ -35,11 +44,13 @@ class UsoTierraAdmin(admin.TabularInline):
 class EducacionAdmin(admin.TabularInline):
     model = Educacion
     extra = 1
-    max_num = 1
-    min_num = 1
 
 class SeguridadSafAdmin(admin.TabularInline):
     model = SeguridadSaf
+    class Media:  
+        css = {
+            'all': ('css/saf.css',)
+        }
     extra = 1
 
 class SeguridadCAnualesAdmin(admin.TabularInline):
@@ -75,6 +86,7 @@ class FotosAdmin(AdminImageMixin, admin.TabularInline):
     extra = 1
 
 class EncuestaAdmin(admin.ModelAdmin):
+    fields = (('fecha', 'fecha2'),('recolector', 'personas'), 'oficina')
     inlines = [FincaInline, UsoTierraAdmin, EducacionAdmin, SeguridadSafAdmin,
                SeguridadCAnualesAdmin, SeguridadCAnualesAdmin, SeguridadPAnimalAdmin,
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
@@ -92,4 +104,4 @@ class EncuestaAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Productores)
 admin.site.register(Encuesta, EncuestaAdmin)
-#admin.site.register(Finca)
+admin.site.register(Recolector)
