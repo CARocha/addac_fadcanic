@@ -48,7 +48,12 @@
             <li><a  href="/" class="animsition-link"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
             <li><a href="/consulta" class="animsition-link"><span class="glyphicon glyphicon-search"></span> Consulta</a></li>
             <li><a  href="/ayuda"><span class="glyphicon glyphicon-question-sign"></span> Ayuda</a></li>
-            <li id="modalcall" data-toggle="modal" data-target="#myModal"><a><span class="glyphicon glyphicon-user"></span> Inicio de Sesión</a></li>
+            {% if request.user %}
+              <li><a href="/admin">Hola {{request.user}}</a></li>
+            {% else %}
+              <li id="modalcall" data-toggle="modal" data-target="#myModal"><a><span class="glyphicon glyphicon-user"></span> Inicio de Sesión</a></li>
+            {% endif %}
+            
           <!-- Button trigger modal -->
 
 

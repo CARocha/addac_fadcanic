@@ -92,14 +92,8 @@ class EncuestaAdmin(admin.ModelAdmin):
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha', 'recolector', 'oficina')
+    list_display = ('fecha', '__productor__', 'recolector', 'oficina', )
 
-    # class Media:
-    #     js = ('http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js', 
-    #           'js/select2.js', 'js/select2_locale_es.js', 'js/my_customjs.js',)    
-    #     css = {
-    #          'all': ('css/select2.css',)
-    #     }
 
 # Register your models here.
 admin.site.register(Productores)

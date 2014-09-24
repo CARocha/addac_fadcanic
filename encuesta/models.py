@@ -10,7 +10,7 @@ SEXO_PRODUCTOR_CHOICES = (
 )
 
 class Productores(models.Model):
-    nombre = models.CharField('Nombre y apellido', max_length=250)
+    nombre = models.CharField('Nombre y apellido', max_length=250, null=True, blank=True)
     cedula_productor = models.CharField(max_length=25,null=True,blank=True,
                                         help_text='Introduzca cedula del productor')
     sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
@@ -21,7 +21,7 @@ class Productores(models.Model):
         verbose_name_plural = 'Productores'
 
     def __unicode__(self):
-        return u'%s ' % (self.nombre)
+        return u'%s ' % (str(self.nombre))
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=100)
@@ -46,6 +46,10 @@ class Encuesta(models.Model):
     def save(self, *args, **kwargs):
         self.ano = self.fecha.year
         super(Encuesta, self).save(*args, **kwargs)
+
+    def __productor__(self):
+        campesino = Finca.objects.filter(encuesta__id=self.id)
+        return campesino[0]
 
 
 TIPO_CHOICES = (
@@ -86,7 +90,7 @@ DUENO_CHOICES = (
 #---------------------------------------------------------------------------
 
 class Finca(models.Model):
-    nombre_productor = models.ForeignKey(Productores)
+    nombre_productor = models.ForeignKey('Productores')
     finca = models.CharField("Nombre Finca",max_length=50,null=True,blank=True,help_text='Introduzca nombre de la finca')
     municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio', 
                                  related_name="municipio")
@@ -122,7 +126,7 @@ class Finca(models.Model):
     encuesta = models.ForeignKey(Encuesta)
 
     def __unicode__(self):
-        return self.nombre_productor
+        return u'%s' % (self.nombre_productor)
 
     class Meta:
         ordering = ('finca',)
