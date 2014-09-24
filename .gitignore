@@ -58,3 +58,4 @@ docs/_build/
 *.sqlite3
 *.db
 *.sql
+media/
