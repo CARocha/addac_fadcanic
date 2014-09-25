@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.core.exceptions import ViewDoesNotExist
 from .models import *
 from .forms import *
 
-
-# Función para obtener las url
-def _get_view(request, vista):
-    if vista in VALID_VIEWS:
-        return VALID_VIEWS[vista](request)
-    else:
-        raise ViewDoesNotExist("Tried %s in module %s Error: View not defined in VALID_VIEWS." % (vista, 'encuesta.views'))
 
 # CBV para el home y los graficos
 class HomeView(TemplateView):
@@ -66,15 +60,33 @@ def ConsultaView(request, template='consulta.html'):
 #funcion para el primer indicador
 def generales(request, template='encuesta/generales.html'):
     a = _query_filtros(request)
+    rangos = {'1':(0,0),
+              '2':(0.1,5),
+              '3':(6,20),
+              '4':(21,50),
+              '5':(51,10000),
+            }
+    lista1 = {} 
+    for k,v in rangos.items():
+        lista1[k] = (a.filter(finca__area_finca__range=v).count(),(a.filter(finca__area_finca__range=v).count()/a.count())*100)
+    print lista1
+
+
     return render(request, template, {'a':a.count()})
 
 #CBV para la ayuda del sistema
 class AyudaView(TemplateView):
     template_name = 'ayuda.html'
 
+#urls de los indicadores
+
 VALID_VIEWS = {
         'generales': generales,
         
-    }
-
-
+}
+# Función para obtener las url
+def _get_view(request, vista):
+    if vista in VALID_VIEWS:
+        return VALID_VIEWS[vista](request)
+    else:
+        raise ViewDoesNotExist("Tried %s in module %s Error: View not defined in VALID_VIEWS." % (vista, 'encuesta.views'))
