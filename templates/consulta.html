@@ -39,23 +39,16 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="consultar">
-
-    <form>
-      {{form.as_p}}
-    </form>
       
-                     <div class="panel-body">
-            <form action="" method="POST" role="form">
+            <div class="panel-body">
+            <form action="." method="POST" role="form">
+               {% csrf_token %}
                     <div class="form-group">
                       <label class="control-label col-md-12 col-lg-5">Fecha</label>
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="glyphicon glyphicon-calendar"></label></span>
-                        <select  class="form-control ">
-                            <option value="2009">2009</option>
-                            <option value="2011">2011</option>
-                            <option value="2013">2013</option>
-                      </select>
+                        {{form.fecha}}
                     </div>
                   </div>
                   <div class="form-group">
@@ -63,10 +56,7 @@
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="glyphicon glyphicon-globe"></label></span>
-                        <select  class="form-control ">
-                            <option value="RAAS">RAAS</option>
-                            <option value="Matagalpa">Matagalpa</option>
-                      </select>
+                        {{form.departamento}}
                     </div>
                   </div>
 
@@ -75,10 +65,7 @@
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="fa fa-map-marker fa-lg"></label></span>
-                        <select  class="form-control ">
-                            <option value="Rama">Rama</option>
-                            <option value="Bluefield">Bluefield</option>  
-                      </select>
+                        {{form.municipio}}
                     </div>
                   </div>
 
@@ -87,10 +74,7 @@
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="glyphicon glyphicon-home"></label></span>
-                        <select  class="form-control ">
-                            <option value="Los Angeles">Los Angeles</option>
-                            <option value="Carolina">Carolina</option>
-                      </select>
+                        {{form.comunidad}}
                     </div>
                   </div>
 
@@ -99,10 +83,7 @@
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="glyphicon glyphicon-user"></label></span>
-                        <select  class="form-control ">
-                            <option value="Hombre">Hombre</option>
-                            <option value="Mujer">Mujer</option>
-                      </select>
+                        {{form.propietario}}
                     </div>
                   </div>
 
@@ -112,19 +93,19 @@
                   </div>
 
               <div class="input-group col-lg-12">
-                <button type="button" data-loading-text="Consultando..." class="btn btn-success">Consultar</button>
+                <input type="submit" value="Consultar" data-loading-text="Consultando..." class="btn btn-success" />
               </div>
               </form>
-                        </div>
+          </div>
            
       
     </div>
 
-
+    {% if request.user %}  
     <div class="tab-pane" id="bespecifica">
             
               <div class="panel-body">
-                <form action="" method="POST" role="form">
+                <form action="." method="POST" role="form">
                   <div class="form-group">
                       <label class="control-label col-md-12 col-lg-4">Fecha</label>
 
@@ -154,11 +135,16 @@
                  
 
               </div>
-            </div>
+    </div>
+    {% endif %}
       
     </div>
     </div>
+  
 
+    {% if centinela == 1 %}
+      Hola se hizo la consulta
+      <a href="/generales">Generales</a>
 
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 
@@ -313,8 +299,11 @@
 
 
       </div>
-    </div>
-
+    </div> <!-- terminas las tablas -->
+    
+  {% else %}
+      <p>Primero realize la consulta para que aparezacan los indicadores</p>  
+  {% endif %}
   </div>
 
 </div>
