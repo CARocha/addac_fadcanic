@@ -76,22 +76,18 @@ def generales(request, template='encuesta/generales.html'):
                        equino=Count('finca__animal_equino'),aves=Count('finca__animal_aves'),
                        caprino=Count('finca__animal_caprino'))
 
-    print frecuencia
     total = a.aggregate(bovino=Sum('finca__animal_bovino'),porcino=Sum('finca__animal_porcino'),
                        equino=Sum('finca__animal_equino'),aves=Sum('finca__animal_aves'),
                        caprino=Sum('finca__animal_caprino'))
-    print total
     promedio = a.aggregate(bovino=Avg('finca__animal_bovino'),porcino=Avg('finca__animal_porcino'),
                        equino=Avg('finca__animal_equino'),aves=Avg('finca__animal_aves'),
                        caprino=Avg('finca__animal_caprino'))
-    print promedio
 
     animales = {'Bovino':(frecuencia['bovino'],frecuencia['bovino']*100/a.count(),total['bovino'],promedio['bovino']),
                 'Porcino':(frecuencia['porcino'],frecuencia['porcino']*100/a.count(),total['porcino'],promedio['porcino']),
                 'Equino':(frecuencia['equino'],frecuencia['equino']*100/a.count(),total['equino'],promedio['equino']),
                 'Aves':(frecuencia['aves'],frecuencia['aves']*100/a.count(),total['aves'],promedio['aves']),
                 'Caprino':(frecuencia['caprino'],frecuencia['caprino']*100/a.count(),total['caprino'],promedio['caprino'])}    
-    print animales
 
     return render(request, template, {'a':a.count(), 'lista1':lista1, 'animales':animales})
 
