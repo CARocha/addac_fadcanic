@@ -159,6 +159,23 @@ $("button").click(function() {
   setTimeout(function () { 
   $btn.button('reset'); }, 2000); });
 </script>
+<script type="text/javascript">
+    var flag = true;
+    $(document).ready(function(){
+        $('#mas').click(function(){
+            if(flag==true){
+                $('.botonera').slideDown('slow');
+                $('#estado').html('<span class="glyphicon glyphicon-arrow-up"></span>');
+                flag = false;
+            }else if (flag==false){
+                $('.botonera').slideUp('slow');
+                $('#estado').html('<span class="glyphicon glyphicon-arrow-down"></span>');
+                flag = true;
+            }
+            return false;
+        });
+    });
+</script>
 
 </body>
 

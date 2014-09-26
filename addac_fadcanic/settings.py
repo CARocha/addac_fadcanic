@@ -114,7 +114,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    'django.core.context_processors.request',
+    "django.core.context_processors.request",
+    "addac_fadcanic.contexto.globales",
+
     )
 
 JQUERY_URL = 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'

@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
 from .forms import *
-
+from django.db.models import Count, Sum, Avg
 
 # CBV para el home y los graficos
 class HomeView(TemplateView):
@@ -60,19 +60,40 @@ def ConsultaView(request, template='consulta.html'):
 #funcion para el primer indicador
 def generales(request, template='encuesta/generales.html'):
     a = _query_filtros(request)
-    rangos = {'1':(0,0),
-              '2':(0.1,5),
-              '3':(6,20),
-              '4':(21,50),
-              '5':(51,10000),
+    rangos = {'0 - mz':(0,0),
+              '0.1 - 5 mz':(0.1,5),
+              '5 - 20 mz':(6,20),
+              '21 - 50 mz':(21,50),
+              '>51 mz':(51,10000),
             }
     lista1 = {} 
     for k,v in rangos.items():
-        lista1[k] = (a.filter(finca__area_finca__range=v).count(),(a.filter(finca__area_finca__range=v).count()/a.count())*100)
-    print lista1
+        cnt = a.filter(finca__area_finca__range=v).count()
+        perct = cnt * 100 / a.count()
+        lista1[k] = (cnt,perct)
 
+    frecuencia = a.aggregate(bovino=Count('finca__animal_bovino'),porcino=Count('finca__animal_porcino'),
+                       equino=Count('finca__animal_equino'),aves=Count('finca__animal_aves'),
+                       caprino=Count('finca__animal_caprino'))
 
-    return render(request, template, {'a':a.count()})
+    print frecuencia
+    total = a.aggregate(bovino=Sum('finca__animal_bovino'),porcino=Sum('finca__animal_porcino'),
+                       equino=Sum('finca__animal_equino'),aves=Sum('finca__animal_aves'),
+                       caprino=Sum('finca__animal_caprino'))
+    print total
+    promedio = a.aggregate(bovino=Avg('finca__animal_bovino'),porcino=Avg('finca__animal_porcino'),
+                       equino=Avg('finca__animal_equino'),aves=Avg('finca__animal_aves'),
+                       caprino=Avg('finca__animal_caprino'))
+    print promedio
+
+    animales = {'Bovino':(frecuencia['bovino'],frecuencia['bovino']*100/a.count(),total['bovino'],promedio['bovino']),
+                'Porcino':(frecuencia['porcino'],frecuencia['porcino']*100/a.count(),total['porcino'],promedio['porcino']),
+                'Equino':(frecuencia['equino'],frecuencia['equino']*100/a.count(),total['equino'],promedio['equino']),
+                'Aves':(frecuencia['aves'],frecuencia['aves']*100/a.count(),total['aves'],promedio['aves']),
+                'Caprino':(frecuencia['caprino'],frecuencia['caprino']*100/a.count(),total['caprino'],promedio['caprino'])}    
+    print animales
+
+    return render(request, template, {'a':a.count(), 'lista1':lista1, 'animales':animales})
 
 #CBV para la ayuda del sistema
 class AyudaView(TemplateView):

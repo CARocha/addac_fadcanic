@@ -1,8 +1,157 @@
 {% extends "base.html" %}
 
 {% block contenido %}
-
 <br><br><br><br><br><br>
-	<p>Esta es la variable del query el puto conteo</p>
-	cuantas encuestas: ({{a}})
+<div class="container">
+	<hr class="separador">
+<h3 class="text-success">Indicador general</h3>
+<hr class="separador">
+<div class="row" id="formularios">
+    {% include "formulario.html" %}
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+    <ul class="nav nav-pills nav-justified">
+        <li class="active"><a href="#tabla" data-toggle="tab">Tabla</a></li>
+        <li><a href="#grafico" data-toggle="tab">Grafico</a></li>
+
+
+      <li id="mas" class="text-right btnindicador">
+        <span id="estado">
+          <span class="glyphicon glyphicon-arrow-down"></span>
+        </span> Cambiar de Indicador
+      </li>
+
+
+    </ul>
+
+
+      <div class="tab-content">
+    <div class="tab-pane active" id="tabla">
+
+              
+
+     <div class="panel-body">
+            <div class="botonera">
+                  <span class="btn btn-success">
+                    Datos Generales
+                  </span>
+                   <span class="btn btn-success">
+                    Educación
+                  </span>
+                  <span class="btn btn-success">
+                    Credito
+                  </span>
+                  <span class="btn btn-success">
+                    Corbertura Boscosa
+                  </span>
+                  <span class="btn btn-success">
+                    sistema Agroforestal
+                  </span>
+                  <span class="btn btn-success">
+                    Producción y Comercialización 
+                  </span>
+                  <span class="btn btn-success">
+                    Ingreso Familiar
+                  </span>
+                  <span class="btn btn-success">
+                    Seguridad alimentaria
+                  </span>
+
+             </div>
+            
+              <div class="table-responsive">
+                 <table class="table">
+                 <caption>Areas en manzanas</caption>
+                 <thead>
+                      <tr>
+                          <th>Areas de las fincas</th>
+                          <th>Cuantas fincas</th>
+                          <th>%</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  	{% for k,v in lista1.items %}
+                  		<tr>
+                          <td>{{k}}</td>
+                          <td>{{v.0}}</td>
+                          <td>{{v.1}}</td>
+                      	</tr>
+                  	{% endfor %}
+                  </tbody>
+				</table>
+           	 </div>
+           	 <div class="table-responsive">
+                 <table class="table">
+                 <caption>Animales</caption>
+                 <thead>
+                      <tr>
+                          <th>Tipos animales</th>
+                          <th>Cuantos tiene animales</th>
+                          <th>%</th>
+                          <th>Total de animales</th>
+                          <th>Promedio por finca</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  	{% for k,v in animales.items %}
+                  		<tr>
+                          <td>{{k}}</td>
+                          <td>{{v.0}}</td>
+                          <td>{{v.1}}</td>
+                          <td>{{v.2}}</td>
+                          <td>{{v.3|floatformat:2}}</td>
+                      	</tr>
+                  	{% endfor %}
+                  </tbody>
+				</table>
+           	 </div>
+         </div>
+    </div>
+
+
+
+          <div class="tab-pane" id="grafico">
+               <div class="panel-body" >
+                          <div class="botonera">
+                  <span class="btn btn-success">
+                    Datos Generales
+                  </span>
+                   <span class="btn btn-success">
+                    Educación
+                  </span>
+                  <span class="btn btn-success">
+                    Credito
+                  </span>
+                  <span class="btn btn-success">
+                    Corbertura Boscosa
+                  </span>
+                  <span class="btn btn-success">
+                    sistema Agroforestal
+                  </span>
+                  <span class="btn btn-success">
+                    Producción y Comercialización 
+                  </span>
+                  <span class="btn btn-success">
+                    Ingreso Familiar
+                  </span>
+                  <span class="btn btn-success">
+                    Seguridad alimentaria
+                  </span>
+                </div>
+
+            
+            <div class="container-fluid ">
+              <div id="piecolsulta" class="center-block"></div>
+            </div>
+            </div>
+          </div>
+
+
+
+      </div>
+    </div> <!-- terminas las tablas -->
+    
+  </div>
+</div>
 {% endblock contenido %}
