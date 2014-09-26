@@ -214,7 +214,7 @@ class Educacion(models.Model):
     secu_completa = models.IntegerField()
     uni_o_tecnico = models.IntegerField()
     estudiando = models.IntegerField()
-    circ_estudio_adulto = models.IntegerField(choices=CHOICE_EBA)
+    circ_estudio_adulto = models.IntegerField(choices=CHOICE_EBA, null=True, blank=True)
     
     encuesta = models.ForeignKey(Encuesta)
 

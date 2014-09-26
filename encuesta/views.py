@@ -25,8 +25,6 @@ def _query_filtros(request):
     if request.session['propietario']:
         params['finca__propietario'] = request.session['propietario']
     
-    
-    print params
     #if request.session['repetido'] == True:
     #    return Encuesta.objects.filter(**params).filter(finca__repetido=True)
     #else:
@@ -49,11 +47,13 @@ def ConsultaView(request, template='consulta.html'):
         form = PrincipalForm()
         centinela = 0
 
-        #if 'fecha' in request.session:
-        #    del request.session['fecha']
-        #    del request.session['departamento']
-        #    del request.session['municipio']
-        #    del request.session['comunidad']
+        if 'fecha' in request.session:
+            del request.session['fecha']
+            del request.session['departamento']
+            del request.session['municipio']
+            del request.session['comunidad']
+            del request.session['propietario']
+            request.session['activo'] = False
 
     return render(request, template, {'form':form,'centinela':centinela})
 
@@ -69,25 +69,47 @@ def generales(request, template='encuesta/generales.html'):
     lista1 = {} 
     for k,v in rangos.items():
         cnt = a.filter(finca__area_finca__range=v).count()
-        perct = cnt * 100 / a.count()
+        try:
+            perct = cnt * 100 / a.count()
+        except:
+            perct = 0
         lista1[k] = (cnt,perct)
 
     frecuencia = a.aggregate(bovino=Count('finca__animal_bovino'),porcino=Count('finca__animal_porcino'),
                        equino=Count('finca__animal_equino'),aves=Count('finca__animal_aves'),
                        caprino=Count('finca__animal_caprino'))
-
     total = a.aggregate(bovino=Sum('finca__animal_bovino'),porcino=Sum('finca__animal_porcino'),
                        equino=Sum('finca__animal_equino'),aves=Sum('finca__animal_aves'),
                        caprino=Sum('finca__animal_caprino'))
     promedio = a.aggregate(bovino=Avg('finca__animal_bovino'),porcino=Avg('finca__animal_porcino'),
                        equino=Avg('finca__animal_equino'),aves=Avg('finca__animal_aves'),
                        caprino=Avg('finca__animal_caprino'))
+    try:
+        perct_bovino = frecuencia['bovino']*100/a.count()
+    except:
+        perct_bovino = 0
+    try:
+        perct_porcino = frecuencia['porcino']*100/a.count()
+    except:
+        perct_porcino = 0
+    try:
+        perct_equino = frecuencia['equino']*100/a.count()
+    except:
+        perct_equino = 0
+    try:
+        perct_aves = frecuencia['aves']*100/a.count()
+    except:
+        perct_aves = 0
+    try:
+        perct_caprino = frecuencia['caprino']*100/a.count()
+    except:
+        perct_caprino = 0
 
-    animales = {'Bovino':(frecuencia['bovino'],frecuencia['bovino']*100/a.count(),total['bovino'],promedio['bovino']),
-                'Porcino':(frecuencia['porcino'],frecuencia['porcino']*100/a.count(),total['porcino'],promedio['porcino']),
-                'Equino':(frecuencia['equino'],frecuencia['equino']*100/a.count(),total['equino'],promedio['equino']),
-                'Aves':(frecuencia['aves'],frecuencia['aves']*100/a.count(),total['aves'],promedio['aves']),
-                'Caprino':(frecuencia['caprino'],frecuencia['caprino']*100/a.count(),total['caprino'],promedio['caprino'])}    
+    animales = {'Bovino':(frecuencia['bovino'],perct_bovino,total['bovino'],promedio['bovino']),
+                'Porcino':(frecuencia['porcino'],perct_porcino,total['porcino'],promedio['porcino']),
+                'Equino':(frecuencia['equino'],perct_equino,total['equino'],promedio['equino']),
+                'Aves':(frecuencia['aves'],perct_aves,total['aves'],promedio['aves']),
+                'Caprino':(frecuencia['caprino'],perct_caprino,total['caprino'],promedio['caprino'])}    
 
     return render(request, template, {'a':a.count(), 'lista1':lista1, 'animales':animales})
 
@@ -95,10 +117,64 @@ def generales(request, template='encuesta/generales.html'):
 class AyudaView(TemplateView):
     template_name = 'ayuda.html'
 
-#urls de los indicadores
+#Funcion para graficar (tipo casa) (area de la casa) (fuentes de agua) (legalidad de la propiedad)
+# (quien es propietario)tipo_casa,area_casa,fuente_agua,legalidad,propietario
+def graficos(request, template="encuesta/detalle_casa.html"):
+    a = _query_filtros(request)
 
+    tipo_casa = {}
+    for obj in TIPO_CHOICES:
+        cnt = a.filter(finca__tipo_casa=obj[0]).count()
+        tipo_casa[obj[1]] = cnt
+    fuente_agua = {}
+    for obj in AGUA_CHOICES:
+        cnt = a.filter(finca__fuente_agua=obj[0]).count()
+        fuente_agua[obj[1]] = cnt
+    legalidad = {}
+    for obj in LEGALIDAD_CHOICES:
+        cnt = a.filter(finca__legalidad=obj[0]).count()
+        legalidad[obj[1]] = cnt
+    propietario_casa = {}
+    for obj in DUENO_CHOICES:
+        cnt = a.filter(finca__propietario=obj[0]).count()
+        propietario_casa[obj[1]] = cnt
+
+    rangos = {'0 - mts':(0,0),
+              '1 - 5 mts':(0.1,5),
+              '5 - 20 mts':(6,20),
+              '21 - 50 mts':(21,50),
+              '>51 mts':(51,10000),
+            }
+    area_casa = {} 
+    for k,v in rangos.items():
+        cnt = a.filter(finca__area_casa__range=v).count()
+        area_casa[k] = (cnt)
+
+    return render(request, template, {'tipo_casa':tipo_casa,
+                                      'fuente_agua':fuente_agua,
+                                      'legalidad':legalidad,
+                                      'propietario_casa':propietario_casa,
+                                      'area_casa':area_casa,
+                                      'a':a.count()})
+
+#Funcion para mostrar los datos de la educacion
+def educacion(request, template="encuesta/educacion.html"):
+    a = _query_filtros(request)
+
+    educacion = {}
+    for obj in SEXO_CHOICE:
+        cnt = a.filter(educacion__sexo_edad=obj[0]).count()
+        perct = cnt * 100 / a.count()
+        educacion[obj[1]] = perct
+    
+    print educacion
+    return render(request, template, {'educacion':educacion,
+                                      'a':a.count()})
+#urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
+        'detalle_casas': graficos,
+        'educacion': educacion,
         
 }
 # Función para obtener las url

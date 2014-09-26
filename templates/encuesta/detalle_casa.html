@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block extra_js %}
+<script>
+     $(document).ready(function () {
+        // Build the chart
+        $('#container1').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Tipo de casas'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'manzanas',
+                data: [ {%for k,v in tipo_casa.items%} 
+                          ['{{k}}',{{v}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+        //Segundo grafico
+        $('#container2').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Fuentes de agua'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'aniamles',
+                data: [ {%for k,v in fuente_agua.items%} 
+                          ['{{k}}',{{v}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+         //Segundo grafico
+        $('#container3').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la finca'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'aniamles',
+                data: [ {%for k,v in legalidad.items%} 
+                          ['{{k}}',{{v}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+         //Segundo grafico
+        $('#container4').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Propietario de la finca'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'aniamles',
+                data: [ {%for k,v in propietario_casa.items%} 
+                          ['{{k}}',{{v}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+         //Segundo grafico
+        $('#container5').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Areas de la casas'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'aniamles',
+                data: [ {%for k,v in area_casa.items%} 
+                          ['{{k}}',{{v}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+    }); //Termina el documents
+</script>
+{% endblock extra_js %}
+
+{% block contenido %}
+<br><br><br><br><br><br>
+<div class="container">
+	<hr class="separador">
+<h3 class="text-success">Indicador detalle de las casas</h3>
+<hr class="separador">
+{% include "encuesta/breabcrumbs.html" %}
+<div class="row" id="formularios">
+    {% include "formulario.html" %}
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+    <ul class="nav nav-pills nav-justified">
+        <li class="active"><a href="#tabla1" data-toggle="tab">Tipos de casas</a></li>
+        <li><a href="#tabla2" data-toggle="tab">Fuentes de agua</a></li>
+        <li><a href="#tabla3" data-toggle="tab">Legalidad</a></li>
+        <li><a href="#tabla4" data-toggle="tab">Propietario</a></li>
+        <li><a href="#tabla5" data-toggle="tab">Area de la casa</a></li>
+
+
+      <li id="mas" class="text-right btnindicador">
+        <span id="estado">
+          <span class="glyphicon glyphicon-arrow-down"></span>
+        </span> Cambiar de Indicador
+      </li>
+
+
+    </ul>
+
+
+    <div class="tab-content">
+    <div class="tab-pane active" id="tabla1">
+        {% include "indicadores.html" %}
+       <div class="panel-body">
+       <div class="container-fluid ">
+        <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+      </div>
+       </div>
+    </div>
+
+    <div class="tab-pane" id="tabla2">
+     {% include "indicadores.html" %}
+    <div class="panel-body" >
+      <div class="container-fluid ">
+        <div id="container2" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+      </div>
+    </div>
+    </div>
+
+      <div class="tab-pane" id="tabla3">
+     {% include "indicadores.html" %}
+    <div class="panel-body" >
+      <div class="container-fluid ">
+        <div id="container3" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+      </div>
+    </div>
+    </div>
+
+      <div class="tab-pane" id="tabla4">
+     {% include "indicadores.html" %}
+    <div class="panel-body" >
+      <div class="container-fluid ">
+        <div id="container4" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+      </div>
+    </div>
+    </div>
+
+      <div class="tab-pane" id="tabla5">
+     {% include "indicadores.html" %}
+    <div class="panel-body" >
+      <div class="container-fluid ">
+        <div id="container5" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+      </div>
+    </div>
+    </div>
+
+
+
+      </div>
+    </div> <!-- terminas las tablas -->
+    
+  </div>
+</div>
+{% endblock contenido %}

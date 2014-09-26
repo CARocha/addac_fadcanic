@@ -1,0 +1,18 @@
+<ol class="breadcrumb">
+  <li>Filtros:</li>
+  {% if request.session.fecha %}
+  	<li class="active">{{request.session.fecha}}</li>
+  {% endif %}
+  {% if request.session.departamento %}
+  	<li class="active">{{request.session.departamento}}</li>
+  {% endif %}
+  {% if request.session.municipio %}
+  	<li class="active">{{request.session.municipio}}</li>
+  {% endif %}
+  {% if request.session.comunidad %}
+  	<li class="active">{{request.session.comunidad}}</li>
+  {% endif %}{% if request.session.propietario %}
+  	<li class="active">{{request.session.propietario}}</li>
+  {% endif %}
+  <li class="active">Número de encuestas:({{a}})</li>
+</ol>
