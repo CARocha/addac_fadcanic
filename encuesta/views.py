@@ -163,9 +163,17 @@ def educacion(request, template="encuesta/educacion.html"):
 
     educacion = {}
     for obj in SEXO_CHOICE:
-        cnt = a.filter(educacion__sexo_edad=obj[0]).count()
-        perct = cnt * 100 / a.count()
-        educacion[obj[1]] = perct
+        cnt = a.filter(educacion__sexo_edad=obj[0]).aggregate(num_persona = Sum('educacion__num_persona'),
+                                                            nosabe_leer = Sum('educacion__nosabe_leer'),
+                                                            pri_completa = Sum('educacion__pri_completa'),
+                                                            pri_incompleta = Sum('educacion__pri_incompleta'),
+                                                            secu_incompleta = Sum('educacion__secu_incompleta'),
+                                                            secu_completa = Sum('educacion__secu_completa'),
+                                                            universitario = Sum('educacion__uni_o_tecnico'),
+                                                            estudiando = Sum('educacion__estudiando'),
+                                                           )
+        #perct = cnt * 100 / a.count()
+        educacion[obj[1]] = cnt
     
     print educacion
     return render(request, template, {'educacion':educacion,

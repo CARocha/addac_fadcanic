@@ -86,7 +86,9 @@
     {% include "formulario.html" %}
 
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-
+    {% for k,v in educacion.items %}
+        {{k}} --> {{v}} <br>
+    {% endfor %}
     <ul class="nav nav-pills nav-justified">
         <li class="active"><a href="#tabla" data-toggle="tab">Tabla</a></li>
         <li><a href="#grafico" data-toggle="tab">Grafico</a></li>
