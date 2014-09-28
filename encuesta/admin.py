@@ -94,8 +94,13 @@ class EncuestaAdmin(admin.ModelAdmin):
 
     list_display = ('fecha', '__productor__', 'recolector', 'oficina', )
 
+class ProductorAdmin(admin.ModelAdmin):
+    search = ('nombre', 'cedula_productor')
+    list_display = ('nombre', 'sexo', 'cedula_productor')
+    list_filter = ('sexo',)
+
 
 # Register your models here.
-admin.site.register(Productores)
+admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)

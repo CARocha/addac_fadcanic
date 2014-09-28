@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'south',
     'sorl.thumbnail',
     'report_builder',
+    #'mockups',
 )
 
 MIDDLEWARE_CLASSES = (
