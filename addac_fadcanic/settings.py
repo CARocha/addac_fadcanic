@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from __future__ import unicode_literals
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -36,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
     'encuesta',
     'lugar',
     'smart_selects',
@@ -43,6 +45,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'report_builder',
     #'mockups',
+    
 )
 
 MIDDLEWARE_CLASSES = (

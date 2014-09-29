@@ -1,19 +1,70 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load ayudar %}
 
 {% block extra_js %}
 <script>
      $(document).ready(function () {
         // Build the chart
-        $('#container').highcharts({
+     $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+            title: {
+                text: 'Miembros que Alcanzaron la Primaria (primaria completa + secundaria incompleta + uni. o técnico + estudiando)'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    'Opciones'
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Porcentajes (%)'
+                }
+            },
+
+            tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+            plotOptions: {
+                column: {
+                    groupPadding: 0,
+                    pointPadding: 0.9,
+                    borderWidth: 0
+                },
+                series: {
+                    pointWidth: 55,
+                    minPointLength : 1
+                }
+            },
+            series: [{% for value in grafo %}
+                {
+                    name: '{{value.0}}',
+                    data: [{{value.1}}],
+               
+                },
+                {% endfor %}]
+        });
+    //grafico eba
+     $('#container1').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false
             },
             title: {
-                text: 'Areas en manzanas'
+                text: 'EBA(Finalizado, Activo)'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -30,47 +81,15 @@
             },
             series: [{
                 type: 'pie',
-                name: 'manzanas',
-                data: [ {%for k,v in lista1.items%} 
-                          ['{{k}}',{{v.0}}],
+                name: 'cuantos',
+                data: [ {%for k,v in tabla_eba.items%} 
+                          ['{{k}}',{{v}}],
                         {%endfor%}
                    
                 ]
                 }]
         });
-        //Segundo grafico
-        $('#container1').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Fincas que tienen animales'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'aniamles',
-                data: [ {%for k,v in animales.items%} 
-                          ['{{k}}',{{v.0}}],
-                        {%endfor%}
-                   
-                ]
-                }]
-        });
+  
     });
 </script>
 {% endblock extra_js %}
@@ -86,9 +105,6 @@
     {% include "formulario.html" %}
 
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-    {% for k,v in educacion.items %}
-        {{k}} --> {{v}} <br>
-    {% endfor %}
     <ul class="nav nav-pills nav-justified">
         <li class="active"><a href="#tabla" data-toggle="tab">Tabla</a></li>
         <li><a href="#grafico" data-toggle="tab">Grafico</a></li>
@@ -99,15 +115,10 @@
           <span class="glyphicon glyphicon-arrow-down"></span>
         </span> Cambiar de Indicador
       </li>
-
-
     </ul>
 
-
       <div class="tab-content">
-    <div class="tab-pane active" id="tabla">
-
-              
+    <div class="tab-pane active" id="tabla">         
 
      <div class="panel-body">
              {% include "indicadores.html" %}
@@ -116,42 +127,45 @@
                  <caption>Educación miembros de la familia</caption>
                  <thead>
                       <tr>
-                          <th>Areas de las fincas</th>
-                          <th>Cuantas fincas</th>
-                          <th>%</th>
+                          <th>Tipo de sexo</th>
+                          <th>Total</th>
+                          <th>No sabe leer (%)</th>
+                          <th>Prim. incompleta (%)</th>
+                          <th>Prim. completa (%)</th>
+                          <th>Secun. incompleta (%)</th>
+                          <th>Secun. completa (%)</th>
+                          <th>Uni. o técnico (%)</th>
+                          <th>Estudiando (%)</th>
                       </tr>
                   </thead>
                   <tbody>
-                  	{% for k,v in lista1.items %}
-                  		<tr>
-                          <td>{{k}}</td>
-                          <td>{{v.0}}</td>
-                          <td>{{v.1}}</td>
-                      	</tr>
-                  	{% endfor %}
+                  	 {%for fila in tabla_educacion%}
+                    <tr>
+                        {%for celda in fila %}
+                        <td>{{celda}}</td>
+                        {%endfor%}
+                    </tr>
+                    {%endfor%}
                   </tbody>
 				</table>
            	 </div>
            	 <div class="table-responsive">
                  <table class="table">
-                 <caption>Animales</caption>
+                 <caption>EBA</caption>
                  <thead>
                       <tr>
-                          <th>Tipos animales</th>
-                          <th>Cuantos tiene animales</th>
-                          <th>%</th>
-                          <th>Total de animales</th>
-                          <th>Promedio por finca</th>
+                          <th>Tipo de sexo</th>
+                          <th>Finalizado</th>
+                          <th>Activo</th>
                       </tr>
                   </thead>
                   <tbody>
-                  	{% for k,v in animales.items %}
+                  	{% for k,v in tabla_eba.items %}
                   		<tr>
                           <td>{{k}}</td>
-                          <td>{{v.0}}</td>
-                          <td>{{v.1}}</td>
-                          <td>{{v.2}}</td>
-                          <td>{{v.3|floatformat:2}}</td>
+                          {% for a in v %}
+                            <td>{{a}}</td>
+                          {% endfor %}
                       	</tr>
                   	{% endfor %}
                   </tbody>

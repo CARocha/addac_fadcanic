@@ -161,23 +161,43 @@ def graficos(request, template="encuesta/detalle_casa.html"):
 def educacion(request, template="encuesta/educacion.html"):
     a = _query_filtros(request)
 
-    educacion = {}
-    for obj in SEXO_CHOICE:
-        cnt = a.filter(educacion__sexo_edad=obj[0]).aggregate(num_persona = Sum('educacion__num_persona'),
+    tabla_educacion = []
+    grafo = []
+    suma = 0
+    for e in SEXO_CHOICE:
+        objeto = a.filter(educacion__sexo_edad = e[0]).aggregate(num_total = Sum('educacion__num_persona'),
                                                             nosabe_leer = Sum('educacion__nosabe_leer'),
-                                                            pri_completa = Sum('educacion__pri_completa'),
-                                                            pri_incompleta = Sum('educacion__pri_incompleta'),
-                                                            secu_incompleta = Sum('educacion__secu_incompleta'),
-                                                            secu_completa = Sum('educacion__secu_completa'),
-                                                            universitario = Sum('educacion__uni_o_tecnico'),
-                                                            estudiando = Sum('educacion__estudiando'),
-                                                           )
-        #perct = cnt * 100 / a.count()
-        educacion[obj[1]] = cnt
-    
-    print educacion
-    return render(request, template, {'educacion':educacion,
-                                      'a':a.count()})
+                                                            p_incompleta = Sum('educacion__pri_incompleta'),
+                                                            p_completa = Sum('educacion__pri_completa'),
+                                                            s_incompleta = Sum('educacion__secu_incompleta'),
+                                                            s_completa = Sum('educacion__secu_completa'),
+                                                            uni_o_tecnico = Sum('educacion__uni_o_tecnico'),
+                                                            estudiando = Sum('educacion__estudiando'))
+        try:
+            suma = int(objeto['p_completa'] or 0) + int(objeto['s_incompleta'] or 0) + int(objeto['s_completa'] or 0) + int(objeto['uni_o_tecnico'] or 0) + int(objeto['estudiando'] or 0)
+        except:
+            pass
+        variable = round(saca_porcentajes(suma,objeto['num_total']))
+        grafo.append([e[1],variable])
+        fila = [e[1], objeto['num_total'],
+                saca_porcentajes(objeto['nosabe_leer'], objeto['num_total'], False),
+                saca_porcentajes(objeto['p_incompleta'], objeto['num_total'], False),
+                saca_porcentajes(objeto['p_completa'], objeto['num_total'], False),
+                saca_porcentajes(objeto['s_incompleta'], objeto['num_total'], False),
+                 saca_porcentajes(objeto['s_completa'], objeto['num_total'], False),
+                saca_porcentajes(objeto['uni_o_tecnico'], objeto['num_total'], False),
+                saca_porcentajes(objeto['estudiando'], objeto['num_total'], False),
+                ]
+        tabla_educacion.append(fila)
+    tabla_eba = {}
+    for obj in SEXO_CHOICE:
+        cnt_finalizado = a.filter(educacion__sexo_edad = obj[0],educacion__circ_estudio_adulto=1).count()
+        cnt_activo = a.filter(educacion__sexo_edad = obj[0],educacion__circ_estudio_adulto=2).count()
+        tabla_eba[obj[1]] = (cnt_finalizado, cnt_activo)
+
+    print tabla_eba
+    return render(request, template, {'tabla_educacion':tabla_educacion,'grafo':grafo,
+                                      'a':a.count(), 'tabla_eba':tabla_eba})
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
@@ -191,3 +211,17 @@ def _get_view(request, vista):
         return VALID_VIEWS[vista](request)
     else:
         raise ViewDoesNotExist("Tried %s in module %s Error: View not defined in VALID_VIEWS." % (vista, 'encuesta.views'))
+
+def saca_porcentajes(dato, total, formato=True):
+    '''Si formato es true devuelve float caso contrario es cadena'''
+    if dato != None:
+        try:
+            porcentaje = (dato/float(total)) * 100 if total != None or total != 0 else 0
+        except:
+            return 0
+        if formato:
+            return porcentaje
+        else:
+            return '%.2f' % porcentaje
+    else:
+        return 0

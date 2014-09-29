@@ -1,5 +1,5 @@
 from encuesta.forms import PrincipalForm
 
 def globales(request):
-	form = PrincipalForm(request.POST)
-	return {'form':form}
+	form_principal = PrincipalForm(request.POST)
+	return {'form_principal':form_principal}
