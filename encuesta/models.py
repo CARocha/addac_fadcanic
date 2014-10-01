@@ -40,9 +40,11 @@ class Encuesta(models.Model):
     fecha = models.DateField('Fecha de la encuesta', help_text='Introduzca año-mes-dia')
     ano = models.IntegerField('año', editable=False)
     recolector = models.ForeignKey(Recolector, verbose_name='Nombre recolector de datos')
-    fecha2 = models.DateField('Fecha de ingreso de la encuesta')
-    personas = models.CharField('Personas que introdujeron los datos', max_length=250)
-    oficina = models.CharField('Oficina de introducción de datos', max_length=50)
+    fecha2 = models.DateField('Fecha de ingreso de la encuesta', null=True, blank=True)
+    personas = models.CharField('Personas que introdujeron los datos', max_length=250, null=True,
+                                blank=True)
+    oficina = models.CharField('Oficina de introducción de datos', max_length=50,
+                                null=True, blank=True)
 
     def __str__(self):
         return u'%s - %s' % (str(self.fecha),str(self.recolector))
