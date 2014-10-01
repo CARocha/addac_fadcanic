@@ -17,7 +17,8 @@ class Productores(models.Model):
     cedula_productor = models.CharField(max_length=25,null=True,blank=True,
                                         help_text='Introduzca cedula del productor')
     sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
-                                null = True, blank=True)
+                                null=True, blank=True)
+    contador = models.IntegerField()
 
     class Meta:
         verbose_name= 'Productores'
@@ -91,6 +92,7 @@ DUENO_CHOICES = (
     ('ambos','Ambos'),
     ('parientes','Parientes')
     )
+
 #---------------------------------------------------------------------------
 #      Modelo: Datos generales de las familias socias
 #---------------------------------------------------------------------------
