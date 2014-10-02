@@ -283,9 +283,9 @@ class SeguridadCAnuales(models.Model):
 
     encuesta = models.ForeignKey(Encuesta)
 
-    class Meta:
-        verbose_name = 'Seguridad A. Ingresos en cultivos anuales'
-        verbose_name_plural = 'Seguridad A. Ingresos en cultivos anuales'
+    #class Meta:
+    #    verbose_name = 'Seguridad A. Ingresos en cultivos anuales'
+    #    verbose_name_plural = 'Seguridad A. Ingresos en cultivos anuales'
 
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
@@ -322,9 +322,9 @@ class SeguridadPAnimal(models.Model):
 
     encuesta = models.ForeignKey(Encuesta)
 
-    class Meta:
-        verbose_name = 'Seguridad A. Ingresos en producto animal'
-        verbose_name_plural = 'Seguridad A. Ingresos en producto animales'
+    #class Meta:
+    #    verbose_name = 'Seguridad A. Ingresos en producto animal'
+    #    verbose_name_plural = 'Seguridad A. Ingresos en producto animales'
 
 
 #---------------------------------------------------------------------
@@ -372,9 +372,9 @@ class SeguridadPProcesados(models.Model):
 
     encuesta = models.ForeignKey(Encuesta)
 
-    class Meta:
-        verbose_name = 'Seguridad A. Ingresos en productos procesados'
-        verbose_name_plural = 'Seguridad A. Ingresos en productos procesados'
+    #class Meta:
+    #    verbose_name = 'Seguridad A. Ingresos en productos procesados'
+    #    verbose_name_plural = 'Seguridad A. Ingresos en productos procesados'
 
 #---------------------------------------------------------------------
 # Modelo: ingreso familiar por servicios y negocios
@@ -397,9 +397,9 @@ class IngresoServicioNegocio(models.Model):
 
     encuesta = models.ForeignKey(Encuesta)
 
-    class Meta:
-        verbose_name = 'Ingreso familiar por servicios y negocios'
-        verbose_name_plural = 'Ingreso familiar por servicios y negocios'
+    #class Meta:
+    #    verbose_name = 'Ingreso familiar por servicios y negocios'
+    #    verbose_name_plural = 'Ingreso familiar por servicios y negocios'
 
 #---------------------------------------------------------------------
 # Modelo: seguridad alimentaria: consumo y adquisiciones
@@ -509,8 +509,8 @@ class Fotos(models.Model):
     def get_download_url(self):
         return '%s%s/%s' % (settings.MEDIA_URL,settings.ATTACHMENT_FOLDER, self.nombre)
 
-    class Meta:
-        verbose_name_plural = "Subir archivos fotograficos de las familia"
+    #class Meta:
+    #    verbose_name_plural = "Subir archivos fotograficos de las familia"
 
     def __unicode__(self):
         return self.nombre

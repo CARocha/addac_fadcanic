@@ -12,20 +12,11 @@
   <div class="row" id="formularios">
     {% include "formulario.html" %}
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-    {% if centinela %}
-      Hizo la consulta
-      <a href="/generales">Generales</a> <br>
-      <a href="/detalle_casas">Detalle de casa</a> <br>
-      <a href="/educacion">Educación de la familias</a> <br>
-  
-  {% else %}
-      <p>Primero realize la consulta para que aparezacan los indicadores</p>
-      <br>
-      
-          <ul class="row">
+    {% if centinela %}     
+      <ul class="row">
 
             <li class="indica col-xs-5 col-sm-5 col-md-3 col-lg-2">
-              <a href="">
+              <a href="/generales">
                   <span>Generales</span>
                   <br>
                   <br>
@@ -33,20 +24,20 @@
               </a>
             </li>
 
-            <li class="indica col-xs-5 col-sm-5 col-md-3 col-lg-2">
-              <a href="">
-                <span class="">Educación</span>
+             <li class="indica col-xs-5 col-sm-5 col-md-3 col-lg-2">
+              <a href="/detalle_casas">
+                <span class="">Detalle de casa</span>
                 <br>
-                <br>
-                <label for="" class="fa fa-book fa-2x"></label>
+                <label for="" class="fa fa-home fa-2x"></label>
               </a>
             </li>
 
             <li class="indica col-xs-5 col-sm-5 col-md-3 col-lg-2">
-              <a href="">
-                <span class="">Cobertura Boscosa</span>
+              <a href="/educacion">
+                <span class="">Educación</span>
                 <br>
-                <label for="" class="fa fa-tree fa-2x"></label>
+                <br>
+                <label for="" class="fa fa-book fa-2x"></label>
               </a>
             </li>
 
@@ -95,6 +86,10 @@
 
           </ul>
 
+  
+  {% else %}
+      <p>Primero realize la consulta para que aparezacan los indicadores</p>
+      <br>
 
   {% endif %}
   </div> 
