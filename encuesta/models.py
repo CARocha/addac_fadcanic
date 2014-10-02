@@ -54,9 +54,9 @@ class Encuesta(models.Model):
         self.ano = self.fecha.year
         super(Encuesta, self).save(*args, **kwargs)
 
-    def __productor__(self):
-        campesino = Finca.objects.filter(encuesta__id=self.id)
-        return campesino[0]
+    #def __productor__(self):
+    #    campesino = Finca.objects.filter(encuesta__id=self.id)
+    #    return campesino[0]
 
 
 TIPO_CHOICES = (

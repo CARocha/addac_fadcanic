@@ -198,6 +198,12 @@ def educacion(request, template="encuesta/educacion.html"):
     print tabla_eba
     return render(request, template, {'tabla_educacion':tabla_educacion,'grafo':grafo,
                                       'a':a.count(), 'tabla_eba':tabla_eba})
+
+def credito(request):
+    a = _query_filtros(request)
+
+
+    
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
