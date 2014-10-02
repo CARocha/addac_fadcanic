@@ -109,3 +109,5 @@ admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 # 
 admin.site.register(Finca, FincaAdmin)
+admin.site.register(OrganizacionesDanCredito)
+admin.site.register(UsoCredito)

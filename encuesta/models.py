@@ -183,7 +183,17 @@ class UsoTierra(models.Model):
     forestales_observacion = models.CharField('Observaciones', max_length=250, 
                                                 null=True, blank=True)
 
+    total_uso = models.FloatField(editable=False)
+
     encuesta = models.ForeignKey(Encuesta)
+
+    def save(self, *args, **kwargs):
+        self.total_uso = self.bosque_primario + self.bosque_secundario + \
+                         self.tacotal + self.cultivos_perennes + \
+                         self.cultivos_semiperennes + self.cultivos_anuales + \
+                         self.potrero_sin_arboles + self.potrero_arboles + \
+                         self.plantaciones_forestales
+        super(UsoTierra, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name= 'Uso de tierra'
