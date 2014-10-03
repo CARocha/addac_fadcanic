@@ -100,7 +100,7 @@ DUENO_CHOICES = (
 @python_2_unicode_compatible
 class Finca(models.Model):
     nombre_productor = models.ForeignKey('Productores')
-    finca = models.CharField("Nombre Finca",max_length=50,null=True,blank=True,help_text='Introduzca nombre de la finca')
+    finca = models.CharField("Nombre Finca",max_length=150,null=True,blank=True,help_text='Introduzca nombre de la finca')
     municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio', 
                                  related_name="municipio")
     comunidad = ChainedForeignKey(
