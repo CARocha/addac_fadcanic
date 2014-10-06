@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load ayudar %}
+
+{% block contenido %}
+	<br><br><br><br><br><br>
+<div class="container">
+	<hr class="separador">
+<h3 class="text-success">Indicador créditos</h3>
+<hr class="separador">
+{% include "encuesta/breabcrumbs.html" %}
+<div class="row" id="formularios">
+    {% include "formulario.html" %}
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <ul class="nav nav-pills nav-justified">
+        <li class="active"><a href="#tabla" data-toggle="tab">Tabla</a></li>
+        <li><a href="#grafico" data-toggle="tab">Gráfico</a></li>
+
+
+      <li id="mas" class="text-right btnindicador">
+        <span id="estado">
+          <span class="glyphicon glyphicon-arrow-down"></span>
+        </span> Cambiar de Indicador
+      </li>
+    </ul>
+
+      <div class="tab-content">
+    <div class="tab-pane active" id="tabla">         
+
+     <div class="panel-body">
+             {% include "indicadores.html" %}
+              <div class="table-responsive">
+                 <table class="table">
+                 <caption>Uso de tierra</caption>
+                 <thead>
+                      <tr>
+                          <th>Uso</th>
+                          <th>Conteo</th>
+                          <th>%</th>
+                          <th>Areas totales</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  	 {%for fila in tiene_credito%}
+	                    <tr>
+	                        <td>{{fila.0}}</td>
+	                        <td>{{fila.1}}</td>
+	                    </tr>
+                    {%endfor%}
+                  </tbody>
+				</table>
+           	 </div>
+           	 <div class="table-responsive">
+                 <table class="table">
+                 <caption>Uso del crédito</caption>
+                 <thead>
+                      <tr>
+                          <th>Uso del crédito</th>
+                          <th>Total</th>
+                          <th>Número de personas beneficiadas</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  	{% for valor in uso_credito %}
+                  		<tr>
+                          <td>{{valor.0}}</td>
+                          <td>{{valor.1}}</td>
+                          <td>{{valor.2.beneficiarios}}</td>
+                      	</tr>
+                  	{% endfor %}
+                  </tbody>
+				</table>
+           	 </div>
+         </div>
+    </div>
+
+
+
+          <div class="tab-pane" id="grafico">
+               <div class="panel-body" >
+                  {% include "indicadores.html" %}
+            <div class="container-fluid ">
+              <div id="container" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+              <br>
+              <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+            </div>
+            </div>
+          </div>
+
+
+
+      </div>
+    </div> <!-- terminas las tablas -->
+    
+  </div>
+</div>
+{% endblock contenido %}

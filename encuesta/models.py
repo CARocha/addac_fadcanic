@@ -54,9 +54,9 @@ class Encuesta(models.Model):
         self.ano = self.fecha.year
         super(Encuesta, self).save(*args, **kwargs)
 
-    def __productor__(self):
-        campesino = Finca.objects.filter(encuesta__id=self.id)
-        return campesino[0]
+    #def __productor__(self):
+    #    campesino = Finca.objects.filter(encuesta__id=self.id)
+    #    return campesino[0]
 
 
 TIPO_CHOICES = (
@@ -100,7 +100,7 @@ DUENO_CHOICES = (
 @python_2_unicode_compatible
 class Finca(models.Model):
     nombre_productor = models.ForeignKey('Productores')
-    finca = models.CharField("Nombre Finca",max_length=50,null=True,blank=True,help_text='Introduzca nombre de la finca')
+    finca = models.CharField("Nombre Finca",max_length=150,null=True,blank=True,help_text='Introduzca nombre de la finca')
     municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio', 
                                  related_name="municipio")
     comunidad = ChainedForeignKey(
@@ -183,7 +183,17 @@ class UsoTierra(models.Model):
     forestales_observacion = models.CharField('Observaciones', max_length=250, 
                                                 null=True, blank=True)
 
+    total_uso = models.FloatField(editable=False)
+
     encuesta = models.ForeignKey(Encuesta)
+
+    def save(self, *args, **kwargs):
+        self.total_uso = self.bosque_primario + self.bosque_secundario + \
+                         self.tacotal + self.cultivos_perennes + \
+                         self.cultivos_semiperennes + self.cultivos_anuales + \
+                         self.potrero_sin_arboles + self.potrero_arboles + \
+                         self.plantaciones_forestales
+        super(UsoTierra, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name= 'Uso de tierra'

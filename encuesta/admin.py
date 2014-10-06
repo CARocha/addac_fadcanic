@@ -94,7 +94,7 @@ class EncuestaAdmin(admin.ModelAdmin):
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha', '__productor__', 'recolector', 'oficina', )
+    list_display = ('fecha','recolector', 'oficina', )
 
 class ProductorAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search = ('nombre', 'cedula_productor')
@@ -109,3 +109,5 @@ admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 # 
 admin.site.register(Finca, FincaAdmin)
+admin.site.register(OrganizacionesDanCredito)
+admin.site.register(UsoCredito)

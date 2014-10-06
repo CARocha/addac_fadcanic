@@ -198,11 +198,77 @@ def educacion(request, template="encuesta/educacion.html"):
     print tabla_eba
     return render(request, template, {'tabla_educacion':tabla_educacion,'grafo':grafo,
                                       'a':a.count(), 'tabla_eba':tabla_eba})
+
+#Función para mostrar los datos de credito su uso y con quien tiene.
+def credito(request, template="encuesta/credito.html"):
+    a = _query_filtros(request)
+
+    tiene_credito = []
+    for obj in OrganizacionesDanCredito.objects.all():
+        cnt = a.filter(credito__organizacion = obj).count()
+        tiene_credito.append((obj.nombre, cnt))
+
+    uso_credito = []
+    for obj in UsoCredito.objects.all():
+        cnt = a.filter(credito__uso = obj).count()
+        beneficiarios = a.filter(credito__uso = obj).aggregate(beneficiarios=Sum('credito__personas'))
+        uso_credito.append((obj.nombre, cnt, beneficiarios))
+
+    return render(request, template, {'a':a.count(), 'tiene_credito':tiene_credito,
+                                      'uso_credito':uso_credito})
+
+
+#Función para mostrar datos de uso de tierra (anterior sistema era cobertura boscosa)
+
+def uso_tierra(request, template="encuesta/uso_tierra.html"):
+    a = _query_filtros(request)
+
+    suma = a.aggregate(area_total = Sum('usotierra__total_uso'),
+                        bosque_primario = Sum('usotierra__bosque_primario'),
+                        bosque_secundario= Sum('usotierra__bosque_secundario'),
+                        tacotales = Sum('usotierra__tacotal'), 
+                        cultivos_perennes = Sum('usotierra__cultivos_perennes'), 
+                        cultivos_semiperennes = Sum('usotierra__cultivos_semiperennes'), 
+                        cultivos_anuales = Sum('usotierra__cultivos_anuales'), 
+                        potrero_sin_arboles = Sum('usotierra__potrero_sin_arboles'), 
+                        potrero_arboles = Sum('usotierra__potrero_arboles'),
+                        plantaciones_forestales= Sum('usotierra__plantaciones_forestales'),
+                    )
+
+    print suma
+    llaves = {'total uso':usotierra__total_uso__gt=0,'bosque primario':usotierra__bosque_primario__gt=0,
+              'bosque secundario':usotierra__bosque_secundario__gt=0,
+              'tacotales':usotierra__tacotal__gt=0,'cultivos perennes':usotierra__cultivos_perennes__gt=0,
+              'cultivos semiperennes':usotierra__cultivos_semiperennes__gt=0,
+              'cultivos anuales':usotierra__cultivos_anuales__gt=0}
+    conteo = {}
+    
+    for k,v in llaves.items():
+        #print type(v)
+        print v
+        #conteo[k] = a.filter(str(v)).count()
+    print conteo
+    #conteo['area_total'] = datos.count()
+    #conteo['bosque_primario'] = datos.filter(boscosa__bosque_primario__gt=0).count()
+    #conteo['bosque_secundario'] = datos.filter(boscosa__bosque_secundario__gt=0).count()
+    #conteo['tacotales'] = datos.filter(boscosa__tacotal__gt=0).count()
+    #conteo['cultivos_perennes'] = datos.filter(boscosa__cultivos_perennes__gt=0).count()
+    #conteo['cultivos_semiperennes'] = datos.filter(boscosa__cultivos_semiperennes__gt=0).count()
+    #conteo['cultivos_anuales'] = datos.filter(boscosa__huerto_mixto__gt=0).count()
+    #conteo['potrero_sin_arboles'] = datos.filter(boscosa__potrero_abierto__gt=0).count()
+    #conteo['potrero_arboles'] = datos.filter(boscosa__potrero_arboles__gt=0).count()
+    #conteo['plantaciones_forestales'] = datos.filter(boscosa__plantaciones_forestales__gt=0).count()
+
+    return render(request, template, {'a':a.count()})
+
+
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
         'detalle_casas': graficos,
         'educacion': educacion,
+        'credito': credito,
+        'tierra': uso_tierra,
         
 }
 # Función para obtener las url
