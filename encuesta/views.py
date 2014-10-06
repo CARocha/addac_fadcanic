@@ -234,31 +234,21 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
                         potrero_arboles = Sum('usotierra__potrero_arboles'),
                         plantaciones_forestales= Sum('usotierra__plantaciones_forestales'),
                     )
-
     print suma
-    llaves = {'total uso':usotierra__total_uso__gt=0,'bosque primario':usotierra__bosque_primario__gt=0,
-              'bosque secundario':usotierra__bosque_secundario__gt=0,
-              'tacotales':usotierra__tacotal__gt=0,'cultivos perennes':usotierra__cultivos_perennes__gt=0,
-              'cultivos semiperennes':usotierra__cultivos_semiperennes__gt=0,
-              'cultivos anuales':usotierra__cultivos_anuales__gt=0}
-    conteo = {}
+    dicc_one = {
+        'total uso': {'usotierra__total_uso__gt': 0 },
+        'bosque primario': {'usotierra__bosque_primario__gt': 0 },
+        'bosque secundario':{'usotierra__bosque_secundario__gt': 0 },
+        'tacotales':{'usotierra__tacotal__gt': 0 },
+        'cultivos perennes':{'usotierra__cultivos_perennes__gt': 0 },
+        'cultivos semiperennes':{'usotierra__cultivos_semiperennes__gt': 0 },
+        'cultivos anuales':{'usotierra__cultivos_anuales__gt': 0 }
+    }
+    results = {}
+    for k, v in dicc_one.items():
+        results[k] = a.filter(**v).count()
+    print results
     
-    for k,v in llaves.items():
-        #print type(v)
-        print v
-        #conteo[k] = a.filter(str(v)).count()
-    print conteo
-    #conteo['area_total'] = datos.count()
-    #conteo['bosque_primario'] = datos.filter(boscosa__bosque_primario__gt=0).count()
-    #conteo['bosque_secundario'] = datos.filter(boscosa__bosque_secundario__gt=0).count()
-    #conteo['tacotales'] = datos.filter(boscosa__tacotal__gt=0).count()
-    #conteo['cultivos_perennes'] = datos.filter(boscosa__cultivos_perennes__gt=0).count()
-    #conteo['cultivos_semiperennes'] = datos.filter(boscosa__cultivos_semiperennes__gt=0).count()
-    #conteo['cultivos_anuales'] = datos.filter(boscosa__huerto_mixto__gt=0).count()
-    #conteo['potrero_sin_arboles'] = datos.filter(boscosa__potrero_abierto__gt=0).count()
-    #conteo['potrero_arboles'] = datos.filter(boscosa__potrero_arboles__gt=0).count()
-    #conteo['plantaciones_forestales'] = datos.filter(boscosa__plantaciones_forestales__gt=0).count()
-
     return render(request, template, {'a':a.count()})
 
 
