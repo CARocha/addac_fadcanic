@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from .models import *
 from sorl.thumbnail.admin import AdminImageMixin
-from import_export.admin import ImportExportModelAdmin
 
 class FincaInline(admin.StackedInline):
     model = Finca
@@ -96,18 +95,17 @@ class EncuestaAdmin(admin.ModelAdmin):
 
     list_display = ('fecha','recolector', 'oficina', )
 
-class ProductorAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+class ProductorAdmin(admin.ModelAdmin):
     search = ('nombre', 'cedula_productor')
     list_display = ('nombre', 'sexo', 'cedula_productor')
     list_filter = ('sexo',)
 
-class FincaAdmin(ImportExportModelAdmin):
-    pass
+
 # Register your models here.
 admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 # 
-admin.site.register(Finca, FincaAdmin)
+admin.site.register(Finca)
 admin.site.register(OrganizacionesDanCredito)
 admin.site.register(UsoCredito)
