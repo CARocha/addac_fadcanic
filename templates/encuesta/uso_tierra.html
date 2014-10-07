@@ -40,36 +40,19 @@
                           <th>Conteo</th>
                           <th>%</th>
                           <th>Areas totales</th>
+                          <th>%</th>
                       </tr>
                   </thead>
                   <tbody>
-                  	 {%for fila in tiene_credito%}
-	                    <tr>
-	                        <td>{{fila.0}}</td>
-	                        <td>{{fila.1}}</td>
-	                    </tr>
-                    {%endfor%}
-                  </tbody>
-				</table>
-           	 </div>
-           	 <div class="table-responsive">
-                 <table class="table">
-                 <caption>Uso del crédito</caption>
-                 <thead>
-                      <tr>
-                          <th>Uso del crédito</th>
-                          <th>Total</th>
-                          <th>Número de personas beneficiadas</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  	{% for valor in uso_credito %}
-                  		<tr>
-                          <td>{{valor.0}}</td>
-                          <td>{{valor.1}}</td>
-                          <td>{{valor.2.beneficiarios}}</td>
-                      	</tr>
-                  	{% endfor %}
+                  {%for item in data%}
+                  <tr>
+                    {% for cosito in item%}
+                      <td>
+                          {{cosito}}
+                      </td>
+                    {%endfor%}                           
+                  </tr>
+                  {%endfor%}
                   </tbody>
 				</table>
            	 </div>

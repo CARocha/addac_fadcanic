@@ -223,7 +223,7 @@ def credito(request, template="encuesta/credito.html"):
 def uso_tierra(request, template="encuesta/uso_tierra.html"):
     a = _query_filtros(request)
 
-    suma = a.aggregate(area_total = Sum('usotierra__total_uso'),
+    suma = a.aggregate(total_uso = Sum('usotierra__total_uso'),
                         bosque_primario = Sum('usotierra__bosque_primario'),
                         bosque_secundario= Sum('usotierra__bosque_secundario'),
                         tacotales = Sum('usotierra__tacotal'), 
@@ -234,35 +234,39 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
                         potrero_arboles = Sum('usotierra__potrero_arboles'),
                         plantaciones_forestales= Sum('usotierra__plantaciones_forestales'),
                     )
-
-    print suma
-    llaves = {'total uso':'usotierra__total_uso__gt=0',
-              'bosque primario':'usotierra__bosque_primario__gt=0',
-              'bosque secundario':'usotierra__bosque_secundario__gt=0',
-              'tacotales':'usotierra__tacotal__gt=0',
-              'cultivos perennes':'usotierra__cultivos_perennes__gt=0',
-              'cultivos semiperennes':'usotierra__cultivos_semiperennes__gt=0',
-              'cultivos anuales':'usotierra__cultivos_anuales__gt=0'
-              }
-    conteo = {}
+    #print suma
+    dicc_one = {
+        'total_uso': {'usotierra__total_uso__gt': 0 },
+        'bosque_primario': {'usotierra__bosque_primario__gt': 0 },
+        'bosque_secundario':{'usotierra__bosque_secundario__gt': 0 },
+        'tacotales':{'usotierra__tacotal__gt': 0 },
+        'cultivos_perennes':{'usotierra__cultivos_perennes__gt': 0 },
+        'cultivos_semiperennes':{'usotierra__cultivos_semiperennes__gt': 0 },
+        'cultivos_anuales':{'usotierra__cultivos_anuales__gt': 0 },
+        'potrero_sin_arboles': {'usotierra__potrero_sin_arboles__gt': 0 }, 
+        'potrero_arboles': {'usotierra__potrero_arboles__gt': 0 },
+        'plantaciones_forestales': {'usotierra__plantaciones_forestales__gt': 0 }
+    }
+    results = {}
+    for k, v in dicc_one.items():
+        results[k] = a.filter(**v).count()
+    #print results
+    resultados = []
+    lista_llaves = suma.keys()
+    lista_llaves.sort()
+    for key in lista_llaves:
+        fila = [] # [key, conteo, porcentaje, sumatoria manzanas, porcentaje area, cobertura]
+        fila.append(key.replace('_', ' ').capitalize())
+        #conteo de las areas
+        fila.append(results[key])
+        porcentaje_conteo = (float(results[key])/results['total_uso'])*100 if results['total_uso']!=0 else 0
+        fila.append("%.2f" % porcentaje_conteo)
+        fila.append(suma[key])
+        porcentaje_area = (float(suma[key])/suma['total_uso'])*100 if suma['total_uso']!= 0  else 0
+        fila.append("%.2f" % porcentaje_area)
+        resultados.append(fila)
     
-    for k,v in llaves.items():
-        #print type(v)
-        print v
-        conteo[k] = a.filter(v).count()
-    print conteo
-    #conteo['area_total'] = datos.count()
-    #conteo['bosque_primario'] = datos.filter(boscosa__bosque_primario__gt=0).count()
-    #conteo['bosque_secundario'] = datos.filter(boscosa__bosque_secundario__gt=0).count()
-    #conteo['tacotales'] = datos.filter(boscosa__tacotal__gt=0).count()
-    #conteo['cultivos_perennes'] = datos.filter(boscosa__cultivos_perennes__gt=0).count()
-    #conteo['cultivos_semiperennes'] = datos.filter(boscosa__cultivos_semiperennes__gt=0).count()
-    #conteo['cultivos_anuales'] = datos.filter(boscosa__huerto_mixto__gt=0).count()
-    #conteo['potrero_sin_arboles'] = datos.filter(boscosa__potrero_abierto__gt=0).count()
-    #conteo['potrero_arboles'] = datos.filter(boscosa__potrero_arboles__gt=0).count()
-    #conteo['plantaciones_forestales'] = datos.filter(boscosa__plantaciones_forestales__gt=0).count()
-
-    return render(request, template, {'a':a.count()})
+    return render(request, template, {'a':a.count(),'data':resultados})
 
 
 #urls de los indicadores
