@@ -223,7 +223,7 @@ def credito(request, template="encuesta/credito.html"):
 def uso_tierra(request, template="encuesta/uso_tierra.html"):
     a = _query_filtros(request)
 
-    suma = a.aggregate(area_total = Sum('usotierra__total_uso'),
+    suma = a.aggregate(total_uso = Sum('usotierra__total_uso'),
                         bosque_primario = Sum('usotierra__bosque_primario'),
                         bosque_secundario= Sum('usotierra__bosque_secundario'),
                         tacotales = Sum('usotierra__tacotal'), 
@@ -234,24 +234,64 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
                         potrero_arboles = Sum('usotierra__potrero_arboles'),
                         plantaciones_forestales= Sum('usotierra__plantaciones_forestales'),
                     )
-    print suma
+    #print suma
     dicc_one = {
-        'total uso': {'usotierra__total_uso__gt': 0 },
-        'bosque primario': {'usotierra__bosque_primario__gt': 0 },
-        'bosque secundario':{'usotierra__bosque_secundario__gt': 0 },
+        'total_uso': {'usotierra__total_uso__gt': 0 },
+        'bosque_primario': {'usotierra__bosque_primario__gt': 0 },
+        'bosque_secundario':{'usotierra__bosque_secundario__gt': 0 },
         'tacotales':{'usotierra__tacotal__gt': 0 },
-        'cultivos perennes':{'usotierra__cultivos_perennes__gt': 0 },
-        'cultivos semiperennes':{'usotierra__cultivos_semiperennes__gt': 0 },
-        'cultivos anuales':{'usotierra__cultivos_anuales__gt': 0 }
+        'cultivos_perennes':{'usotierra__cultivos_perennes__gt': 0 },
+        'cultivos_semiperennes':{'usotierra__cultivos_semiperennes__gt': 0 },
+        'cultivos_anuales':{'usotierra__cultivos_anuales__gt': 0 },
+        'potrero_sin_arboles': {'usotierra__potrero_sin_arboles__gt': 0 }, 
+        'potrero_arboles': {'usotierra__potrero_arboles__gt': 0 },
+        'plantaciones_forestales': {'usotierra__plantaciones_forestales__gt': 0 }
     }
     results = {}
     for k, v in dicc_one.items():
         results[k] = a.filter(**v).count()
-    print results
+    #print results
+    resultados = []
+    lista_llaves = suma.keys()
+    lista_llaves.sort()
+    for key in lista_llaves:
+        fila = [] # [key, conteo, porcentaje, sumatoria manzanas, porcentaje area, cobertura]
+        fila.append(key.replace('_', ' ').capitalize())
+        #conteo de las areas
+        fila.append(results[key])
+        porcentaje_conteo = (float(results[key])/results['total_uso'])*100 if results['total_uso']!=0 else 0
+        fila.append("%.2f" % porcentaje_conteo)
+        fila.append(suma[key])
+        porcentaje_area = (float(suma[key])/suma['total_uso'])*100 if suma['total_uso']!= 0  else 0
+        fila.append("%.2f" % porcentaje_area)
+        resultados.append(fila)
     
-    return render(request, template, {'a':a.count()})
+    return render(request, template, {'a':a.count(),'data':resultados})
 
-
+#Funcion para calcular la seguridad alimentaria
+def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html"):
+    a = _query_filtros(request)
+    id_alimentos = [dato[0] for dato in ALIMENTO_CHOICES] 
+    total_encuestas=a.count() #usado para el porcentaje
+    datos = []
+    resultados = []
+    for id in id_alimentos:
+        datos = a.filter(seguridadalimentaria__alimentos=id).aggregate(compran=Sum('seguridadalimentaria__comprar'))
+        for key in datos.keys():
+            if datos[key]==None:
+                datos[key]=0
+        nivel_consumo = a.filter(seguridadalimentaria__alimentos=id,
+                                 seguridadalimentaria__nivel_consumo_suficiente=2).aggregate(nivel=Count('seguridadalimentaria'))
+        fila=[] #[alimento, compran, porcentaje,nivel consumo,porcentaje]
+        fila.append(ALIMENTO_CHOICES[id-1][1])
+        fila.append(datos['compran'])
+        porcentaje = (float(datos['compran'])/total_encuestas)*100
+        fila.append("%.2f" % porcentaje) 
+        fila.append(nivel_consumo['nivel'])
+        porcentaje = (float(nivel_consumo['nivel'])/total_encuestas)*100
+        fila.append("%.2f" % porcentaje) 
+        resultados.append(fila)
+    return render(request, template, {'a':a.count(), 'data':resultados})
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
@@ -259,6 +299,7 @@ VALID_VIEWS = {
         'educacion': educacion,
         'credito': credito,
         'tierra': uso_tierra,
+        'seguridad_alimentaria':seguridad_alimentaria,
         
 }
 # Función para obtener las url
