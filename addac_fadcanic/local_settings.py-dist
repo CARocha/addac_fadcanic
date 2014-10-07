@@ -4,9 +4,9 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nueva_addacfadcanic',
-        'USER': 'root',
-        'PASSWORD': 'sacrac123'
+        'NAME': 'bd',
+        'USER': 'user',
+        'PASSWORD': 'pass'
     }
 }
 
