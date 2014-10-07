@@ -7,7 +7,7 @@
 	<br><br><br><br><br><br>
 <div class="container">
 	<hr class="separador">
-<h3 class="text-success">Indicador seguridad alimentaria</h3>
+<h3 class="text-success">Indicador innovaciones</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
 <div class="row" id="formularios">
@@ -33,24 +33,28 @@
              {% include "indicadores.html" %}
               <div class="table-responsive">
                  <table class="table">
-                 <caption>Seguridad Alimentaria</caption>
+                 <caption>Innovación aplicada en la finca</caption>
                  <thead>
                       <tr>
-                          <th>Alimentos</th>
-                          <th>Compran</th>
-                          <th>%</th>
-                          <th>Nivel de consumo suficiente</th>
-                          <th>%</th>
+                          <th>Innovaciones</th>
+                          <th>% si</th>
+                          <th>% no</th>
                       </tr>
                   </thead>
                   <tbody>
-                  {%for item in data%}
+                  {%for k,v in data.items%}
                   <tr>
-                    {% for cosito in item%}
+                    
                       <td>
-                          {{cosito}}
+                          {{k}}
                       </td>
-                    {%endfor%}                           
+                      <td>
+                          {{v.0}}
+                      </td>
+                      <td>
+                          {{v.1}}
+                      </td>
+                                           
                   </tr>
                   {%endfor%}
                   </tbody>

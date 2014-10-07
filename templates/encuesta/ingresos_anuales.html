@@ -7,7 +7,7 @@
 	<br><br><br><br><br><br>
 <div class="container">
 	<hr class="separador">
-<h3 class="text-success">Indicador seguridad alimentaria</h3>
+<h3 class="text-success">Indicador Ingresos en cultivos anuales</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
 <div class="row" id="formularios">
@@ -33,24 +33,33 @@
              {% include "indicadores.html" %}
               <div class="table-responsive">
                  <table class="table">
-                 <caption>Seguridad Alimentaria</caption>
+                 <caption>Cultivos anuales</caption>
                  <thead>
                       <tr>
-                          <th>Alimentos</th>
-                          <th>Compran</th>
-                          <th>%</th>
-                          <th>Nivel de consumo suficiente</th>
-                          <th>%</th>
+                          <th>Cultivos</th>
+                          <th>Total producción</th>
+                          <th>Total producción</th>
+                          <th>Total autoconsumo</th>
+                          <th>Total pérdidas</th>
+                          <th>Total venta no organizada</th>
+                          <th>Total precio promedio</th>
+                          <th>Total venta organizada</th>
+                          <th>Total precio obtenido</th>
                       </tr>
                   </thead>
                   <tbody>
-                  {%for item in data%}
+                  {%for k,v in data.items%}
                   <tr>
-                    {% for cosito in item%}
+                    
                       <td>
-                          {{cosito}}
+                          {{k}}
                       </td>
-                    {%endfor%}                           
+                      {% for llave, valor in v.items %}
+                         <td>
+                          {{valor}}
+                      </td>
+                      {% endfor %}
+                     
                   </tr>
                   {%endfor%}
                   </tbody>

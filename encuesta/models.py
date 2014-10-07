@@ -318,10 +318,19 @@ CHOICE_ANIAMLES = (
         (14,'Otros'),
     )
 
+CHOICE_MANEJA = (
+        (1, "Mujer"),
+        (2, "Hombre"),
+        (3, "Ambos"),
+    )
+CHOICE_PLAN_NEGOCIO = (
+        (1, "Si"),
+        (2, "No"),
+    )
+
 class SeguridadPAnimal(models.Model):
     producto = models.IntegerField(choices=CHOICE_ANIAMLES)
     unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
-    area_produccion = models.FloatField('Area en producción (en Mz)')
     produccion = models.FloatField('Producción')
     auto_consumo = models.FloatField('Auto-consumo')
     perdidas = models.FloatField()
@@ -329,6 +338,8 @@ class SeguridadPAnimal(models.Model):
     precio_promedio_no = models.FloatField('Precio promedio')
     venta_organizada = models.FloatField('Venta organizada')
     precio_promedio_orga = models.FloatField('Precio promedio')
+    maneja = models.IntegerField(choices=CHOICE_MANEJA)
+    plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
 
     encuesta = models.ForeignKey(Encuesta)
 
@@ -356,16 +367,6 @@ CHOICE_PRODUCTOS_PROCESADOS = (
         (13,'Plantas cuales:'),
         (14,'Semillas cuales'),
         (15,'Otros productos procesados'),
-    )
-CHOICE_MANEJA = (
-        (1, "Mujer"),
-        (2, "Hombre"),
-        (3, "Ambos"),
-    )
-CHOICE_PLAN_NEGOCIO = (
-        (1, "Mujer"),
-        (2, "Hombre"),
-        (3, "Ambos"),
     )
 
 class SeguridadPProcesados(models.Model):
@@ -448,7 +449,7 @@ class SeguridadAlimentaria(models.Model):
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-        verbose_name_plural = "Consumo y adquisiciones" 
+        verbose_name_plural = "S.A. Consumo y adquisiciones" 
 
 
 #---------------------------------------------------------------------

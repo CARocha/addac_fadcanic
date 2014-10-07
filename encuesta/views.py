@@ -292,6 +292,41 @@ def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html
         fila.append("%.2f" % porcentaje) 
         resultados.append(fila)
     return render(request, template, {'a':a.count(), 'data':resultados})
+
+#Función sobre las innovaciones en la finca
+def innovaciones(request, template="encuesta/innovaciones.html"):
+    a = _query_filtros(request)
+    conteo = {}
+    total_si = 0
+    total_no = 0
+    for obj in TipoInnovacion.objects.all().order_by('nombre'):
+        si = a.filter(innovacion__innovacion=obj, innovacion__aplica=1).count()
+        total_si += si
+        no = a.filter(innovacion__innovacion=obj, innovacion__aplica=2).count()
+        total_no += no
+        conteo[obj.nombre] = (si/a.count()*100, no/a.count()*100)
+
+    return render(request, template, {'a':a.count(), 'data': conteo})
+
+#Funcion sobre ingreso en cultivos anuales
+def ingreso_anuales(request, template="encuesta/ingresos_anuales.html"):
+    a = _query_filtros(request)
+
+    anuales = {}
+    for obj in SISTEMAS_CHOICES:
+        cnt = a.filter(seguridadcanuales__cultivos=obj[0]).aggregate(total_manzanas=Sum('seguridadcanuales__area_produccion'),
+                                                                    total_prudccion=Sum('seguridadcanuales__produccion'),
+                                                                    total_autoconsumo=Sum('seguridadcanuales__auto_consumo'),
+                                                                    total_perdida=Sum('seguridadcanuales__perdidas'),
+                                                                    venta_no=Sum('seguridadcanuales__venta_no'),
+                                                                    precio_no=Avg('seguridadcanuales__precio_promedio_no'),
+                                                                    venta_organizada=Sum('seguridadcanuales__venta_organizada'),
+                                                                    precio_organizado=Avg('seguridadcanuales__precio_promedio_orga'))
+        if cnt['total_manzanas'] > 0:
+            anuales[obj[1]] = cnt
+    
+    return render(request, template, {'a':a.count(), 'data':anuales})
+
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
@@ -300,6 +335,8 @@ VALID_VIEWS = {
         'credito': credito,
         'tierra': uso_tierra,
         'seguridad_alimentaria':seguridad_alimentaria,
+        'innovacion': innovaciones,
+        'cultivos_anuales': ingreso_anuales,
         
 }
 # Función para obtener las url
