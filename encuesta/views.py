@@ -268,7 +268,30 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
     
     return render(request, template, {'a':a.count(),'data':resultados})
 
-
+#Funcion para calcular la seguridad alimentaria
+def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html"):
+    a = _query_filtros(request)
+    id_alimentos = [dato[0] for dato in ALIMENTO_CHOICES] 
+    total_encuestas=a.count() #usado para el porcentaje
+    datos = []
+    resultados = []
+    for id in id_alimentos:
+        datos = a.filter(seguridadalimentaria__alimentos=id).aggregate(compran=Sum('seguridadalimentaria__comprar'))
+        for key in datos.keys():
+            if datos[key]==None:
+                datos[key]=0
+        nivel_consumo = a.filter(seguridadalimentaria__alimentos=id,
+                                 seguridadalimentaria__nivel_consumo_suficiente=2).aggregate(nivel=Count('seguridadalimentaria'))
+        fila=[] #[alimento, compran, porcentaje,nivel consumo,porcentaje]
+        fila.append(ALIMENTO_CHOICES[id-1][1])
+        fila.append(datos['compran'])
+        porcentaje = (float(datos['compran'])/total_encuestas)*100
+        fila.append("%.2f" % porcentaje) 
+        fila.append(nivel_consumo['nivel'])
+        porcentaje = (float(nivel_consumo['nivel'])/total_encuestas)*100
+        fila.append("%.2f" % porcentaje) 
+        resultados.append(fila)
+    return render(request, template, {'a':a.count(), 'data':resultados})
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
@@ -276,6 +299,7 @@ VALID_VIEWS = {
         'educacion': educacion,
         'credito': credito,
         'tierra': uso_tierra,
+        'seguridad_alimentaria':seguridad_alimentaria,
         
 }
 # Función para obtener las url
