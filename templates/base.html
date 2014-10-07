@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/animsition.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
 
 </head>
 
@@ -138,6 +139,36 @@
     <script src="{% static 'js/animacion.js' %}"></script>
     <script src="{% static 'js/grafico.js' %}"></script>
     <script src="{% static 'js/wow.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.js' %}"></script>
+  
+<!--Script para filtrar tablas-->
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable({
+            
+  "language": {
+    "search": "Buscar:"
+  },
+  "info": false,
+
+  paging: false
+
+          });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#myTable2').DataTable({
+  "language": {
+    "search": "Buscar:"
+  },
+  "info": false,
+
+  paging: false
+
+          });
+    });
+</script>
 
     {% block extra_js %}{% endblock extra_js %}
 
