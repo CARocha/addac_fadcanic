@@ -7,7 +7,7 @@
 	<br><br><br><br><br><br>
 <div class="container">
 	<hr class="separador">
-<h3 class="text-success">Indicador innovaciones</h3>
+<h3 class="text-success">Indicador Ingresos en productos procesados</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
 <div class="row" id="formularios">
@@ -32,29 +32,29 @@
      <div class="panel-body">
              {% include "indicadores.html" %}
               <div class="table-responsive">
-                  <table class="table" id="myTable">
-                 <caption>Innovación aplicada en la finca</caption>
+                 <table class="table" id="myTable">
+                 <caption>Productos procesados</caption>
                  <thead>
                       <tr>
-                          <th>Innovaciones</th>
-                          <th>% si</th>
-                          <th>% no</th>
+                          <th>Productos</th>
+                          <th>Total producción</th>
+                          <th>Total autoconsumo</th>
+                          <th>Total pérdidas</th>
+                          <th>Total venta no organizada</th>
+                          <th>precio promedio</th>
+                          <th>Total venta organizada</th>
                       </tr>
                   </thead>
                   <tbody>
                   {%for k,v in data.items%}
                   <tr>
-                    
-                      <td>
-                          {{k}}
-                      </td>
-                      <td>
-                          {{v.0}}
-                      </td>
-                      <td>
-                          {{v.1}}
-                      </td>
-                                           
+                      <td>{{k}}</td>
+                      <td>{{v.total_produccion}}</td>
+                      <td>{{v.total_autoconsumo}}</td>
+                      <td>{{v.total_perdida}}</td>
+                      <td>{{v.venta_no}}</td>
+                      <td>{{v.precio_no}}</td>
+                      <td>{{v.venta_organizada}}</td>
                   </tr>
                   {%endfor%}
                   </tbody>

@@ -370,7 +370,7 @@ CHOICE_PRODUCTOS_PROCESADOS = (
     )
 
 class SeguridadPProcesados(models.Model):
-    producto = models.IntegerField(choices=CHOICE_ANIAMLES)
+    producto = models.IntegerField(choices=CHOICE_PRODUCTOS_PROCESADOS)
     unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
     produccion = models.FloatField('Producción')
     auto_consumo = models.FloatField('Auto-consumo')

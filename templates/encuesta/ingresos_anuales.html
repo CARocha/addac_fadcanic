@@ -32,34 +32,33 @@
      <div class="panel-body">
              {% include "indicadores.html" %}
               <div class="table-responsive">
-                 <table class="table">
+                 <table class="table" id="myTable">
                  <caption>Cultivos anuales</caption>
                  <thead>
                       <tr>
                           <th>Cultivos</th>
-                          <th>Total producción</th>
+                          <th>Área en prod.(Mz)</th>
                           <th>Total producción</th>
                           <th>Total autoconsumo</th>
                           <th>Total pérdidas</th>
                           <th>Total venta no organizada</th>
-                          <th>Total precio promedio</th>
+                          <th>precio promedio</th>
                           <th>Total venta organizada</th>
-                          <th>Total precio obtenido</th>
+                          <th>precio obtenido</th>
                       </tr>
                   </thead>
                   <tbody>
                   {%for k,v in data.items%}
                   <tr>
-                    
-                      <td>
-                          {{k}}
-                      </td>
-                      {% for llave, valor in v.items %}
-                         <td>
-                          {{valor}}
-                      </td>
-                      {% endfor %}
-                     
+                      <td>{{k}}</td>
+                      <td>{{v.total_manzanas}}</td>
+                      <td>{{v.total_prudccion}}</td>
+                      <td>{{v.total_autoconsumo}}</td>
+                      <td>{{v.total_perdida}}</td>
+                      <td>{{v.venta_no}}</td>
+                      <td>{{v.precio_no}}</td>
+                      <td>{{v.venta_organizada}}</td>
+                      <td>{{v.precio_organizado}}</td>
                   </tr>
                   {%endfor%}
                   </tbody>
