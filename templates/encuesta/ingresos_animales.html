@@ -7,7 +7,7 @@
 	<br><br><br><br><br><br>
 <div class="container">
 	<hr class="separador">
-<h3 class="text-success">Indicador créditos</h3>
+<h3 class="text-success">Indicador Ingresos en productos animales</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
 <div class="row" id="formularios">
@@ -32,25 +32,31 @@
      <div class="panel-body">
              {% include "indicadores.html" %}
               <div class="table-responsive">
-                  <table class="table" id="myTable">
-                 <caption>Uso de tierra</caption>
+                 <table class="table" id="myTable">
+                 <caption>Productos animales</caption>
                  <thead>
                       <tr>
-                          <th>Uso</th>
-                          <th>Conteo</th>
-                          <th>%</th>
-                          <th>Areas totales</th>
-                          <th>%</th>
+                          <th>Cultivos</th>
+                          <th>Total producción</th>
+                          <th>Total autoconsumo</th>
+                          <th>Total pérdidas</th>
+                          <th>Total venta no organizada</th>
+                          <th>precio promedio</th>
+                          <th>Total venta organizada</th>
+                          <th>precio obtenido</th>
                       </tr>
                   </thead>
                   <tbody>
-                  {%for item in data%}
+                  {%for k,v in data.items%}
                   <tr>
-                    {% for cosito in item%}
-                      <td>
-                          {{cosito}}
-                      </td>
-                    {%endfor%}                           
+                      <td>{{k}}</td>
+                      <td>{{v.total_produccion}}</td>
+                      <td>{{v.total_autoconsumo}}</td>
+                      <td>{{v.total_perdida}}</td>
+                      <td>{{v.venta_no}}</td>
+                      <td>{{v.precio_no}}</td>
+                      <td>{{v.venta_organizada}}</td>
+                      <td>{{v.precio_organizado}}</td>
                   </tr>
                   {%endfor%}
                   </tbody>

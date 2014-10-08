@@ -89,7 +89,7 @@ class FotosAdmin(AdminImageMixin, admin.TabularInline):
 class EncuestaAdmin(admin.ModelAdmin):
     fields = (('fecha', 'fecha2'),('recolector', 'personas'), 'oficina')
     inlines = [FincaInline, UsoTierraAdmin, EducacionAdmin, SeguridadSafAdmin,
-               SeguridadCAnualesAdmin, SeguridadCAnualesAdmin, SeguridadPAnimalAdmin,
+               SeguridadCAnualesAdmin, SeguridadPAnimalAdmin,
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
@@ -109,3 +109,5 @@ admin.site.register(Recolector)
 admin.site.register(Finca)
 admin.site.register(OrganizacionesDanCredito)
 admin.site.register(UsoCredito)
+admin.site.register(TipoInnovacion)
+admin.site.register(ServiciosActividades)

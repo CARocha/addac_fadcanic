@@ -292,6 +292,96 @@ def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html
         fila.append("%.2f" % porcentaje) 
         resultados.append(fila)
     return render(request, template, {'a':a.count(), 'data':resultados})
+
+#Función sobre las innovaciones en la finca
+def innovaciones(request, template="encuesta/innovaciones.html"):
+    a = _query_filtros(request)
+    conteo = {}
+    total_si = 0
+    total_no = 0
+    for obj in TipoInnovacion.objects.all().order_by('nombre'):
+        si = a.filter(innovacion__innovacion=obj, innovacion__aplica=1).count()
+        total_si += si
+        no = a.filter(innovacion__innovacion=obj, innovacion__aplica=2).count()
+        total_no += no
+        conteo[obj.nombre] = (si/a.count()*100, no/a.count()*100)
+
+    return render(request, template, {'a':a.count(), 'data': conteo})
+
+#Funcion sobre ingreso en cultivos anuales
+def ingreso_anuales(request, template="encuesta/ingresos_anuales.html"):
+    a = _query_filtros(request)
+
+    anuales = {}
+    for obj in SISTEMAS_CHOICES:
+        cnt = a.filter(seguridadcanuales__cultivos=obj[0]).aggregate(total_manzanas=Sum('seguridadcanuales__area_produccion'),
+                                                                    total_prudccion=Sum('seguridadcanuales__produccion'),
+                                                                    total_autoconsumo=Sum('seguridadcanuales__auto_consumo'),
+                                                                    total_perdida=Sum('seguridadcanuales__perdidas'),
+                                                                    venta_no=Sum('seguridadcanuales__venta_no'),
+                                                                    precio_no=Avg('seguridadcanuales__precio_promedio_no'),
+                                                                    venta_organizada=Sum('seguridadcanuales__venta_organizada'),
+                                                                    precio_organizado=Avg('seguridadcanuales__precio_promedio_orga'))
+        if cnt['total_manzanas'] > 0:
+            anuales[obj[1]] = cnt
+    
+    return render(request, template, {'a':a.count(), 'data':anuales})
+
+#Funcion sobre ingreso en pruductos animales
+def ingreso_animal(request, template="encuesta/ingresos_animales.html"):
+    a = _query_filtros(request)
+
+    animales = {}
+    for obj in CHOICE_ANIAMLES:
+        cnt = a.filter(seguridadpanimal__producto=obj[0]).aggregate(total_produccion=Sum('seguridadpanimal__produccion'),
+                                                                    total_autoconsumo=Sum('seguridadpanimal__auto_consumo'),
+                                                                    total_perdida=Sum('seguridadpanimal__perdidas'),
+                                                                    venta_no=Sum('seguridadpanimal__venta_no'),
+                                                                    precio_no=Avg('seguridadpanimal__precio_promedio_no'),
+                                                                    venta_organizada=Sum('seguridadpanimal__venta_organizada'),
+                                                                    precio_organizado=Avg('seguridadpanimal__precio_promedio_orga'))
+        if cnt['total_produccion'] > 0:
+            animales[obj[1]] = cnt
+    #grafico para quien manejo el negocio
+    grafo_maneja = {}
+    for obj in CHOICE_MANEJA:
+        cnt = a.filter(seguridadpanimal__maneja=obj[0]).count()
+        grafo_maneja[obj[1]] = cnt
+    #grafico para ver si tienen plan de negocio
+    grafo_plan = {}
+    for obj in CHOICE_PLAN_NEGOCIO:
+        cnt = a.filter(seguridadpanimal__plan_negocio=obj[0]).count()
+        grafo_plan[obj[1]] = cnt
+
+    return render(request, template, {'a':a.count(), 'data':animales})
+
+#Funcion sobre ingreso en pruductos animales
+def ingreso_pprocesados(request, template="encuesta/ingresos_pprocesado.html"):
+    a = _query_filtros(request)
+
+    animales = {}
+    for obj in CHOICE_PRODUCTOS_PROCESADOS:
+        cnt = a.filter(seguridadpprocesados__producto=obj[0]).aggregate(total_produccion=Sum('seguridadpprocesados__produccion'),
+                                                                    total_autoconsumo=Sum('seguridadpprocesados__auto_consumo'),
+                                                                    total_perdida=Sum('seguridadpprocesados__perdidas'),
+                                                                    venta_no=Sum('seguridadpprocesados__venta_no'),
+                                                                    precio_no=Avg('seguridadpprocesados__precio_promedio_no'),
+                                                                    venta_organizada=Sum('seguridadpprocesados__venta_organizada'),
+                                                                    )
+        if cnt['total_produccion'] > 0:
+            animales[obj[1]] = cnt
+    #grafico para quien manejo el negocio
+    grafo_maneja = {}
+    for obj in CHOICE_MANEJA:
+        cnt = a.filter(seguridadpprocesados__maneja=obj[0]).count()
+        grafo_maneja[obj[1]] = cnt
+    #grafico para ver si tienen plan de negocio
+    grafo_plan = {}
+    for obj in CHOICE_PLAN_NEGOCIO:
+        cnt = a.filter(seguridadpprocesados__plan_negocio=obj[0]).count()
+        grafo_plan[obj[1]] = cnt
+
+    return render(request, template, {'a':a.count(), 'data':animales})
 #urls de los indicadores
 VALID_VIEWS = {
         'generales': generales,
@@ -299,7 +389,11 @@ VALID_VIEWS = {
         'educacion': educacion,
         'credito': credito,
         'tierra': uso_tierra,
-        'seguridad_alimentaria':seguridad_alimentaria,
+        'seguridad_alimentaria': seguridad_alimentaria,
+        'innovacion': innovaciones,
+        'cultivos_anuales': ingreso_anuales,
+        'ingreso_animal': ingreso_animal,
+        'ingreso_procesados': ingreso_pprocesados,
         
 }
 # Función para obtener las url
