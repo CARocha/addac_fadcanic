@@ -276,6 +276,7 @@ margin-bottom: 0.9em;
 	border-radius: 0;
 	color: white;
 	height: 57px;
+	margin-bottom: 2px;
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover{
 	background-color: rgba(0,0,0,0);
@@ -392,6 +393,7 @@ display: none;
 }
 .botonera>a{
 	margin-bottom: 1em;
+	margin-top: 2px;
 }
 
 
