@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'report_builder',
     #'mockups',
+    'selectable',
     
 )
 
@@ -110,3 +111,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 JQUERY_URL = 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+LOGIN_URL = '/'
+LOGOUT_URL = '/'
