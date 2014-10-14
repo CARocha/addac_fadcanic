@@ -398,6 +398,32 @@ def ingreso_pprocesados(request, template="encuesta/ingresos_pprocesado.html"):
         grafo_plan[obj[1]] = cnt
 
     return render(request, template, {'a':a.count(), 'data':animales})
+
+#Funcion sobre ingreso en pruductos animales
+def ingreso_negocio(request, template="encuesta/ingresos_negocio.html"):
+    a = _query_filtros(request)
+
+    animales = {}
+    for obj in ServiciosActividades.objects.all():
+        cnt = a.filter(ingresoservicionegocio__servicios=obj).aggregate(cantidad=Sum('ingresoservicionegocio__cantidad'),
+                                                                    precio=Avg('ingresoservicionegocio__precio'),
+                                                                    ingresos=Sum('ingresoservicionegocio__ingresos'),
+                                                                    )
+        if cnt['cantidad'] > 0:
+            animales[obj.__str__] = cnt
+    #grafico para quien manejo el negocio
+    grafo_maneja = {}
+    for obj in CHOICE_MANEJA:
+        cnt = a.filter(ingresoservicionegocio__maneja=obj[0]).count()
+        grafo_maneja[obj[1]] = cnt
+    #grafico para ver si tienen plan de negocio
+    grafo_plan = {}
+    for obj in CHOICE_PLAN_NEGOCIO:
+        cnt = a.filter(ingresoservicionegocio__plan_negocio=obj[0]).count()
+        grafo_plan[obj[1]] = cnt
+
+    return render(request, template, {'a':a.count(), 'data':animales})
+
 #urls de los indicadores
 VALID_VIEWS = {
         'entrar':entrar,
@@ -411,6 +437,7 @@ VALID_VIEWS = {
         'cultivos_anuales': ingreso_anuales,
         'ingreso_animal': ingreso_animal,
         'ingreso_procesados': ingreso_pprocesados,
+        'ingreso_negocio': ingreso_negocio,
         
 }
 # Función para obtener las url
