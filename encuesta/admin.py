@@ -2,9 +2,12 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from .models import *
 from sorl.thumbnail.admin import AdminImageMixin
+from .forms import ProductorAdminForm
+
 
 class FincaInline(admin.StackedInline):
     model = Finca
+    form = ProductorAdminForm
     extra = 1
     max_num = 1
     min_num = 1

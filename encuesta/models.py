@@ -38,7 +38,7 @@ class Recolector(models.Model):
 
 @python_2_unicode_compatible
 class Encuesta(models.Model):
-    fecha = models.DateField('Fecha de la encuesta', help_text='Introduzca año-mes-dia')
+    fecha = models.DateField('Fecha de la encuesta', help_text='Introduzca fecha')
     ano = models.IntegerField('año', editable=False)
     recolector = models.ForeignKey(Recolector, verbose_name='Nombre recolector de datos')
     fecha2 = models.DateField('Fecha de ingreso de la encuesta', null=True, blank=True)

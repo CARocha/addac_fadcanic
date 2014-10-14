@@ -55,8 +55,8 @@
               <a href="/admin" class="dropdown-toggle" data-toggle="dropdown">Hola {{request.user}}<span class="caret"></span></a>
 
                   <ul class="dropdown-menu backf" role="menu">
-                    <li><a href="#"><i class="fa fa-cog"></i> Administración</a></li>
-                    <li><a href="#"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
+                    <li><a href="/admin"><i class="fa fa-cog"></i> Administración</a></li>
+                    <li><a href="/salir"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
                   </ul>
               </li>
 
@@ -79,61 +79,9 @@
     <!-- Intro Section -->
 
  <!-- esto es lo que se reescribe siempre -->
-{% block contenido%} {% endblock contenido%}
+{% block contenido%}{% endblock contenido%}
    
- 
-    <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <a type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
-                <h4 class="modal-title" id="myModalLabel">Inicio de Sesión</h4>
-              </div>
-              <div class="modal-body">
-               
-                  <form id="seccion" class="form-horizontal" role="form">
-                    <div class="form-group separar">
-                    
-                      <label for="ejemplo_email_3" class="col-md-12 col-lg-4 control-label">Nombre de Usuario</label>
-                      <div class="col-md-12 col-lg-6">
-                      <div class="input-group">
-                      <span class="input-group-addon"><label class="fa fa-user fa-lg"></label></span>
-                        <input type="text" class="form-control" id="texto" placeholder="Usuario">
-                      </div>
-                      </div>
-                      
-                    </div>
-
-
-                    <div class="form-group separar">
-                      
-                      <label for="ejemplo_password_3" class="col-md-12 col-lg-4 control-label">Contraseña</label>
-                      <div class="col-md-12 col-lg-6">
-                      <div class="input-group">
-                      <span class="input-group-addon"><label class="fa fa-key fa-lg"></label></span>
-                        <input type="password" class="form-control" id="contraseña" placeholder="Contraseña">
-                      </div>
-                      </div>
-                      
-                    </div>
-
-                  </form>
-            
-              </div>
-              <div class="modal-footer">
-                <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
-                <button type="button" class="btn btn-primary">Entrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
      {% include "footer.html" %}
-
-
-
-
 
     <!-- jQuery Version 1.11.0 -->
     <script src="{% static 'js/jquery-1.11.0.js' %}"></script>

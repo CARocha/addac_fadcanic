@@ -1,14 +1,30 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
 from .forms import *
 from django.db.models import Count, Sum, Avg
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
 
 # CBV para el home y los graficos
 class HomeView(TemplateView):
     template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['form1'] = AuthenticationForm()
+
+        return context
+
+def entrar(request):
+    form = AuthenticationForm(data=request.POST)
+    if form.is_valid():
+        login(request, form.get_user())
+        return HttpResponseRedirect('/')
+    else:
+        return redirect('/admin')
 
 # funcion para los filtros automaticos
 def _query_filtros(request):
@@ -384,6 +400,7 @@ def ingreso_pprocesados(request, template="encuesta/ingresos_pprocesado.html"):
     return render(request, template, {'a':a.count(), 'data':animales})
 #urls de los indicadores
 VALID_VIEWS = {
+        'entrar':entrar,
         'generales': generales,
         'detalle_casas': graficos,
         'educacion': educacion,
