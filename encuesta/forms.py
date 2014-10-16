@@ -7,7 +7,7 @@ from selectable.forms import AutoCompleteSelectField
 import selectable.forms as selectable
 
 class ProductorAdminForm(forms.ModelForm):
-    nombre_productor = selectable.AutoCompleteSelectField(lookup_class=ProductorLookup, allow_new=True)
+    #nombre_productor = selectable.AutoCompleteSelectField(lookup_class=ProductorLookup, allow_new=True)
 
     class Meta(object):
         model = Finca

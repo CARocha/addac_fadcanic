@@ -424,6 +424,28 @@ def ingreso_negocio(request, template="encuesta/ingresos_negocio.html"):
 
     return render(request, template, {'a':a.count(), 'data':animales})
 
+#Funcion sobre ingreso en pruductos saf
+def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
+    a = _query_filtros(request)
+
+    saf = {}
+    for obj in SISTEMAS_CHOICES:
+        cnt = a.filter(seguridadsaf__cultivos=obj[0]).aggregate(area_desarrollo=Sum('seguridadsaf__area_desarrollo'),
+                                                            area_produccion=Sum('seguridadsaf__area_produccion'),
+                                                            produccion_total=Sum('seguridadsaf__produccion_total'),
+                                                            auto_consumo=Sum('seguridadsaf__auto_consumo'),
+                                                            perdidas=Sum('seguridadsaf__perdidas'),
+                                                            venta_no=Sum('seguridadsaf__venta_no'),
+                                                            precio_promedio_no=Avg('seguridadsaf__precio_promedio_no'),
+                                                            venta_organizada=Sum('seguridadsaf__venta_organizada'),
+                                                            precio_promedio_orga=Avg('seguridadsaf__precio_promedio_orga'),
+                                                            )
+        if cnt['area_desarrollo'] > 0:
+            saf[obj[1]] = cnt
+    print saf
+
+    return render(request, template, {'a':a.count(), 'data':saf})
+
 #urls de los indicadores
 VALID_VIEWS = {
         'entrar':entrar,
