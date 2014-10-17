@@ -145,19 +145,9 @@ class Finca(models.Model):
         return u'%s' % (self.nombre_productor)
 
     def save(self, *args, **kwargs):
-        print "Esta es la prueba de sumar contador"
-        print self.nombre_productor.contador #= self.nombre_productor.contador + 1
-        
-        #self.nombre_productor.contador = self.nombre_productor.contador + 1
+        Productores.objects.filter(id=self.nombre_productor_id).update(contador=F('contador') + 1)
         super(Finca, self).save(*args, **kwargs)
-        if Finca.objects.filter(nombre_productor=self.nombre_productor):
-            productores = Productores.objects.get(id=self.nombre_productor.id)
-            print productores
-            productores.contador = F('contador') + 1
-            productores.save(update_fields=['contador'])
-            print "fin se guardo!!"
         
-
     class Meta:
         ordering = ('finca',)
         verbose_name= 'Datos generales de la finca'
