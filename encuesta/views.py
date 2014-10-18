@@ -15,6 +15,34 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['form1'] = AuthenticationForm()
+        #empienzan los graficos de los anios
+        #analfabetismo
+        SEXO_CHOICE_3 = (
+            (1,'Hombres de 25 adelante'),
+            (2,'Mujeres de 25 adelante'),
+            (3,'Hombres Jóvenes de 15 a 24'),
+            (4,'Mujeres Jóvenes de 15 a 24'),
+            (5,'Hombres adolescentes de 9 a 14'),
+            (6,'Mujeres adolescentes de 9 a 14'),)
+        anios = fecha_choice()
+        analfabetismo_addac = {}
+        for e in SEXO_CHOICE_3:
+            obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+            analfabetismo_addac[e[1]] = (obj_2009,obj_2011,obj_2013)
+        context['analfabetismo_addac'] = analfabetismo_addac
+
+        analfabetismo_fad = {}
+        for e in SEXO_CHOICE_3:
+            obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+            if obj_2011 != 0:
+                obj_2011 = 0
+            analfabetismo_fad[e[1]] = (obj_2009,obj_2011,obj_2013)
+        context['analfabetismo_fad'] = analfabetismo_fad
+
 
         return context
 
