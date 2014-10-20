@@ -61,7 +61,238 @@ $(function () {
                     {% endfor %}
               ]
     });
-});
+    // grafico sobre legalidad de la propiedad
+        // Build the chart
+        $('#contenedor3').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [ {% for k,v in legalidad_addac.items %}
+                            ['{{k}}', {{v}}],
+                        {% endfor %}
+                ]
+            }]
+        });
+      //grafico otro
+       $('#contenedor4').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['Others',   0.7]
+                ]
+            }]
+        });
+      // otro grafo
+      $('#contenedor5').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['Others',   0.7]
+                ]
+            }]
+        });
+        // otro grafo mas
+         $('#contenedor6').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [ {% for k,v in legalidad_fadcanic.items %}
+                            ['{{k}}', {{v}}],
+                        {% endfor %}
+                ]
+            }]
+        });
+        // otro grafo mas 
+         $('#contenedor7').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['Others',   0.7]
+                ]
+            }]
+        });
+        // otro grafo
+         $('#contenedor8').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['Others',   0.7]
+                ]
+            }]
+        });
+  
+
+});//fin function
   </script>
 {% endblock extra_js %}
 
@@ -104,23 +335,23 @@ $(function () {
 <div class="container"> 
     <div   class="row">
      
-        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInLeft" data-wow-delay="2s">
+        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInLeft" data-wow-delay="1s">
         <div class="panel panel-default panelgrafico">
        
             <div class="panel-body">
               
               <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div>
-              <p>Este grafico representa los datos de las personas que no saben leer por los 3 anios del sistema</p>
+              <p>Este grafico representa los datos de las personas que no saben leer por los 3 años del sistema</p>
             </div>
         </div>
         </div>
-        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInRight" data-wow-delay="2s">
+        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInRight" data-wow-delay="1s">
         <div class="panel panel-default panelgrafico">
       
             <div class="panel-body">
               
               <div id="contenedor2" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div>
-              <p>Este grafico representa los datos de las personas que no saben leer por los 3 anios del sistema</p>            </div>
+              <p>Este grafico representa los datos de las personas que no saben leer por los 3 años del sistema</p>            </div>
         </div>
         </div>
     </div> 
@@ -139,21 +370,19 @@ $(function () {
           <div class="panel-heading">
 
             
-            <h3>Titulos</h3>
+            <h3>Legalidad</h3>
 
           </div>
 
           <div class="panel-body">
               
-              <div class="graf">
-              <canvas id="bar"></canvas>
-              <div id="barLegend"></div>
+              <div id="contenedor3" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
               </div>       
           </div>
 
       </div>
 
-    </div>
+ 
      <div  id="fade2"  class="col-xs-12 col-md-4 col-lg-4 wow animated fadeInLeft" data-wow-delay="0.25s">
       <div class="panel panel-default">
 
@@ -164,8 +393,7 @@ $(function () {
           </div>
         
           <div class="panel-body">
-            <canvas id="pie"></canvas>
-            <div class="center-block" id="pieLegend"></div>
+           <div id="contenedor4" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
 
           </div>
       </div>
@@ -182,16 +410,13 @@ $(function () {
 
           <div class="panel-body">
 
-            <canvas id="doughnut"></canvas>
-            <div class="center-block" id="doughnutLegend"></div>
+            <div id="contenedor5" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
           </div>
           
       </div>
     </div>
-    </div> 
-
-
-</div><!--FIN miniGraficos ADDAC-->
+       </div>
+    </div> <!--FIN miniGraficos ADDAC-->
 
 <!--miniGraficos FADCANIC-->
 <div id="fadcanic" class="container">
@@ -210,10 +435,7 @@ $(function () {
         </div>
 
         <div class="panel-body">
-           <div class="graf">
-            <canvas id="bar2"></canvas>
-            <div id="barLegend2"></div>
-          </div>
+           <div id="contenedor6" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
         
     </div>
@@ -229,8 +451,7 @@ $(function () {
         </div>
 
         <div class="panel-body">
-            <canvas id="pie2"></canvas>
-            <div class="center-block" id="pieLegend2"></div>
+            <div id="contenedor7" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
         
     </div>
@@ -247,8 +468,7 @@ $(function () {
 
         <div class="panel-body">
 
-        <canvas id="doughnut2"></canvas>
-        <div class="center-block" id="doughnutLegend2"></div>
+       <div id="contenedor8" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
         
     </div>

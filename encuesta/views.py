@@ -43,6 +43,24 @@ class HomeView(TemplateView):
             analfabetismo_fad[e[1]] = (obj_2009,obj_2011,obj_2013)
         context['analfabetismo_fad'] = analfabetismo_fad
 
+        #propiedades sin documentos
+        legalidad_addac = {}
+        for year in fecha_choice():
+            legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=5, encuesta__ano=year[0]).count()
+            legalidad_addac[year[1]] = legal
+        context['legalidad_addac'] = legalidad_addac
+        
+        legalidad_fadcanic = {}
+        for year in fecha_choice():
+            legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=3, encuesta__ano=year[0]).count()
+            legalidad_fadcanic[year[1]] = legal
+        context['legalidad_fadcanic'] = legalidad_fadcanic
+
+        #Dueños de la propiedad
+
+
+
+
 
         return context
 
