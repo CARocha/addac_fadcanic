@@ -21,15 +21,13 @@ $(function () {
                 }
             }]
         },
-        series: [{% for k,v in analfabetismo_fad.items %}
-                  
-                        {
-                            type: 'column',
-                            name: '{{k}}',
-                            data: [{% for valor in v %}{{valor}},{% endfor %}]
-                        },
-                      
-                    {% endfor %}
+        series: [{% for k,v in analfabetismo_fad.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
               ]
     });
     //segundo grafico
@@ -95,87 +93,59 @@ $(function () {
             }]
         });
       //grafico otro
-       $('#contenedor4').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Legalidad de la propiedad(sin documento)'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
+      $('#contenedor4').highcharts({
+        title: {
+            text: 'Propietario de la finca'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: '',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
             }]
-        });
+        },
+        series: [{% for k,v in propietario_addac.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
       // otro grafo
-      $('#contenedor5').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Legalidad de la propiedad(sin documento)'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
+   $('#contenedor5').highcharts({
+        title: {
+            text: 'Uso de credito'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: '',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
             }]
-        });
+        },
+        series: [{% for k,v in credito_addac.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
         // otro grafo mas
          $('#contenedor6').highcharts({
             chart: {
@@ -184,7 +154,7 @@ $(function () {
                 plotShadow: false
             },
             title: {
-                text: 'Legalidad de la propiedad(sin documento)'
+                text: 'Uso del credito'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -202,94 +172,66 @@ $(function () {
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {% for k,v in legalidad_fadcanic.items %}
+                data: [ {% for k,v in credito_addac.items %}
                             ['{{k}}', {{v}}],
                         {% endfor %}
                 ]
             }]
         });
         // otro grafo mas 
-         $('#contenedor7').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Legalidad de la propiedad(sin documento)'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
+        $('#contenedor7').highcharts({
+        title: {
+            text: 'Propietario de la finca'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: '',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
             }]
-        });
+        },
+        series: [{% for k,v in propietario_fadcanic.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
         // otro grafo
          $('#contenedor8').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Legalidad de la propiedad(sin documento)'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
+        title: {
+            text: 'Uso del credito'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: '',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
             }]
-        });
+        },
+        series: [{% for k,v in credito_fadcanic.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
   
 
 });//fin function
@@ -388,7 +330,7 @@ $(function () {
 
           <div class="panel-heading">
             
-            <h3>Titulos</h3>
+            <h3>Propietario</h3>
 
           </div>
         
@@ -430,7 +372,7 @@ $(function () {
 
         <div class="panel-heading">
           
-          <h3>Titulos 1</h3>
+          <h3>Legalidad</h3>
 
         </div>
 
@@ -446,7 +388,7 @@ $(function () {
 
         <div class="panel-heading">
          
-          <h3>Titulos 1</h3>
+          <h3>Propietario</h3>
 
         </div>
 
@@ -462,7 +404,7 @@ $(function () {
 
         <div class="panel-heading">
           
-          <h3>Titulos 1</h3>
+          <h3>otro</h3>
 
         </div>
 
