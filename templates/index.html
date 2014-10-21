@@ -1,6 +1,243 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block extra_js %}
+  <script>
+$(function () {
+    $('#contenedor1').highcharts({
+        title: {
+            text: 'Personas que no saben leer FADCANIC'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: 'Totales analfabetas',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{% for k,v in analfabetismo_fad.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
+    //segundo grafico
+    $('#contenedor2').highcharts({
+        title: {
+            text: 'Personas que no saben leer ADDAC'
+        },
+        xAxis: {
+            categories: ['2009','2011','2013']
+        },
+        labels: {
+            items: [{
+                html: 'Totales analfabetas',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{% for k,v in analfabetismo_addac.items %}
+                  
+                        {
+                            type: 'column',
+                            name: '{{k}}',
+                            data: [{% for valor in v %}{{valor}},{% endfor %}]
+                        },
+                      
+                    {% endfor %}
+              ]
+    });
+    // grafico sobre legalidad de la propiedad
+        // Build the chart
+        $('#contenedor3').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Legalidad de la propiedad(sin documento)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [ {% for k,v in legalidad_addac.items %}
+                            ['{{k}}', {{v}}],
+                        {% endfor %}
+                ]
+            }]
+        });
+      //grafico otro
+      $('#contenedor4').highcharts({
+        title: {
+            text: 'Propietario de la finca'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{% for k,v in propietario_addac.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
+      // otro grafo
+   $('#contenedor5').highcharts({
+        title: {
+            text: 'Uso de credito'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{% for k,v in credito_addac.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
+        // otro grafo mas
+         $('#contenedor6').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Uso del credito'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '',
+                data: [ {% for k,v in credito_addac.items %}
+                            ['{{k}}', {{v}}],
+                        {% endfor %}
+                ]
+            }]
+        });
+        // otro grafo mas 
+        $('#contenedor7').highcharts({
+        title: {
+            text: 'Propietario de la finca'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{% for k,v in propietario_fadcanic.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
+        // otro grafo
+         $('#contenedor8').highcharts({
+        title: {
+            text: 'Uso del credito'
+        },
+        xAxis: {
+            categories: ['2009', '2011', '2013']
+        },
+        labels: {
+            items: [{
+                html: '',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [{% for k,v in credito_fadcanic.items %}         
+                  {
+                      type: 'column',
+                      name: '{{k}}',
+                      data: [{% for valor in v %}{{valor}},{% endfor %}]
+                  }, 
+                {% endfor %}
+              ]
+    });
+  
+
+});//fin function
+  </script>
+{% endblock extra_js %}
+
 {% block contenido %}
  <!-- About Section -->
 <section id="slider">
@@ -39,24 +276,24 @@
  <!-- Graficos -->
 <div class="container"> 
     <div   class="row">
-        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInLeft" data-wow-delay="2s">
+     
+        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInLeft" data-wow-delay="1s">
         <div class="panel panel-default panelgrafico">
        
             <div class="panel-body">
               
-              <div id="grafico1" class="center-block"></div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+              <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div>
+              <p>Este grafico representa los datos de las personas que no saben leer por los 3 años del sistema</p>
             </div>
         </div>
         </div>
-        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInRight" data-wow-delay="2s">
+        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInRight" data-wow-delay="1s">
         <div class="panel panel-default panelgrafico">
       
             <div class="panel-body">
               
-              <div id="grafico2" class="center-block"></div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
+              <div id="contenedor2" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div>
+              <p>Este grafico representa los datos de las personas que no saben leer por los 3 años del sistema</p>            </div>
         </div>
         </div>
     </div> 
@@ -75,33 +312,30 @@
           <div class="panel-heading">
 
             
-            <h3>Analfabetismo</h3>
+            <h3>Legalidad</h3>
 
           </div>
 
           <div class="panel-body">
               
-              <div class="graf">
-              <canvas id="bar"></canvas>
-              <div id="barLegend"></div>
+              <div id="contenedor3" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
               </div>       
           </div>
 
       </div>
 
-    </div>
+ 
      <div  id="fade2"  class="col-xs-12 col-md-4 col-lg-4 wow animated fadeInLeft" data-wow-delay="0.25s">
       <div class="panel panel-default">
 
           <div class="panel-heading">
             
-            <h3>Analfabetismo</h3>
+            <h3>Propietario</h3>
 
           </div>
         
           <div class="panel-body">
-            <canvas id="pie"></canvas>
-            <div class="center-block" id="pieLegend"></div>
+           <div id="contenedor4" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
 
           </div>
       </div>
@@ -112,22 +346,19 @@
 
           <div class="panel-heading">
             
-            <h3>Analfabetismo</h3>
+            <h3>Titulos</h3>
 
           </div>
 
           <div class="panel-body">
 
-            <canvas id="doughnut"></canvas>
-            <div class="center-block" id="doughnutLegend"></div>
+            <div id="contenedor5" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
           </div>
           
       </div>
     </div>
-    </div> 
-
-
-</div><!--FIN miniGraficos ADDAC-->
+       </div>
+    </div> <!--FIN miniGraficos ADDAC-->
 
 <!--miniGraficos FADCANIC-->
 <div id="fadcanic" class="container">
@@ -141,15 +372,12 @@
 
         <div class="panel-heading">
           
-          <h3>Analfabetismo</h3>
+          <h3>Legalidad</h3>
 
         </div>
 
         <div class="panel-body">
-           <div class="graf">
-            <canvas id="bar2"></canvas>
-            <div id="barLegend2"></div>
-          </div>
+           <div id="contenedor6" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
         
     </div>
@@ -160,13 +388,12 @@
 
         <div class="panel-heading">
          
-          <h3>Analfabetismo</h3>
+          <h3>Propietario</h3>
 
         </div>
 
         <div class="panel-body">
-            <canvas id="pie2"></canvas>
-            <div class="center-block" id="pieLegend2"></div>
+            <div id="contenedor7" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
         
     </div>
@@ -177,14 +404,13 @@
 
         <div class="panel-heading">
           
-          <h3>Analfabetismo</h3>
+          <h3>otro</h3>
 
         </div>
 
         <div class="panel-body">
 
-        <canvas id="doughnut2"></canvas>
-        <div class="center-block" id="doughnutLegend2"></div>
+       <div id="contenedor8" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
         
     </div>

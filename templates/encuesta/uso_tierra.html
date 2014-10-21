@@ -3,11 +3,102 @@
 {% load staticfiles %}
 {% load ayudar %}
 
+{% block extra_js %}
+<script>
+     $(document).ready(function () {
+        // Build the chart
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Uso de tierra [conteo]'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Porcentaje',
+                data: [ {%for k in data%}    
+                        ['{{k.0}}',{{k.1}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+        //segundo grafico
+       
+     $('#container1').highcharts({
+        chart: {
+            type: 'column'
+        },
+            title: {
+                text: 'Uso de tierra [Areas totales]'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    'Opciones'
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Porcentajes (%)'
+                }
+            },
+
+            tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+            plotOptions: {
+                column: {
+                    groupPadding: 0,
+                    pointPadding: 0.9,
+                    borderWidth: 0
+                },
+                series: {
+                    pointWidth: 55,
+                    minPointLength : 1
+                }
+            },
+            series: [{% for value in data %}
+                {
+                    name: '{{value.0}}',
+                    data: [{{value.3}}],
+               
+                },
+                {% endfor %}]
+        });
+   });
+</script>
+{% endblock %}
+
 {% block contenido %}
 	<br><br><br><br><br><br>
 <div class="container">
 	<hr class="separador">
-<h3 class="text-success">Indicador créditos</h3>
+<h3 class="text-success">Indicador uso de tierra</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
 <div class="row" id="formularios">
@@ -17,7 +108,6 @@
     <ul class="nav nav-pills nav-justified">
         <li class="active"><a href="#tabla" data-toggle="tab">Tabla</a></li>
         <li><a href="#grafico" data-toggle="tab">Gráfico</a></li>
-
 
       <li id="mas" class="text-right btnindicador">
         <span id="estado">

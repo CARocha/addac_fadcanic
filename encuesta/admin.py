@@ -96,7 +96,15 @@ class EncuestaAdmin(admin.ModelAdmin):
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha','recolector', 'oficina', )
+    list_display = ('fecha', 'get_productor','recolector', 'oficina',)
+    list_filter = ('ano',)
+    date_hierarchy = 'fecha'
+    search_fields = ['finca__nombre_productor__nombre',]
+
+
+    def get_productor(self, obj):
+        return "\n".join([i.nombre_productor.nombre for i in obj.finca_set.all()])
+    get_productor.short_description = 'Productor'
 
 class ProductorAdmin(admin.ModelAdmin):
     search = ('nombre', 'cedula_productor')

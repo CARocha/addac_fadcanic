@@ -15,6 +15,87 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['form1'] = AuthenticationForm()
+        #empienzan los graficos de los anios
+        #analfabetismo
+        SEXO_CHOICE_3 = (
+            (1,'Hombres de 25 adelante'),
+            (2,'Mujeres de 25 adelante'),
+            (3,'Hombres Jóvenes de 15 a 24'),
+            (4,'Mujeres Jóvenes de 15 a 24'),
+            (5,'Hombres adolescentes de 9 a 14'),
+            (6,'Mujeres adolescentes de 9 a 14'),)
+        anios = fecha_choice()
+        analfabetismo_addac = {}
+        for e in SEXO_CHOICE_3:
+            obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+            analfabetismo_addac[e[1]] = (obj_2009,obj_2011,obj_2013)
+        context['analfabetismo_addac'] = analfabetismo_addac
+
+        analfabetismo_fad = {}
+        for e in SEXO_CHOICE_3:
+            obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+            obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+            if obj_2011 != 0:
+                obj_2011 = 0
+            analfabetismo_fad[e[1]] = (obj_2009,obj_2011,obj_2013)
+        context['analfabetismo_fad'] = analfabetismo_fad
+
+        #propiedades sin documentos
+        legalidad_addac = {}
+        for year in fecha_choice():
+            legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=5, encuesta__ano=year[0]).count()
+            legalidad_addac[year[1]] = legal
+        context['legalidad_addac'] = legalidad_addac
+        
+        legalidad_fadcanic = {}
+        for year in fecha_choice():
+            legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=3, encuesta__ano=year[0]).count()
+            legalidad_fadcanic[year[1]] = legal
+        context['legalidad_fadcanic'] = legalidad_fadcanic
+
+        #Dueños de la propiedad
+        DUENO_CHOICES_3 = (
+            ('hombre','Hombre'),
+            ('mujer','Mujer'),
+            ('ambos','Ambos'),
+            ('parientes','Parientes')
+            )
+        propietario_addac = {}
+        for obj in DUENO_CHOICES_3:
+            obj_2009 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2009).count()
+            obj_2011 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2011).count()
+            obj_2013 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2013).count()
+            propietario_addac[obj[1]] = (obj_2009,obj_2011,obj_2013)
+        context['propietario_addac'] = propietario_addac
+
+        propietario_fadcanic = {}
+        for obj in DUENO_CHOICES_3:
+            obj_2009 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2009).count()
+            obj_2011 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2011).count()
+            obj_2013 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2013).count()
+            propietario_fadcanic[obj[1]] = (obj_2009,obj_2011,obj_2013)
+        context['propietario_fadcanic'] = propietario_fadcanic
+
+        #Uso de credito
+        credito_addac = {}
+        for obj in UsoCredito.objects.all():
+            obj_2009 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2009).count()
+            obj_2011 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2011).count()
+            obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2013).count()
+            credito_addac[obj] = (obj_2009,obj_2011,obj_2013)
+        context['credito_addac'] = credito_addac
+
+        credito_fadcanic = {}
+        for obj in UsoCredito.objects.all():
+            obj_2009 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2009).count()
+            obj_2011 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2011).count()
+            obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2013).count()
+            credito_fadcanic[obj] = (obj_2009,obj_2011,obj_2013)
+        context['credito_fadcanic'] = credito_fadcanic
+        
 
         return context
 
@@ -398,6 +479,54 @@ def ingreso_pprocesados(request, template="encuesta/ingresos_pprocesado.html"):
         grafo_plan[obj[1]] = cnt
 
     return render(request, template, {'a':a.count(), 'data':animales})
+
+#Funcion sobre ingreso en pruductos animales
+def ingreso_negocio(request, template="encuesta/ingresos_negocio.html"):
+    a = _query_filtros(request)
+
+    animales = {}
+    for obj in ServiciosActividades.objects.all():
+        cnt = a.filter(ingresoservicionegocio__servicios=obj).aggregate(cantidad=Sum('ingresoservicionegocio__cantidad'),
+                                                                    precio=Avg('ingresoservicionegocio__precio'),
+                                                                    ingresos=Sum('ingresoservicionegocio__ingresos'),
+                                                                    )
+        if cnt['cantidad'] > 0:
+            animales[obj.__str__] = cnt
+    #grafico para quien manejo el negocio
+    grafo_maneja = {}
+    for obj in CHOICE_MANEJA:
+        cnt = a.filter(ingresoservicionegocio__maneja=obj[0]).count()
+        grafo_maneja[obj[1]] = cnt
+    #grafico para ver si tienen plan de negocio
+    grafo_plan = {}
+    for obj in CHOICE_PLAN_NEGOCIO:
+        cnt = a.filter(ingresoservicionegocio__plan_negocio=obj[0]).count()
+        grafo_plan[obj[1]] = cnt
+
+    return render(request, template, {'a':a.count(), 'data':animales})
+
+#Funcion sobre ingreso en pruductos saf
+def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
+    a = _query_filtros(request)
+
+    saf = {}
+    for obj in SISTEMAS_CHOICES:
+        cnt = a.filter(seguridadsaf__cultivos=obj[0]).aggregate(area_desarrollo=Sum('seguridadsaf__area_desarrollo'),
+                                                            area_produccion=Sum('seguridadsaf__area_produccion'),
+                                                            produccion_total=Sum('seguridadsaf__produccion_total'),
+                                                            auto_consumo=Sum('seguridadsaf__auto_consumo'),
+                                                            perdidas=Sum('seguridadsaf__perdidas'),
+                                                            venta_no=Sum('seguridadsaf__venta_no'),
+                                                            precio_promedio_no=Avg('seguridadsaf__precio_promedio_no'),
+                                                            venta_organizada=Sum('seguridadsaf__venta_organizada'),
+                                                            precio_promedio_orga=Avg('seguridadsaf__precio_promedio_orga'),
+                                                            )
+        if cnt['area_desarrollo'] > 0:
+            saf[obj[1]] = cnt
+    print saf
+
+    return render(request, template, {'a':a.count(), 'data':saf})
+
 #urls de los indicadores
 VALID_VIEWS = {
         'entrar':entrar,
@@ -411,6 +540,7 @@ VALID_VIEWS = {
         'cultivos_anuales': ingreso_anuales,
         'ingreso_animal': ingreso_animal,
         'ingreso_procesados': ingreso_pprocesados,
+        'ingreso_negocio': ingreso_negocio,
         
 }
 # Función para obtener las url

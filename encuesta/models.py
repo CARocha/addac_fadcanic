@@ -4,7 +4,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from lugar.models import *
 from smart_selects.db_fields import ChainedForeignKey
-from sorl.thumbnail import ImageField 
+from sorl.thumbnail import ImageField
+from django.db.models import F
 
 SEXO_PRODUCTOR_CHOICES = (
     (1,'Mujer'),
@@ -24,8 +25,14 @@ class Productores(models.Model):
         verbose_name= 'Productores'
         verbose_name_plural = 'Productores'
 
+
     def __str__(self):
         return u'%s' % (self.nombre)
+
+    def save(self, *args, **kwargs):
+        self.contador = 1 
+        super(Productores, self).save(*args, **kwargs)
+
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=100)
@@ -99,7 +106,7 @@ DUENO_CHOICES = (
 
 @python_2_unicode_compatible
 class Finca(models.Model):
-    nombre_productor = models.ForeignKey('Productores')
+    nombre_productor = models.ForeignKey('Productores', related_name='productores')
     finca = models.CharField("Nombre Finca",max_length=150,null=True,blank=True,help_text='Introduzca nombre de la finca')
     municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio', 
                                  related_name="municipio")
@@ -137,6 +144,10 @@ class Finca(models.Model):
     def __str__(self):
         return u'%s' % (self.nombre_productor)
 
+    def save(self, *args, **kwargs):
+        Productores.objects.filter(id=self.nombre_productor_id).update(contador=F('contador') + 1)
+        super(Finca, self).save(*args, **kwargs)
+        
     class Meta:
         ordering = ('finca',)
         verbose_name= 'Datos generales de la finca'

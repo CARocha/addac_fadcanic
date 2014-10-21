@@ -3,6 +3,79 @@
 {% load staticfiles %}
 {% load ayudar %}
 
+{% block extra_js %}
+<script>
+     $(document).ready(function () {
+        // Build the chart
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Organizaciones que brindan credito'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Porcentaje',
+                data: [ {%for k in tiene_credito%} 
+                          ['{{k.0}}',{{k.1}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+        //segundo grafico
+         $('#container1').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Uso del credito'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Porcentajes',
+                data: [ {%for k in uso_credito%} 
+                          ['{{k.0}}',{{k.1}}],
+                        {%endfor%}
+                   
+                ]
+                }]
+        });
+   });
+</script>
+{% endblock %}
+
 {% block contenido %}
 <br><br><br><br><br><br>
 <div class="container">
