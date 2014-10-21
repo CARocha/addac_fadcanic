@@ -154,7 +154,7 @@ $(function () {
                 plotShadow: false
             },
             title: {
-                text: 'Uso del credito'
+                text: 'Legalidad de la propiedad(sin documento)'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -172,7 +172,7 @@ $(function () {
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {% for k,v in credito_addac.items %}
+                data: [ {% for k,v in legalidad_fadcanic.items %}
                             ['{{k}}', {{v}}],
                         {% endfor %}
                 ]
