@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block extra_js %}
+<script type="text/javascript">
+$(window).load(function(){ introJs().start(); })
+
+</script>
+
 {% endblock extra_js %}
 {% block contenido %}
 <!--Tabla y Grafico -->
@@ -8,6 +13,7 @@
 <div class="container">
 <hr class="separador">
 <h3 class="text-success">Sistema de información de agroforesteria</h3>
+<div id="prueba"></div>
 <hr class="separador">
   <div class="row" id="formularios">
     {% include "formulario.html" %}
@@ -125,7 +131,9 @@
 
   
   {% else %}
+  
       <p>Primero realize la consulta para que aparezacan los indicadores</p>
+              <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
       <br>
 
   {% endif %}
@@ -133,5 +141,6 @@
   </div>
 
 </div>
+
 
 {% endblock contenido %}

@@ -3,7 +3,9 @@
 
     <ul class="nav nav-pills nav-justified">
         <li class="active"><a href="#consultar" data-toggle="tab">Consultar</a></li>
+            {% if request.user.is_authenticated %}  
         <li><a href="#bespecifica" data-toggle="tab">Busqueda Especifica</a></li>
+        {%endif%}
     </ul>
 
 
@@ -13,15 +15,15 @@
             <div class="panel-body">
             <form action="/consulta/" method="POST" role="form">
                {% csrf_token %}
-                    <div class="form-group">
-                      <label class="control-label col-md-12 col-lg-5">Fecha</label>
+                    <div class="form-group" data-step="1" data-intro="Seleccione los años de la encuesta que desee">
+                      <label class="control-label col-md-12 col-lg-5">Año</label>
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="glyphicon glyphicon-calendar"></label></span>
                         {{form_principal.fecha}}
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-step="2" data-intro="Seleccione el Departamento, automaticamente se cargaran los municipios de ese Departamento">
                     <label class="control-label col-md-12 col-lg-5">Departamento</label>
 
                     <div class="input-group col-md-12 col-lg-7">
@@ -30,8 +32,8 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-12 col-lg-5">Municipio</label>
+                  <div class="form-group" data-step="3" data-intro="Seleccione el Municipio, automaticamente se cargaran las comunidades de ese Municipio">
+                    <label class="control-label col-md-12 col-lg-5" >Municipio</label>
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="fa fa-map-marker fa-lg"></label></span>
@@ -39,7 +41,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group" data-step="4" data-intro="Seleccione la Comunidad">
                     <label class="control-label col-md-12 col-lg-5">Comunidad</label>
 
                     <div class="input-group col-md-12 col-lg-7">
@@ -48,7 +50,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group" data-step="5" data-intro="Seleccione el dueño de la propiedad">
                     <label class="control-label col-md-12 col-lg-5">Propietario</label>
 
                     <div class="input-group col-md-12 col-lg-7">
@@ -57,9 +59,13 @@
                     </div>
                   </div>
 
-                  <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Repetido</label>
+                  <div class="form-group" data-step="6" data-intro="Seleccione el ">
+                      <label class="control-label col-md-12 col-lg-5">No. Encuesta</label>
+
+                    <div class="input-group col-md-12 col-lg-7">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-file"></label></span>
+                        {{form_principal.fecha}}
+                    </div>
                   </div>
 
               <div class="input-group col-lg-12">
