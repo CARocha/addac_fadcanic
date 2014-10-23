@@ -16,12 +16,14 @@
             <form action="/consulta/" method="POST" role="form">
                {% csrf_token %}
                     <div class="form-group" data-step="1" data-intro="Seleccione los años de la encuesta que desee">
-                      <label class="control-label col-md-12 col-lg-5">Año</label>
-
+                    <label class="control-label col-md-12 col-lg-5">Año</label>
                     <div class="input-group col-md-12 col-lg-7">
-                        <span class="input-group-addon"><label class="glyphicon glyphicon-calendar"></label></span>
-                        {{form_principal.fecha}}
+                    <span class="input-group-addon"><label class="glyphicon glyphicon-calendar"></label></span>
+                    {{form_principal.fecha}}
+
                     </div>
+
+
                   </div>
                   <div class="form-group" data-step="2" data-intro="Seleccione el Departamento, automaticamente se cargaran los municipios de ese Departamento">
                     <label class="control-label col-md-12 col-lg-5">Departamento</label>
@@ -59,16 +61,16 @@
                     </div>
                   </div>
 
-                  <div class="form-group" data-step="6" data-intro="Seleccione el ">
-                      <label class="control-label col-md-12 col-lg-5">No. Encuesta</label>
+                  <div class="form-group" data-step="6" data-intro="Seleccione el el numero de encuestas realizadas al productor. ">
+                      <label class="control-label col-md-12 col-lg-5">Repetido</label>
 
                     <div class="input-group col-md-12 col-lg-7">
                         <span class="input-group-addon"><label class="glyphicon glyphicon-file"></label></span>
-                        {{form_principal.fecha}}
+                        {{form_principal.repetido}}
                     </div>
                   </div>
 
-              <div class="input-group col-lg-12">
+              <div class="input-group col-lg-12" data-step="7" data-intro="Presione colsutar para realizar el filtro y acontinuación selecione el indicador de su preferencia.">
                 <input type="submit" value="Consultar" data-loading-text="Consultando..." class="btn btn-success" />
               </div>
               </form>

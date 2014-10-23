@@ -43,10 +43,17 @@ DUENO_CHOICES = (
           ('ambos', 'Ambos'),
           ('parientes', 'Parientes')
     )
+REPETIDO_CHOICES = (
+          ('', '-------'),
+          ('1', '1 Año'),
+          ('2', '2 Años'),
+          ('3', '3 Años'),
+          ('4', '4 Años')
+    )
 
 class PrincipalForm(forms.Form):
     fecha = forms.ChoiceField(choices=fecha_choice(),
-                              widget=forms.Select(attrs={'class': 'form-control'}))
+                              widget=forms.SelectMultiple())
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.all(), 
                                           required=False,
                                           widget=forms.Select(attrs={'class': 'form-control'}), 
@@ -62,4 +69,6 @@ class PrincipalForm(forms.Form):
                                     required=False,
                                     widget=forms.Select(attrs={'class': 'form-control'}))
 
-    repetido = forms.BooleanField(required=False)
+    repetido = forms.ChoiceField(choices=REPETIDO_CHOICES, 
+                                    required=False,
+                                    widget=forms.Select(attrs={'class': 'form-control'}))

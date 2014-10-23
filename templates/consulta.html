@@ -1,12 +1,22 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block extra_js %}
+<link rel="stylesheet" href="{% static 'css/select2.css' %}">
+<script src="{% static 'js/select2.js' %}"></script>
 <script type="text/javascript">
-$(window).load(function(){ introJs().start(); })
+/*$(window).load(function(){ introJs().start(); })*/
+$(document).ready(function() { 
 
+$("#id_fecha").select2({
+  maximumInputLength: 10,
+});
+
+ });
 </script>
 
 {% endblock extra_js %}
+
 {% block contenido %}
 <!--Tabla y Grafico -->
 <br><br><br><br>
@@ -131,10 +141,18 @@ $(window).load(function(){ introJs().start(); })
 
   
   {% else %}
-  
-      <p>Primero realize la consulta para que aparezacan los indicadores</p>
-              <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
-      <br>
+  <div class="alert alert-info alerta" role="alert">
+  <div class="row">
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <span class="fa fa-arrow-left fa-2x hidden-xs hidden-sm"></span>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+            <p>Primero realize la consulta para que aparezacan los indicadores</p>
+      </div>
+</div>
+
+  </div>
+
 
   {% endif %}
   </div> 
