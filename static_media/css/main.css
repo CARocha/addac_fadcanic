@@ -647,3 +647,7 @@ border-radius: 2px;
 .alerta{
 	margin-top: 170px;
 }
+
+.select2-container-multi .select2-choices .select2-search-field input {
+width: 120px !important;
+}
