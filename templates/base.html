@@ -136,7 +136,53 @@
                 });
     });
 </script>
-
+<script type="text/javascript">
+ $(document).ready(function() {
+        var departamento = document.getElementById("id_departamento");
+        var municipio = document.getElementById("id_municipio");
+        var comunidad= document.getElementById("id_comunidad");
+        municipio.options[0] = new Option("Municipio");
+        municipio.options[0].value = '';
+        comunidad.options[0] = new Option("Comunidad");
+        comunidad.options[0].value = '';
+        
+        //municipios
+        $("#id_departamento").change(function () {
+            var index = departamento.options.selectedIndex;
+            var id = departamento.options[index].value;
+            if(id != ''){
+                $.getJSON("ajax/municipio/" + id +"/", 
+                        function(data){
+                            municipio.options.length = 0;
+                            comunidad.options.length = 0;
+                            municipio.options[0] = new Option("Municipio");
+                            municipio.options[0].value = '';
+                            comunidad.options[0] = new Option("Comunidad");
+                            comunidad.options[0].value = '';
+                            for(i=0; i< data.length; i++){
+                                municipio.options[i+1] = new Option(data[i][1], data[i][0]);
+                        }
+                });             
+            }            
+        });
+        
+        //comunidad
+        $("#id_municipio").change(function () {
+            var index = municipio.options.selectedIndex;
+            var id = municipio.options[index].value;
+            $.getJSON("ajax/comunidad/" + id +"/",
+            function(data){
+                comunidad.options.length = 0;
+                comunidad.options[0] = new Option("Comunidad");
+                comunidad.options[0].value = '';
+                for(i=0; i< data.length; i++){
+                    comunidad.options[i+1] = new Option(data[i][1], data[i][0]);
+                }
+            });
+        });
+        
+    });
+</script>
     {% block extra_js %}{% endblock extra_js %}
 
 <script type="text/javascript">
