@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{% static 'css/animsition.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/introjs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/select2.css' %}">
 
 
 
@@ -98,6 +99,7 @@
     <script src="{% static 'js/wow.js' %}"></script>
     <script src="{% static 'js/jquery.dataTables.js' %}"></script>
     <script src="{% static 'js/login.js' %}"></script>
+    <script src="{% static 'js/select2.js' %}"></script>
     
 
   
@@ -114,6 +116,10 @@
         paging: false
 
                 });
+
+    $("#id_fecha").select2({
+        maximumInputLength: 10,
+    });
     });
 </script>
 <script>

@@ -111,7 +111,7 @@ def entrar(request):
 def _query_filtros(request):
     params = {}
     if 'fecha' in request.session:
-        params['ano'] = request.session['fecha']
+        params['ano__in'] = request.session['fecha']
     if request.session['comunidad']:
         params['finca__comunidad'] = request.session['comunidad']
     if request.session['municipio']:

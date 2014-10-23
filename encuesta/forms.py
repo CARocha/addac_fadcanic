@@ -52,8 +52,7 @@ REPETIDO_CHOICES = (
     )
 
 class PrincipalForm(forms.Form):
-    fecha = forms.ChoiceField(choices=fecha_choice(),
-                              widget=forms.SelectMultiple())
+    fecha = forms.MultipleChoiceField(choices=fecha_choice())
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.all(), 
                                           required=False,
                                           widget=forms.Select(attrs={'class': 'form-control'}), 
