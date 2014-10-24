@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
@@ -7,6 +7,7 @@ from .forms import *
 from django.db.models import Count, Sum, Avg
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
+import json as simplejson
 
 # CBV para el home y los graficos
 class HomeView(TemplateView):
@@ -140,6 +141,8 @@ def ConsultaView(request, template='consulta.html'):
             request.session['repetido'] = form.cleaned_data['repetido'] 
             request.session['activo'] = True
             centinela = 1
+        else:
+            centinela = 0
     else:
         form = PrincipalForm()
         centinela = 0
@@ -549,6 +552,17 @@ def _get_view(request, vista):
         return VALID_VIEWS[vista](request)
     else:
         raise ViewDoesNotExist("Tried %s in module %s Error: View not defined in VALID_VIEWS." % (vista, 'encuesta.views'))
+
+def get_municipios(request, departamento):
+    municipios = Municipio.objects.filter(departamento = departamento)
+    lista = [(municipio.id, municipio.nombre) for municipio in municipios]
+    return HttpResponse(simplejson.dumps(lista), mimetype='application/javascript')
+
+def get_comunidad(request, municipio):
+    comunidades = Comunidad.objects.filter(municipio = municipio )
+    lista = [(comunidad.id, comunidad.nombre) for comunidad in comunidades]
+    return HttpResponse(simplejson.dumps(lista), mimetype='application/javascript')
+
 
 def saca_porcentajes(dato, total, formato=True):
     '''Si formato es true devuelve float caso contrario es cadena'''
