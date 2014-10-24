@@ -3,6 +3,14 @@
 
 {% block extra_js %}
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if ($.cookie('datotuor') == null) {
+        $.cookie('datotuor', 'yes', { expires: 30, path: '/' });
+        $(window).load(function(){ introJs().start(); });
+    }
+});
+</script>
 {% endblock extra_js %}
 
 {% block contenido %}
