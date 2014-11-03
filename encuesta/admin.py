@@ -117,7 +117,7 @@ admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 # 
-admin.site.register(Finca)
+#admin.site.register(Finca)
 admin.site.register(OrganizacionesDanCredito)
 admin.site.register(UsoCredito)
 admin.site.register(TipoInnovacion)

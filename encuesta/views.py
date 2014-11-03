@@ -15,7 +15,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        context['form1'] = AuthenticationForm()
         #empienzan los graficos de los anios
         #analfabetismo
         SEXO_CHOICE_3 = (
