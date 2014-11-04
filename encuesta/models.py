@@ -19,7 +19,8 @@ class Productores(models.Model):
                                         help_text='Introduzca cedula del productor')
     sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
                                 null=True, blank=True)
-    contador = models.IntegerField()
+    celular = models.IntegerField('Número celular', null=True, blank=True)
+    contador = models.IntegerField(editable=False)
 
     class Meta:
         verbose_name= 'Productores'
@@ -39,6 +40,7 @@ class Recolector(models.Model):
 
     class Meta:
         unique_together = ('nombre',)
+        verbose_name_plural = 'Recolectores'
 
     def __unicode__(self):
         return self.nombre
@@ -68,10 +70,11 @@ class Encuesta(models.Model):
 
 TIPO_CHOICES = (
     (1,'Casa de madera rolliza con techo de paja'),
-    (2,'Casa de madera y techo de paja'),
-    (3,'Casa de madera con techo de zinc'),
+    (2,'Casa de madera (tablas) y techo de paja'),
+    (3,'Casa de madera (tablas) con techo de zinc'),
     (4,'Casa minifalda con techo de zinc'),
-    (5,'Casa de concreto con techo de zinc')
+    (5,'Casa de concreto con techo de zinc'),
+    (6,'Otras mejoras(2 pisos..)')
 )
 AGUA_CHOICES = (
     (1,'Ojo de agua'),
@@ -82,7 +85,10 @@ AGUA_CHOICES = (
     (6,'Agua por gravedad'),
     (7,'Otros'),
     (8,'Agua central certificado'),
-    (9,'Pozo rustico sin manejo')
+    (9,'Pozo rustico sin manejo'),
+    (10,'Pozo con brocal y bomba'),
+    (11,'Agua filtrada y certificada p/consumo'),
+    (12,'Agua por tuberia y bombeo eléctrico'),
     )
 LEGALIDAD_CHOICES = (
     (1,'Derecho real'),
@@ -280,11 +286,17 @@ class SeguridadSaf(models.Model):
     venta_organizada = models.FloatField('Venta organizada')
     precio_promedio_orga = models.FloatField('Precio promedio')
 
+    rendimiento = models.FloatField(editable=False, null=True, blank=True)
+
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         verbose_name = 'Seguridad Saf'
         verbose_name_plural = 'Seguridad Saf'
+
+    def save(self, *args, **kwargs):
+        self.rendimiento = self.produccion_total / self.area_produccion
+        super(SeguridadSaf, self).save(*args, **kwargs)
 
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
@@ -406,6 +418,9 @@ class ServiciosActividades(models.Model):
     nombre = models.CharField('Servicio y actividad', max_length=250)
     unidad = models.CharField('unidad de medida', max_length=200)
 
+    class Meta:
+        verbose_name_plural = "Servicios de actividades"
+
     def __unicode__(self):
         return u'%s - %s' % (self.nombre, self.unidad)
 
@@ -496,6 +511,9 @@ class Credito(models.Model):
 
 class TipoInnovacion(models.Model):
     nombre = models.CharField('Innovación', max_length=250)
+
+    class Meta:
+        verbose_name_plural = 'Tipo de innovaciones'
 
     def __unicode__(self):
         return self.nombre

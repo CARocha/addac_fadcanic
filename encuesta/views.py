@@ -294,7 +294,6 @@ def educacion(request, template="encuesta/educacion.html"):
         cnt_activo = a.filter(educacion__sexo_edad = obj[0],educacion__circ_estudio_adulto=2).count()
         tabla_eba[obj[1]] = (cnt_finalizado, cnt_activo)
 
-    print tabla_eba
     return render(request, template, {'tabla_educacion':tabla_educacion,'grafo':grafo,
                                       'a':a.count(), 'tabla_eba':tabla_eba})
 
@@ -333,7 +332,7 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
                         potrero_arboles = Sum('usotierra__potrero_arboles'),
                         plantaciones_forestales= Sum('usotierra__plantaciones_forestales'),
                     )
-    #print suma
+
     dicc_one = {
         'total_uso': {'usotierra__total_uso__gt': 0 },
         'bosque_primario': {'usotierra__bosque_primario__gt': 0 },
@@ -349,7 +348,7 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
     results = {}
     for k, v in dicc_one.items():
         results[k] = a.filter(**v).count()
-    #print results
+
     resultados = []
     lista_llaves = suma.keys()
     lista_llaves.sort()
@@ -525,7 +524,6 @@ def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
                                                             )
         if cnt['area_desarrollo'] > 0:
             saf[obj[1]] = cnt
-    print saf
 
     return render(request, template, {'a':a.count(), 'data':saf})
 
@@ -543,6 +541,7 @@ VALID_VIEWS = {
         'ingreso_animal': ingreso_animal,
         'ingreso_procesados': ingreso_pprocesados,
         'ingreso_negocio': ingreso_negocio,
+        'ingreso_saf': ingreso_saf,
         
 }
 # Función para obtener las url
