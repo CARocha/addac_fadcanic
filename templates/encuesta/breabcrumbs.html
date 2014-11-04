@@ -1,7 +1,7 @@
 <ol class="breadcrumb">
   <li>Filtros:</li>
   {% if request.session.fecha %}
-  	<li class="active">{{request.session.fecha}}</li>
+  	<li class="active">{% for year in  request.session.fecha %} {{year}}, {% endfor %}</li>
   {% endif %}
   {% if request.session.departamento %}
   	<li class="active">{{request.session.departamento}}</li>
