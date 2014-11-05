@@ -363,8 +363,18 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
         porcentaje_area = (float(suma[key])/suma['total_uso'])*100 if suma['total_uso']!= 0  else 0
         fila.append("%.2f" % porcentaje_area)
         resultados.append(fila)
+    try:
+        porcentaje_cobertura_boscosa = (( (float(suma['bosque_primario']) * 1) + (float(suma['cultivos_anuales'])*0.5) + 
+                             (float(suma['bosque_secundario'])*0.7) + (float(suma['cultivos_perennes'])*0.5) + 
+                             (float(suma['cultivos_semiperennes'])*0.5) + (float(suma['tacotales']) * 0.5) + 
+                             (float(suma['potrero_sin_arboles'])*0.5) + (float(suma['plantaciones_forestales']) * 1) + 
+                             (float(suma['potrero_arboles']) * 0.3)) / float(suma['total_uso']))*100
+        porcentaje_cobertura_boscosa = "%.2f" % porcentaje_cobertura_boscosa
+    except:
+        porcentaje_cobertura_boscosa = 0
     
-    return render(request, template, {'a':a.count(),'data':resultados})
+    return render(request, template, {'a':a.count(),'data':resultados,
+                                      'porcentaje_cobertura':porcentaje_cobertura_boscosa})
 
 #Funcion para calcular la seguridad alimentaria
 def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html"):
