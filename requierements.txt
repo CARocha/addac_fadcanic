@@ -2,6 +2,8 @@ Django==1.6.7
 MySQL-python==1.2.5
 Pillow==2.5.3
 South==1.0
+diff-match-patch==20121119
+django-import-export==0.2.6
 django-mockups==0.4.8
 django-report-builder==2.0.1
 django-report-utils==0.2.6
@@ -12,4 +14,5 @@ openpyxl==2.0.5
 python-dateutil==2.2
 six==1.7.3
 sorl-thumbnail==11.12
+tablib==0.10.0
 wsgiref==0.1.2

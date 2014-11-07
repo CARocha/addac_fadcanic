@@ -12,6 +12,16 @@ SEXO_PRODUCTOR_CHOICES = (
     (3,'Hombre')
 )
 
+CHOICE_ORGANIZACION = (
+    (1,'FADCANIC'),
+    (2,'ADDAC')
+)
+
+CHOICE_ACTIVO = (
+    (1,'Activo'),
+    (2,'No activo')
+)
+
 @python_2_unicode_compatible
 class Productores(models.Model):
     nombre = models.CharField('Nombre y apellido', max_length=250, null=True, blank=True)
@@ -20,6 +30,10 @@ class Productores(models.Model):
     sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
                                 null=True, blank=True)
     celular = models.IntegerField('Número celular', null=True, blank=True)
+    nacimiento = models.DateField('Fecha de nacimiento', null=True, blank=True)
+    pertenece = models.IntegerField(choices=CHOICE_ORGANIZACION, null=True, blank=True)
+    activo = models.IntegerField(choices=CHOICE_ACTIVO, null=True, blank=True)
+
     contador = models.IntegerField(editable=False)
 
     class Meta:
