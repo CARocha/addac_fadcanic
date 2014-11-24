@@ -16,7 +16,7 @@
               <h4 class="text-info">Bienvenidos al Sistema ADDAC-FADCANIC</h4>
           </div>
           <div class="col-md-12 col-lg-4">
-              <button id="descarga" type="button " class="btn btn-primary">Descargar Manual de usuario</button>
+              <a id="descarga" type="button " class="btn btn-primary">Descargar Manual de usuario</a>
           </div>
           </div>
           <hr class="separador2">
@@ -33,32 +33,92 @@
         <br>
         <h3><strong>Inicio</strong></h3>
         <p>
-          Donde se presentarán gráficos de los datos obtenido de las encuestas realizadas en años anteriores separadas por organización y un pie de pagina con una breve información del sistema.
+          Donde se presentarán gráficos de los datos obtenido de las encuestas realizadas en años anteriores separadas por organización y un pie de pagina con una breve información del sistema. Para realizar consultas al sitema selecione la opción <strong>Consultas</strong> del menu principal.
         </p>
         <br>
         <div class="row">
           <div class="col-lg-4">
-            <img class="pull-right" src="{% static 'img/ayuda/2.png' %}" width="50%">
+            <img class="" src="{% static 'img/ayuda/2.png' %}" width="100%">
           </div>
           <div class="col-lg-8">
+          <h3><strong>Consultas</strong></h3>
             <p>
-              Gráficos Generales, estos gráficos muestran la cantidad de personas que nos saben leer por organización.
-              <br>
-              Mini Gráficos, Estos gráficos muestran la legalidad de la propiedad, el propietario de la propiedad y el uso del crédito de los datos de cada año de encuesta dividido en ambas organizaciones.
+              Esta sección es la mas importante y compleja del sitio ya que aquí se encuentra el análisis de los datos obtenidos en las encuestas.
+            </p>
+            <h4><strong>Formulario</strong></h4>
+            <p>
+          <ol>
+            <li>
+            El campo años <strong>(campo requerido)</strong> donde puede seleccionar el año o los años en que se recopilaron las encuestas.
+            </li>
+            <li>
+              El campo Departamento donde puede seleccionar el departamento RAAS o Matagalpa en caso de no seleccionar ninguno por defecto se seleccionaran ambos departamentos.
+            </li>
+            <li>
+              El campo Municipio, este campo depende el campo anterior Departamento ya que al seleccionar un departamento se desplegaran los municipios correspondientes.
+            </li>
+            <li>
+              El campo Comunidad también depende del campo Municipio, según el Municipio se desplegaran las comunidades correspondientes.
+            </li>
+            <li>
+              El campo Propietario, aquí se debe seleccionar el tipo de propietario de la finca ya sea mujer, hombre, ambos y parientes.
+            </li>
+            <li>
+              El campo repetido, esta es una mejora con respecto a la versión anterior donde usted puede seleccionar a los productores que han sido encuestados en 1 año, 2 años, 3 años y 4 años aunque no sean consecutivos.
+            </li>
+          </ol>
+            Al finalizar la edición de los campos para filtrar la información, se debe seleccionar la opción consultar para que se pueda elegir el indicador que se desea consultar. Seleccione uno de los indicadores que aparece a continuación:
             </p>
           </div>
 
         </div>
-        <h3><strong>Formulario</strong></h3>
+        <h4 align="center"><strong>Indicadores</strong></h4>
+        <img class="center-block" src="{% static 'img/ayuda/3.png' %}" width="70%">
+        
           <div class="row">
-          <div class="col-lg-8">
-            
+          <div class="col-lg-6">
+            <img class="" src="{% static 'img/ayuda/4.png' %}" width="100%">
           </div>
-          <div class="col-lg-4">
-            <img class="pull-right" src="{% static 'img/ayuda/2.png' %}" width="50%">
+          <div class="col-lg-6">
+          <div id="resultados">
+          <h3><strong>Resultados</strong></h3>
+            <p>
+              La siguiente vista muestra el resultado de la consulta con indicador seleccionado anteriormente, donde se muestran 3 pestañas Tabla, Gráfico y Cambiar de indicador. En la vista aun se mantiene el formulario para nuevas consultas.
+            </p>
+            <p>
+            Para navegar entre las pestañas debe darle clic en el titulo, por defecto la pestaña selecciona es 
+            <strong>tabla</strong> donde podrá buscar datos específicos en cada tabla o ordenar ascendente o descendente los datos de cada columna.
+            </p>
+          </div>
+
           </div>
 
         </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="resulgraf">
+              <h4><strong>Graficos y Cambiar indicador</strong></h4>
+              <p>
+                En la pestaña <strong>Gráficos</strong> podrá ver los gráficos de los datos correspondientes al indicador relacionado, ademas de poder filtrar datos haciendo clic sobre cada titulo de la leyenda y ademas guardar el gráfico con el  pequeño menú de cada gráfico en la parte superior derecha del mismo.
+              </p>
+              <p>
+                En la pestaña <strong>Cambiar Indicador</strong> podemos desplegar un menú para navegar entre los diferentes indicadores correspondientes al filtro actual.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3">
+
+              <img class="" src="{% static 'img/ayuda/5.png' %}" width="100%">
+
+          </div>
+          <div class="col-lg-3">
+
+              <img class="" src="{% static 'img/ayuda/6.png' %}" width="100%">
+
+          </div>
+
+        </div>
+        
       </div>
     </div>
 
