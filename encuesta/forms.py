@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from .models import Encuesta, Productores, Finca
-from lugar.models import Departamento
+from lugar.models import Departamento, Municipio, Comunidad
 from lookups import *
 from selectable.forms import AutoCompleteSelectField
 import selectable.forms as selectable
@@ -58,10 +58,10 @@ class PrincipalForm(forms.Form):
                                           widget=forms.Select(attrs={'class': 'form-control'}), 
                                           empty_label="Todos los Departamento")
 
-    municipio = forms.CharField(required=False,
+    municipio = forms.ModelChoiceField(queryset=Municipio.objects.all(), required=False,
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
-    comunidad = forms.CharField(required=False,
+    comunidad = forms.ModelChoiceField(queryset=Comunidad.objects.all(), required=False,
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
     propietario = forms.ChoiceField(choices=DUENO_CHOICES, 

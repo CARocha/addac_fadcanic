@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import *
 from sorl.thumbnail.admin import AdminImageMixin
 from .forms import ProductorAdminForm
+from import_export.admin import ImportExportModelAdmin
 
 
 class FincaInline(admin.StackedInline):
@@ -106,10 +107,10 @@ class EncuestaAdmin(admin.ModelAdmin):
         return "\n".join([i.nombre_productor.nombre for i in obj.finca_set.all()])
     get_productor.short_description = 'Productor'
 
-class ProductorAdmin(admin.ModelAdmin):
-    search = ('nombre', 'cedula_productor')
+class ProductorAdmin(ImportExportModelAdmin):
+    search_fields = ('nombre', 'cedula_productor')
     list_display = ('nombre', 'sexo', 'cedula_productor')
-    list_filter = ('sexo',)
+    list_filter = ('sexo','pertenece', )
 
 
 # Register your models here.
@@ -117,7 +118,11 @@ admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 # 
-admin.site.register(Finca)
+#admin.site.register(Finca)
+admin.site.register(CultivosSaf)
+admin.site.register(CultivosAnuales)
+admin.site.register(ProductoAnimal)
+admin.site.register(ProductoProcesado)
 admin.site.register(OrganizacionesDanCredito)
 admin.site.register(UsoCredito)
 admin.site.register(TipoInnovacion)

@@ -12,6 +12,16 @@ SEXO_PRODUCTOR_CHOICES = (
     (3,'Hombre')
 )
 
+CHOICE_ORGANIZACION = (
+    (1,'FADCANIC'),
+    (2,'ADDAC')
+)
+
+CHOICE_ACTIVO = (
+    (1,'Activo'),
+    (2,'No activo')
+)
+
 @python_2_unicode_compatible
 class Productores(models.Model):
     nombre = models.CharField('Nombre y apellido', max_length=250, null=True, blank=True)
@@ -19,7 +29,12 @@ class Productores(models.Model):
                                         help_text='Introduzca cedula del productor')
     sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
                                 null=True, blank=True)
-    contador = models.IntegerField()
+    celular = models.IntegerField('Número celular', null=True, blank=True)
+    nacimiento = models.DateField('Fecha de nacimiento', null=True, blank=True)
+    pertenece = models.IntegerField(choices=CHOICE_ORGANIZACION, null=True, blank=True)
+    activo = models.IntegerField(choices=CHOICE_ACTIVO, null=True, blank=True)
+
+    contador = models.IntegerField(editable=False)
 
     class Meta:
         verbose_name= 'Productores'
@@ -39,6 +54,7 @@ class Recolector(models.Model):
 
     class Meta:
         unique_together = ('nombre',)
+        verbose_name_plural = 'Recolectores'
 
     def __unicode__(self):
         return self.nombre
@@ -68,10 +84,11 @@ class Encuesta(models.Model):
 
 TIPO_CHOICES = (
     (1,'Casa de madera rolliza con techo de paja'),
-    (2,'Casa de madera y techo de paja'),
-    (3,'Casa de madera con techo de zinc'),
+    (2,'Casa de madera (tablas) y techo de paja'),
+    (3,'Casa de madera (tablas) con techo de zinc'),
     (4,'Casa minifalda con techo de zinc'),
-    (5,'Casa de concreto con techo de zinc')
+    (5,'Casa de concreto con techo de zinc'),
+    (6,'Otras mejoras(2 pisos..)')
 )
 AGUA_CHOICES = (
     (1,'Ojo de agua'),
@@ -82,7 +99,10 @@ AGUA_CHOICES = (
     (6,'Agua por gravedad'),
     (7,'Otros'),
     (8,'Agua central certificado'),
-    (9,'Pozo rustico sin manejo')
+    (9,'Pozo rustico sin manejo'),
+    (10,'Pozo con brocal y bomba'),
+    (11,'Agua filtrada y certificada p/consumo'),
+    (12,'Agua por tuberia y bombeo eléctrico'),
     )
 LEGALIDAD_CHOICES = (
     (1,'Derecho real'),
@@ -267,11 +287,22 @@ UNIDAD_COMER_CHOICES=(
     (9,'Carga'),(10,'Cabezas')
     )
 
+@python_2_unicode_compatible
+class CultivosSaf(models.Model):
+    nombre = models.CharField(max_length=250)
+    unidad = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Cultivos SAF"
+
+    def __str__(self):
+        return '%s - %s' % (self.nombre, self.unidad)
+
 class SeguridadSaf(models.Model):
-    cultivos = models.IntegerField(choices=SISTEMAS_CHOICES)
+    cultivos = models.ForeignKey(CultivosSaf)
     area_desarrollo = models.FloatField('Area en desarrollo (en Mz)')
     area_produccion = models.FloatField('Area en producción (en Mz)')
-    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    #unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
     produccion_total = models.FloatField()
     auto_consumo = models.FloatField()
     perdidas = models.FloatField('Pérdidas')
@@ -280,20 +311,37 @@ class SeguridadSaf(models.Model):
     venta_organizada = models.FloatField('Venta organizada')
     precio_promedio_orga = models.FloatField('Precio promedio')
 
+    rendimiento = models.FloatField(editable=False, null=True, blank=True)
+
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         verbose_name = 'Seguridad Saf'
         verbose_name_plural = 'Seguridad Saf'
 
+    def save(self, *args, **kwargs):
+        self.rendimiento = self.produccion_total / self.area_produccion
+        super(SeguridadSaf, self).save(*args, **kwargs)
+
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
 #---------------------------------------------------------------------
+@python_2_unicode_compatible
+class CultivosAnuales(models.Model):
+    nombre = models.CharField(max_length=250)
+    unidad = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Cultivos anuales"
+
+    def __str__(self):
+        return '%s - %s' % (self.nombre, self.unidad)
+
 
 class SeguridadCAnuales(models.Model):
-    cultivos = models.IntegerField(choices=SISTEMAS_CHOICES)
+    cultivos = models.ForeignKey(CultivosAnuales)
     area_produccion = models.FloatField('Area en producción (en Mz)')
-    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    #unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
     produccion = models.FloatField('Producción')
     auto_consumo = models.FloatField('Auto-consumo')
     perdidas = models.FloatField()
@@ -338,10 +386,20 @@ CHOICE_PLAN_NEGOCIO = (
         (1, "Si"),
         (2, "No"),
     )
+@python_2_unicode_compatible
+class ProductoAnimal(models.Model):
+    nombre = models.CharField(max_length=250)
+    unidad = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Producto animal"
+
+    def __str__(self):
+        return '%s - %s' % (self.nombre, self.unidad)
 
 class SeguridadPAnimal(models.Model):
-    producto = models.IntegerField(choices=CHOICE_ANIAMLES)
-    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    producto = models.ForeignKey(ProductoAnimal)
+    #unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
     produccion = models.FloatField('Producción')
     auto_consumo = models.FloatField('Auto-consumo')
     perdidas = models.FloatField()
@@ -380,9 +438,20 @@ CHOICE_PRODUCTOS_PROCESADOS = (
         (15,'Otros productos procesados'),
     )
 
+@python_2_unicode_compatible
+class ProductoProcesado(models.Model):
+    nombre = models.CharField(max_length=250)
+    unidad = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Producto procesado"
+
+    def __str__(self):
+        return '%s - %s' % (self.nombre, self.unidad)
+
 class SeguridadPProcesados(models.Model):
-    producto = models.IntegerField(choices=CHOICE_PRODUCTOS_PROCESADOS)
-    unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
+    producto = models.ForeignKey(ProductoProcesado)
+    #unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
     produccion = models.FloatField('Producción')
     auto_consumo = models.FloatField('Auto-consumo')
     perdidas = models.FloatField()
@@ -405,6 +474,9 @@ class SeguridadPProcesados(models.Model):
 class ServiciosActividades(models.Model):
     nombre = models.CharField('Servicio y actividad', max_length=250)
     unidad = models.CharField('unidad de medida', max_length=200)
+
+    class Meta:
+        verbose_name_plural = "Servicios de actividades"
 
     def __unicode__(self):
         return u'%s - %s' % (self.nombre, self.unidad)
@@ -433,7 +505,7 @@ ALIMENTO_CHOICES=(
     (5,'Azucar'),(6,'Yuca'),
     (7,'Malanga'),(8,'Quequisque'),
     (9,'Naranjilla'),(10,'Parras'),
-    (11,'Cafe'),(12,'Cacao'),
+    (11,'Café'),(12,'Cacao'),
     (13,'Coco'),(14,'Leña'),
     (15,'Guineo'),(16,'Platano'),
     (17,'Madera'),(18,'Naranja'),
@@ -496,6 +568,9 @@ class Credito(models.Model):
 
 class TipoInnovacion(models.Model):
     nombre = models.CharField('Innovación', max_length=250)
+
+    class Meta:
+        verbose_name_plural = 'Tipo de innovaciones'
 
     def __unicode__(self):
         return self.nombre

@@ -144,9 +144,21 @@
                   </tr>
                   {%endfor%}
                   </tbody>
-				</table>
+				      </table>
            	 </div>
          </div>
+         <p>Formula: <code>(bosque primario * 1) + (bosque secundario * 0.7) + (cultivos anuales * 0.5) + (cultivos perennes * 0.5) + (cultivos semiperennes * 0.5) + (plantaciones forestales * 1) + (potrero con arboles * 0.3) + (potrero sin arboles * 0.5) + (tacotales * 0.5) / (total uso * 100 ) </code></p>
+            <table class="table">
+                 <caption>% cobertura boscosa</caption>
+                 <thead>
+                      <tr><th>% Cobertura boscosa</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      <td>{{porcentaje_cobertura}} %</td>                        
+                  </tr>              
+                  </tbody>
+              </table>
     </div>
 
 
