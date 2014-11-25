@@ -60,4 +60,3 @@ docs/_build/
 *.sql
 media/
 local_settings.py
-static_media/img/ayuda/
