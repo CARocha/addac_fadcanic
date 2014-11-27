@@ -6,6 +6,7 @@ from lugar.models import *
 from smart_selects.db_fields import ChainedForeignKey
 from sorl.thumbnail import ImageField
 from django.db.models import F
+from datetime import date
 
 SEXO_PRODUCTOR_CHOICES = (
     (1,'Mujer'),
@@ -35,6 +36,7 @@ class Productores(models.Model):
     activo = models.IntegerField(choices=CHOICE_ACTIVO, null=True, blank=True)
 
     contador = models.IntegerField(editable=False)
+    edad = models.IntegerField(editable=False, null=True, blank=True)
 
     class Meta:
         verbose_name= 'Productores'
@@ -45,9 +47,17 @@ class Productores(models.Model):
         return u'%s' % (self.nombre)
 
     def save(self, *args, **kwargs):
-        self.contador = 1 
+        self.contador = 1
+        today = date.today()
+        try: 
+            edad1 = self.nacimiento.replace(year=today.year)
+        except ValueError:
+            edad1 = self.nacimiento.replace(year=today.year, day=self.nacimiento.day-1)
+        if edad1 > today:
+            self.edad = today.year - self.nacimiento.year - 1
+        else:
+            self.edad = today.year - self.nacimiento.year 
         super(Productores, self).save(*args, **kwargs)
-
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=100)

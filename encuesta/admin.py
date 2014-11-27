@@ -4,6 +4,7 @@ from .models import *
 from sorl.thumbnail.admin import AdminImageMixin
 from .forms import ProductorAdminForm
 from import_export.admin import ImportExportModelAdmin
+from datetime import date
 
 
 class FincaInline(admin.StackedInline):
@@ -107,10 +108,45 @@ class EncuestaAdmin(admin.ModelAdmin):
         return "\n".join([i.nombre_productor.nombre for i in obj.finca_set.all()])
     get_productor.short_description = 'Productor'
 
-class ProductorAdmin(ImportExportModelAdmin):
+class DecadeBornListFilter(admin.SimpleListFilter):
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'joven o adulto'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'decade'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        return (
+            ('joven', 'joven'),
+            ('adulto', 'adulto'),
+        )
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either 'joven' or 'adulto')
+        # to decide how to filter the queryset.
+        if self.value() == 'joven':
+            return queryset.filter(edad__range=(16,25))
+        if self.value() == 'adulto':
+            return queryset.filter(edad__gte=26)
+
+
+class ProductorAdmin(admin.ModelAdmin):
     search_fields = ('nombre', 'cedula_productor')
     list_display = ('nombre', 'sexo', 'cedula_productor')
-    list_filter = ('sexo','pertenece', )
+    list_filter = ('sexo','pertenece', DecadeBornListFilter)
 
 
 # Register your models here.
