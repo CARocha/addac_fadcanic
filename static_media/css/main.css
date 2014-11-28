@@ -38,6 +38,8 @@ body{
 
 }
 
+
+
 /*FIN CSS general*/
 
 /*CSS SLIDER*/
@@ -76,6 +78,8 @@ background-color:rgba(88,124,52,0.98) ;
 font-size: 0.9em;
 padding-bottom: 0.2em;
 }
+
+
 
 .navbar-default .navbar-nav>li>a{
 	color: white;
@@ -242,7 +246,31 @@ margin-bottom: 0.9em;
 	width: 50%
 }
 
+.panel-body p{
+	text-align: justify;
+	line-height: 1.5em
+}
 
+.panel-body img{
+	margin-left:20%;
+	width: 70%
+}
+
+.paraf{
+	margin-top: 3em
+}
+
+.panel-body ol li {
+	margin-top: 1em
+}
+
+#addac, #fadcanic{
+	padding-top: 1em;
+}
+
+#addac div, #fadcanic div{
+	margin-bottom: 1em;
+}
 
 
 .panelgrafico{
