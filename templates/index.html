@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block extra_js %}
+<!-- {% block extra_js %}
   <script>
 $(function () {
     $('#contenedor1').highcharts({
@@ -236,7 +236,7 @@ $(function () {
 
 });//fin function
   </script>
-{% endblock extra_js %}
+{% endblock extra_js %} -->
 
 {% block contenido %}
  <!-- About Section -->
@@ -273,34 +273,215 @@ $(function () {
     </div>
 </section>
 
- <!-- Graficos -->
-<div class="container"> 
-    <div   class="row">
-     
-        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInLeft" data-wow-delay="1s">
-        <div class="panel panel-default panelgrafico">
+ <!-- Estadisticas -->
+<div class="container">
+<h1>Estadísticas Generales</h1>
+    <hr>
+
+<div class="row panel panel-default panelgrafico">
+
+
+<div id="addac">
+
+  <div class="col-md-2">
+   <span>
+      <h3>ADDAC</h3>
+      </span>
+  </div>
+  <div class="col-xs-2 col-md-2">
+      <span>
+      <i class="fa fa-male fa-2x"> 500</i>
+      <br>
+      <h6>Hombres</h6>
+      </span>
+  </div>
+
+    <div class="col-xs-2 col-md-2">
+      <span>
+      <i class="fa fa-female fa-2x"> 499</i>
+      <br>
+      <h6>Mujeres</h6>
+      </span>
+  </div>
+
+    <div class="col-xs-2 col-md-2">
+      <span>
+      <i class="fa fa-book fa-2x"> 999</i>
+      <br>
+      <h6>Total</h6>
+      </span>
+  </div>
+   
+<div class="col-xs-2 col-md-2">
+   <span>
+      <i class="fa fa-group fa-2x"> 7</i>
+      <br>
+      <h6>Familia Promedio</h6>
+      </span>
+  </div>
+
+  <div class="col-xs-2 col-md-2">
+   <span>
+      <i class="fa fa-tree fa-2x"> 14.6</i>
+      <br>
+      <h6>Promedio Manzanas</h6>
+      </span>
+  </div>
+
+  <div class="col-xs-2 col-md-2 col-md-offset-2">
+   <span>
+      <i class="fa fa-book fa-2x"> 14.6</i>
+      <br>
+      <h6>Promedio Manzanas</h6>
+      </span>
+  </div>
+
+  <div class="col-xs-2 col-md-2">
+   <span>
+      <i class="fa fa-book fa-2x"> 14.6</i>
+      <br>
+      <h6>Promedio Manzanas</h6>
+      </span>
+  </div>
+</div>
+</div> 
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <div class="row panel panel-default panelgrafico">
+<div id="fadcanic">
+  <div class="col-md-2">
+   <span>
+      <h3>FADCANIC</h3>
+      </span>
+  </div>
+  <div class="col-xs-2 col-md-2">
+      <span>
+      <i class="fa fa-male fa-2x"> 500</i>
+      <br>
+      <h6>Hombres</h6>
+      </span>
+  </div>
+
+    <div class="col-xs-2 col-md-2">
+      <span>
+      <i class="fa fa-female fa-2x"> 499</i>
+      <br>
+      <h6>Mujeres</h6>
+      </span>
+  </div>
+
+    <div class="col-xs-2 col-md-2">
+      <span>
+      <i class="fa fa-book fa-2x"> 999</i>
+      <br>
+      <h6>Total</h6>
+      </span>
+  </div>
+   
+<div class="col-xs-2 col-md-2">
+   <span>
+      <i class="fa fa-group fa-2x"> 7</i>
+      <br>
+      <h6>Familia Promedio</h6>
+      </span>
+  </div>
+
+  <div class="col-xs-2 col-md-2">
+   <span>
+      <i class="fa fa-tree fa-2x"> 14.6</i>
+      <br>
+      <h6>Promedio Manzanas</h6>
+      </span>
+  </div>
+
+
+
+  <div class="col-xs-2 col-md-2 col-md-offset-2">
+   <span>
+      <i class="fa fa-book fa-2x"> 14.6</i>
+      <br>
+      <h6>Promedio Manzanas</h6>
+      </span>
+  </div>
+
+  <div class="col-xs-2 col-md-2">
+   <span>
+      <i class="fa fa-book fa-2x"> 14.6</i>
+      <br>
+      <h6>Promedio Manzanas</h6>
+      </span>
+  </div>
+</div>
+</div>
+   <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  
+
+    <div class="row">
+        <h1>Información del Sistema</h1>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+          <div class="panel panel-default panelgrafico">
        
             <div class="panel-body">
               
-              <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div>
-              <p>Este grafico representa los datos de las personas que no saben leer por los 3 años del sistema</p>
-            </div>
-        </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-xs-12 wow animated bounceInRight" data-wow-delay="1s">
-        <div class="panel panel-default panelgrafico">
-      
-            <div class="panel-body">
+              <!-- <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div> -->
+              <div class="col-lg-7 col-md-12 col-xs-12">
+                <p>El programa agenda de Innovación y Desarrollo de las comunidades Multietnicas para Enfrentar de Manera Exitosa el reto del Cambio Climático y el Mercado Globalizado ejecutado por FADCANIC en la Región Autónoma del caribe Sur (municipios de Bluefields, El Rama, Kukra Hill, Laguna de Perlas, Perlas, Desembocadura del Río Grande, y El Tortuguero) y por ADDAC en el municipio de Rancho Grande (departamento de Matagalpa) y Waslala (RAAN), es un seguimiento del programa Innovación fase I, que fue desarrollado entre los años 2009 al 2013, el mismo tiene por lema “anclando las Lecciones del Programa de Innovación Agroforestal del Trópico Húmedo de Nicaragua”.</p>
+              </div>
               
-              <div id="contenedor2" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div>
-              <p>Este grafico representa los datos de las personas que no saben leer por los 3 años del sistema</p>            </div>
+              <div class="col-lg-5 col-md-12 col-xs-12">
+                <img src="{% static 'img/1c.png' %}" alt="">
+              </div>
+
+      
+     
+              
+                  <!-- <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div> -->
+             
+                    <div class="col-lg-5 col-md-12 col-xs-12 paraf">
+                      <img src="{% static 'img/2c.png' %}" alt="">
+                    </div>
+
+                    <div class="col-lg-7 col-md-12 col-xs-12 paraf">
+                       <p>La finalidad del programa radica en que las familias rurales pobres, organizaciones comunitarias y cooperativas del trópico húmedo de Nicaragua, innoven sistemas de desarrollo local sostenible con equidad que les permita mejorar las estrategias de vida y conservar los recursos naturales.</p>            
+
+              <p>Los principales objetivos del programa son:</p> 
+                
+                <ol>
+
+                  <li>Mejoramiento sostenible de los ingresos, seguridad alimentaria y salud ambiental de 3,000 familias en 8 municipios pobres de la zona del trópico húmedo quienes de manera organizada ejecutan su agenda de innovación y desarrollo. </li>
+
+                  <li>Asegurada la integración activa y efectiva de las organizaciones socias, gremiales y líderes comunales en los espacios municipales de incidencia y en la formulación de políticas públicas a nivel regional (RAAS) y nacional.</li>
+                  </ol>
+              </div>
+                
+         
+
+
+<div class="col-lg-12 col-md-12 col-xs-12 paraf">
+                    <br>
+                    <p>Mediante el sistema de línea base en la Web, se espera se pueda visualizar de manera comparativa el antes y después de la implementación del programa con los siguientes resultados en las familias socias del programa: </p>
+                    <ol>
+                      <li>Organizaciones comunitarias y familias socias ponen en práctica nuevas capacidades de mitigación, adaptación y resiliencia al Cambio Climático (SSAN, bienestar familiar, saneamiento ambiental).</li>
+                      <li>Familias socias cuentan con fuentes de ingresos continuas y diversas con potencial de crecimiento producto de las actividades empresariales. </li>
+                      <li>Organizaciones comunitarias juntas a ADDAC Y FADCANIC ejecutan modelos innovativos sostenibles (Crédito, tecnologías, metodologías, materiales genéticos y comercialización organizada).</li>
+                      <li>Organizaciones comunitarias son protagonistas a nivel local y regional en la defensa de sus recursos naturales y derechos.</li>
+                      <li>Organizaciones socias y líderes de los territorios ponen en práctica la gobernanza local comunitaria con participación activa de mujeres y jóvenes.</li>
+                      <li>Organizaciones socias, organizaciones gremiales, ADDAC y FADCANIC forman parte de las plataformas de desarrollo sostenible a nivel nacional. </li>
+                      <li>Organizaciones socias, organizaciones gremiales, ADDAC y FADCANIC, incorporan sus propuestas en los planes de desarrollo y proyectos a nivel municipal y regional (RAAS) </li>
+                      <li>Procesos educativos locales implementados con la incorporación de los aprendizajes del Programa.</li>
+                    </ol> 
+
+              
         </div>
-        </div>
+
     </div> 
-</div><!-- /Graficos -->
+</div>
+   </div>
+        </div>
+        </div>
+        <!-- /Graficos -->
 
 <!--miniGraficos ADDAC-->
-<div id="addac"class="container">
+<!-- <div id="addac"class="container">
 <hr class="separador">
 <h3 class="text-success">Mini Gráficos Informativos ADDAC</h3>
 <hr class="separador">
@@ -358,10 +539,10 @@ $(function () {
       </div>
     </div>
        </div>
-    </div> <!--FIN miniGraficos ADDAC-->
+    </div> FIN miniGraficos ADDAC-->
 
 <!--miniGraficos FADCANIC-->
-<div id="fadcanic" class="container">
+<!-- <div id="fadcanic" class="container">
   <hr class="separador">
   <h3 class="text-success">Mini Gráficos Informativos FADCANIC</h3>
   <hr class="separador">
@@ -417,7 +598,7 @@ $(function () {
 </div>
 </div> 
 </div>
-
+ --> 
 {% include "modalogin.html" %}
 {% endblock contenido %}
 
