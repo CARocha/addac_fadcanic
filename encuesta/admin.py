@@ -17,7 +17,7 @@ class FincaInline(admin.StackedInline):
         (None, {
             'fields': ('nombre_productor', ('finca'), 
                 ('municipio', 'comunidad', 'microcuenca'), 'area_finca', 
-                ('coordenadas_gps', 'coordenadas_lg' ))
+                ('zona', 'coordenadas_gps', 'coordenadas_lg' ))
         }),
         ('Numero de animales en la finca', {
             
@@ -26,7 +26,7 @@ class FincaInline(admin.StackedInline):
         }),
         ('Datos generales de la propiedad', {
             
-            'fields': (('tipo_casa', 'area_casa'), ('fuente_agua', 'legalidad',
+            'fields': (('tipo_casa', 'area_casa', 'seneamiento'), ('fuente_agua', 'legalidad',
                 'propietario'), )
         }),
     )
@@ -42,6 +42,7 @@ class UsoTierraAdmin(admin.StackedInline):
               ('cultivos_anuales', 'anuales_observacion'),
               ('potrero_sin_arboles', 'sin_arboles_observacion'),
               ('potrero_arboles', 'arboles_observacion'),
+              ('pastos_corte', 'pasto_obsercacion'),
               ('plantaciones_forestales', 'forestales_observacion'),)
     extra = 1
     max_num = 1

@@ -188,7 +188,7 @@ class Finca(models.Model):
     animal_caprino = models.IntegerField(help_text='Introduzca cuantos animales caprino o pelibuey tiene')
     tipo_casa = models.IntegerField(max_length=60,choices=TIPO_CHOICES,help_text='Introduzca que tipo de casa tiene')
     area_casa = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca area de la casa en pie cuadrado')
-    seneamiento = models.IntegerField(choices=LETRINA_CHOICES)
+    seneamiento = models.IntegerField(choices=LETRINA_CHOICES, verbose_name='Saneamiento')
     fuente_agua = models.IntegerField(max_length=60,choices=AGUA_CHOICES,help_text='Introduzca gestion del agua')
     legalidad = models.IntegerField(max_length=60,choices=LEGALIDAD_CHOICES, help_text='Introduzca la legalidad de la propiedad')
     propietario = models.CharField(max_length=50,choices=DUENO_CHOICES,help_text='Introduzca el propietario de la finca')
