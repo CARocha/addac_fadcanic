@@ -15,86 +15,118 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
+        #nuevas salidas
+        #por ADDAC
+        context['addac_hombres'] = Productores.objects.filter(sexo=3,pertenece=2)
+        context['addac_mujeres'] = Productores.objects.filter(sexo=1,pertenece=2)
+        context['addac_activos'] = Productores.objects.filter(pertenece=2,activo=1)
+        context['addac_inactivos'] = Productores.objects.filter(pertenece=2,activo=2)
+        context['addac_jovenes'] = Productores.objects.filter(pertenece=2, edad__range=(16,25))
+        context['addac_adultos'] = Productores.objects.filter(pertenece=2, edad__gte=26)
+        context['addac_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=2).aggregate(Avg('area_finca'))
+        lista_encuestas = []
+        for year in fecha_choice():
+            num_anio = Encuesta.objects.filter(ano=year[0], 
+                                               finca__nombre_productor__pertenece=2).count()
+            lista_encuestas[year[1]] = num_anio
+        context['addac_num_encuestas'] = lista_encuestas
+        #por FADCANIC
+        context['fad_hombres'] = Productores.objects.filter(sexo=3,pertenece=1)
+        context['fad_mujeres'] = Productores.objects.filter(sexo=1,pertenece=1)
+        context['fad_activos'] = Productores.objects.filter(pertenece=1,activo=1)
+        context['fad_inactivos'] = Productores.objects.filter(pertenece=1,activo=2)
+        context['fad_jovenes'] = Productores.objects.filter(pertenece=1, edad__range=(16,25))
+        context['fad_adultos'] = Productores.objects.filter(pertenece=1, edad__gte=26)
+        context['fad_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=1).aggregate(Avg('area_finca'))
+        lista_encuestas = []
+        for year in fecha_choice():
+            num_anio = Encuesta.objects.filter(ano=year[0], 
+                                               finca__nombre_productor__pertenece=2).count()
+            lista_encuestas[year[1]] = num_anio
+        context['addac_num_encuestas'] = lista_encuestas
+
+
+
         #empienzan los graficos de los anios
         #analfabetismo
-        SEXO_CHOICE_3 = (
-            (1,'Hombres de 25 adelante'),
-            (2,'Mujeres de 25 adelante'),
-            (3,'Hombres Jóvenes de 15 a 24'),
-            (4,'Mujeres Jóvenes de 15 a 24'),
-            (5,'Hombres adolescentes de 9 a 14'),
-            (6,'Mujeres adolescentes de 9 a 14'),)
-        anios = fecha_choice()
-        analfabetismo_addac = {}
-        for e in SEXO_CHOICE_3:
-            obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
-            obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
-            obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
-            analfabetismo_addac[e[1]] = (obj_2009,obj_2011,obj_2013)
-        context['analfabetismo_addac'] = analfabetismo_addac
+        # SEXO_CHOICE_3 = (
+        #     (1,'Hombres de 25 adelante'),
+        #     (2,'Mujeres de 25 adelante'),
+        #     (3,'Hombres Jóvenes de 15 a 24'),
+        #     (4,'Mujeres Jóvenes de 15 a 24'),
+        #     (5,'Hombres adolescentes de 9 a 14'),
+        #     (6,'Mujeres adolescentes de 9 a 14'),)
+        # anios = fecha_choice()
+        # analfabetismo_addac = {}
+        # for e in SEXO_CHOICE_3:
+        #     obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+        #     obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+        #     obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+        #     analfabetismo_addac[e[1]] = (obj_2009,obj_2011,obj_2013)
+        # context['analfabetismo_addac'] = analfabetismo_addac
 
-        analfabetismo_fad = {}
-        for e in SEXO_CHOICE_3:
-            obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
-            obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
-            obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
-            if obj_2011 != 0:
-                obj_2011 = 0
-            analfabetismo_fad[e[1]] = (obj_2009,obj_2011,obj_2013)
-        context['analfabetismo_fad'] = analfabetismo_fad
+        # analfabetismo_fad = {}
+        # for e in SEXO_CHOICE_3:
+        #     obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+        #     obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
+        #     obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+        #     if obj_2011 != 0:
+        #         obj_2011 = 0
+        #     analfabetismo_fad[e[1]] = (obj_2009,obj_2011,obj_2013)
+        # context['analfabetismo_fad'] = analfabetismo_fad
 
-        #propiedades sin documentos
-        legalidad_addac = {}
-        for year in fecha_choice():
-            legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=5, encuesta__ano=year[0]).count()
-            legalidad_addac[year[1]] = legal
-        context['legalidad_addac'] = legalidad_addac
+        # #propiedades sin documentos
+        # legalidad_addac = {}
+        # for year in fecha_choice():
+        #     legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=5, encuesta__ano=year[0]).count()
+        #     legalidad_addac[year[1]] = legal
+        # context['legalidad_addac'] = legalidad_addac
         
-        legalidad_fadcanic = {}
-        for year in fecha_choice():
-            legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=3, encuesta__ano=year[0]).count()
-            legalidad_fadcanic[year[1]] = legal
-        context['legalidad_fadcanic'] = legalidad_fadcanic
+        # legalidad_fadcanic = {}
+        # for year in fecha_choice():
+        #     legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=3, encuesta__ano=year[0]).count()
+        #     legalidad_fadcanic[year[1]] = legal
+        # context['legalidad_fadcanic'] = legalidad_fadcanic
 
-        #Dueños de la propiedad
-        DUENO_CHOICES_3 = (
-            ('hombre','Hombre'),
-            ('mujer','Mujer'),
-            ('ambos','Ambos'),
-            ('parientes','Parientes')
-            )
-        propietario_addac = {}
-        for obj in DUENO_CHOICES_3:
-            obj_2009 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2009).count()
-            obj_2011 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2011).count()
-            obj_2013 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2013).count()
-            propietario_addac[obj[1]] = (obj_2009,obj_2011,obj_2013)
-        context['propietario_addac'] = propietario_addac
+        # #Dueños de la propiedad
+        # DUENO_CHOICES_3 = (
+        #     ('hombre','Hombre'),
+        #     ('mujer','Mujer'),
+        #     ('ambos','Ambos'),
+        #     ('parientes','Parientes')
+        #     )
+        # propietario_addac = {}
+        # for obj in DUENO_CHOICES_3:
+        #     obj_2009 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2009).count()
+        #     obj_2011 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2011).count()
+        #     obj_2013 = Finca.objects.filter(propietario = obj[0],comunidad__municipio__departamento=5, encuesta__ano=2013).count()
+        #     propietario_addac[obj[1]] = (obj_2009,obj_2011,obj_2013)
+        # context['propietario_addac'] = propietario_addac
 
-        propietario_fadcanic = {}
-        for obj in DUENO_CHOICES_3:
-            obj_2009 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2009).count()
-            obj_2011 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2011).count()
-            obj_2013 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2013).count()
-            propietario_fadcanic[obj[1]] = (obj_2009,obj_2011,obj_2013)
-        context['propietario_fadcanic'] = propietario_fadcanic
+        # propietario_fadcanic = {}
+        # for obj in DUENO_CHOICES_3:
+        #     obj_2009 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2009).count()
+        #     obj_2011 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2011).count()
+        #     obj_2013 = Finca.objects.filter(propietario = obj[0],encuesta__finca__comunidad__municipio__departamento=3, encuesta__ano=2013).count()
+        #     propietario_fadcanic[obj[1]] = (obj_2009,obj_2011,obj_2013)
+        # context['propietario_fadcanic'] = propietario_fadcanic
 
-        #Uso de credito
-        credito_addac = {}
-        for obj in UsoCredito.objects.all():
-            obj_2009 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2009).count()
-            obj_2011 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2011).count()
-            obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2013).count()
-            credito_addac[obj] = (obj_2009,obj_2011,obj_2013)
-        context['credito_addac'] = credito_addac
+        # #Uso de credito
+        # credito_addac = {}
+        # for obj in UsoCredito.objects.all():
+        #     obj_2009 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2009).count()
+        #     obj_2011 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2011).count()
+        #     obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=5, ano=2013).count()
+        #     credito_addac[obj] = (obj_2009,obj_2011,obj_2013)
+        # context['credito_addac'] = credito_addac
 
-        credito_fadcanic = {}
-        for obj in UsoCredito.objects.all():
-            obj_2009 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2009).count()
-            obj_2011 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2011).count()
-            obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2013).count()
-            credito_fadcanic[obj] = (obj_2009,obj_2011,obj_2013)
-        context['credito_fadcanic'] = credito_fadcanic
+        # credito_fadcanic = {}
+        # for obj in UsoCredito.objects.all():
+        #     obj_2009 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2009).count()
+        #     obj_2011 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2011).count()
+        #     obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2013).count()
+        #     credito_fadcanic[obj] = (obj_2009,obj_2011,obj_2013)
+        # context['credito_fadcanic'] = credito_fadcanic
         
 
         return context
