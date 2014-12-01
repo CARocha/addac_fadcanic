@@ -283,12 +283,19 @@ margin-bottom: 0.9em;
 .space i{
 	display: inline-block;
 	background-color: #9ba5a8;
-	padding: 0.3em 0.5em 0.3em 0.5em
+	padding: 0.3em 0.5em 0.3em 0.5em;
+	color: #fff;
+	-webkit-border-radius: 19px 20px 20px 20px;
+	-moz-border-radius: 19px 20px 20px 20px;
+	border-radius: 19px 20px 20px 20px;
 }
 .space h2{
 	display: inline-block;
 	margin-bottom: 0 !important;
 	margin-top: 0 !important;
+	color: #9c9b9b;
+	font-size: 36px;
+	font-weight: bold;
 }
 .cd h6{
 	color: #9ba5a8;

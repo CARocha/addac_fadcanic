@@ -17,33 +17,33 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         #nuevas salidas
         #por ADDAC
-        context['addac_hombres'] = Productores.objects.filter(sexo=3,pertenece=2)
-        context['addac_mujeres'] = Productores.objects.filter(sexo=1,pertenece=2)
-        context['addac_activos'] = Productores.objects.filter(pertenece=2,activo=1)
-        context['addac_inactivos'] = Productores.objects.filter(pertenece=2,activo=2)
-        context['addac_jovenes'] = Productores.objects.filter(pertenece=2, edad__range=(16,25))
-        context['addac_adultos'] = Productores.objects.filter(pertenece=2, edad__gte=26)
-        context['addac_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=2).aggregate(Avg('area_finca'))
-        lista_encuestas = []
+        context['addac_hombres'] = Productores.objects.filter(sexo=3,pertenece=2).count()
+        context['addac_mujeres'] = Productores.objects.filter(sexo=1,pertenece=2).count()
+        context['addac_activos'] = Productores.objects.filter(pertenece=2,activo=1).count()
+        context['addac_inactivos'] = Productores.objects.filter(pertenece=2,activo=2).count()
+        context['addac_jovenes'] = Productores.objects.filter(pertenece=2, edad__range=(16,25)).count()
+        context['addac_adultos'] = Productores.objects.filter(pertenece=2, edad__gte=26).count()
+        context['addac_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=2).aggregate(Avg('finca__area_finca'))
+        lista_encuestas_addac = {}
         for year in fecha_choice():
             num_anio = Encuesta.objects.filter(ano=year[0], 
                                                finca__nombre_productor__pertenece=2).count()
-            lista_encuestas[year[1]] = num_anio
-        context['addac_num_encuestas'] = lista_encuestas
+            lista_encuestas_addac[year[1]] = num_anio
+        context['addac_num_encuestas'] = lista_encuestas_addac
         #por FADCANIC
-        context['fad_hombres'] = Productores.objects.filter(sexo=3,pertenece=1)
-        context['fad_mujeres'] = Productores.objects.filter(sexo=1,pertenece=1)
-        context['fad_activos'] = Productores.objects.filter(pertenece=1,activo=1)
-        context['fad_inactivos'] = Productores.objects.filter(pertenece=1,activo=2)
-        context['fad_jovenes'] = Productores.objects.filter(pertenece=1, edad__range=(16,25))
-        context['fad_adultos'] = Productores.objects.filter(pertenece=1, edad__gte=26)
-        context['fad_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=1).aggregate(Avg('area_finca'))
-        lista_encuestas = []
+        context['fad_hombres'] = Productores.objects.filter(sexo=3,pertenece=1).count()
+        context['fad_mujeres'] = Productores.objects.filter(sexo=1,pertenece=1).count()
+        context['fad_activos'] = Productores.objects.filter(pertenece=1,activo=1).count()
+        context['fad_inactivos'] = Productores.objects.filter(pertenece=1,activo=2).count()
+        context['fad_jovenes'] = Productores.objects.filter(pertenece=1, edad__range=(16,25)).count()
+        context['fad_adultos'] = Productores.objects.filter(pertenece=1, edad__gte=26).count()
+        context['fad_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=1).aggregate(Avg('finca__area_finca'))
+        lista_encuestas_fad = {}
         for year in fecha_choice():
             num_anio = Encuesta.objects.filter(ano=year[0], 
                                                finca__nombre_productor__pertenece=2).count()
-            lista_encuestas[year[1]] = num_anio
-        context['addac_num_encuestas'] = lista_encuestas
+            lista_encuestas_fad[year[1]] = num_anio
+        context['addac_num_encuestas'] = lista_encuestas_fad
 
 
 
