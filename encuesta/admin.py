@@ -92,13 +92,13 @@ class FotosAdmin(AdminImageMixin, admin.TabularInline):
     extra = 1
 
 class EncuestaAdmin(admin.ModelAdmin):
-    fields = (('fecha', 'fecha2'),('recolector', 'personas'), 'oficina')
+    fields = (('fecha', 'fecha2'),('recolector', 'personas'), 'oficina2')
     inlines = [FincaInline, UsoTierraAdmin, EducacionAdmin, SeguridadSafAdmin,
                SeguridadCAnualesAdmin, SeguridadPAnimalAdmin,
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha', 'get_productor','recolector', 'oficina',)
+    list_display = ('fecha', 'get_productor','recolector',)
     list_filter = ('ano',)
     date_hierarchy = 'fecha'
     search_fields = ['finca__nombre_productor__nombre',]
@@ -153,6 +153,7 @@ class ProductorAdmin(admin.ModelAdmin):
 admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
+admin.site.register(Oficinas)
 # 
 #admin.site.register(Finca)
 admin.site.register(CultivosSaf)
