@@ -7,28 +7,12 @@ from selectable.forms import AutoCompleteSelectField
 import selectable.forms as selectable
 
 class ProductorAdminForm(forms.ModelForm):
-    #nombre_productor = selectable.AutoCompleteSelectField(lookup_class=ProductorLookup, allow_new=True)
 
     class Meta(object):
         model = Finca
         widgets = {
             'nombre_productor': selectable.AutoCompleteSelectWidget(lookup_class=ProductorLookup),
         }
-        #exclude = ('nombre_productor', )
-
-    # def __init__(self, *args, **kwargs):
-    #     super(ProductorAdminForm, self).__init__(*args, **kwargs)
-    #     if self.instance and self.instance.pk and self.instance.nombre_productor:
-    #         self.initial['nombre_productor'] = self.instance.nombre_productor.pk
-
-    # def save(self, *args, **kwargs):
-    #     nombre_productor = self.cleaned_data['nombre_productor']
-    #     if nombre_productor and not nombre_productor.pk:
-    #         nombre_productor = Productores.objects.create(nombre=nombre_productor.nombre,)
-    #     self.instance.nombre_productor = nombre_productor
-    #     return super(ProductorAdminForm, self).save(*args, **kwargs)
-
-
 
 def fecha_choice():
     years = []

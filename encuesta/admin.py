@@ -17,7 +17,7 @@ class FincaInline(admin.StackedInline):
         (None, {
             'fields': ('nombre_productor', ('finca'), 
                 ('municipio', 'comunidad', 'microcuenca'), 'area_finca', 
-                ('coordenadas_gps', 'coordenadas_lg' ))
+                ('zona', 'coordenadas_gps', 'coordenadas_lg' ))
         }),
         ('Numero de animales en la finca', {
             
@@ -26,7 +26,7 @@ class FincaInline(admin.StackedInline):
         }),
         ('Datos generales de la propiedad', {
             
-            'fields': (('tipo_casa', 'area_casa'), ('fuente_agua', 'legalidad',
+            'fields': (('tipo_casa', 'area_casa', 'seneamiento'), ('fuente_agua', 'legalidad',
                 'propietario'), )
         }),
     )
@@ -42,6 +42,7 @@ class UsoTierraAdmin(admin.StackedInline):
               ('cultivos_anuales', 'anuales_observacion'),
               ('potrero_sin_arboles', 'sin_arboles_observacion'),
               ('potrero_arboles', 'arboles_observacion'),
+              ('pastos_corte', 'pasto_obsercacion'),
               ('plantaciones_forestales', 'forestales_observacion'),)
     extra = 1
     max_num = 1
@@ -92,13 +93,13 @@ class FotosAdmin(AdminImageMixin, admin.TabularInline):
     extra = 1
 
 class EncuestaAdmin(admin.ModelAdmin):
-    fields = (('fecha', 'fecha2'),('recolector', 'personas'), 'oficina')
+    fields = (('fecha', 'fecha2'),('recolector', 'personas'), 'oficina2')
     inlines = [FincaInline, UsoTierraAdmin, EducacionAdmin, SeguridadSafAdmin,
                SeguridadCAnualesAdmin, SeguridadPAnimalAdmin,
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha', 'get_productor','recolector', 'oficina',)
+    list_display = ('fecha', 'get_productor','recolector',)
     list_filter = ('ano',)
     date_hierarchy = 'fecha'
     search_fields = ['finca__nombre_productor__nombre',]
@@ -153,6 +154,7 @@ class ProductorAdmin(admin.ModelAdmin):
 admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
+admin.site.register(Oficinas)
 # 
 #admin.site.register(Finca)
 admin.site.register(CultivosSaf)
