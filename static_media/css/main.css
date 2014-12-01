@@ -275,16 +275,24 @@ margin-bottom: 0.9em;
 }
 
 .cd{
-	background-color: #dde2e6;
 	width: 12em;
 	margin-right: 1em;
-	border-radius: 15px
+	border-radius: 15px;
 
 }
-#addac div i, #fadcanic div i{
-	padding-top: 0.5em
+.space i{
+	display: inline-block;
+	background-color: #9ba5a8;
+	padding: 0.3em 0.5em 0.3em 0.5em
 }
-
+.space h2{
+	display: inline-block;
+	margin-bottom: 0 !important;
+	margin-top: 0 !important;
+}
+.cd h6{
+	color: #9ba5a8;
+}
 
 .panelgrafico{
 	margin-top: 3em;
