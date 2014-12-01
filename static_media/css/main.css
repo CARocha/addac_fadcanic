@@ -270,6 +270,19 @@ margin-bottom: 0.9em;
 
 #addac div, #fadcanic div{
 	margin-bottom: 1em;
+	font-size: 14px;
+	text-align: center !important
+}
+
+.cd{
+	background-color: #dde2e6;
+	width: 12em;
+	margin-right: 1em;
+	border-radius: 15px
+
+}
+#addac div i, #fadcanic div i{
+	padding-top: 0.5em
 }
 
 
@@ -429,9 +442,14 @@ display: none;
 		width: 235px;
 		float: left;
 	}
-.btnindicador {
-	padding: 10px 0;
-}
+
+	.cd{
+		width: 10em !important;
+	}
+
+	.btnindicador {
+		padding: 10px 0;
+	}
 
 
 	.botonera{
@@ -449,16 +467,16 @@ display: none;
 		text-decoration: none;
 		color: white;
 	}
-	.botonera>.btn-success {
-color: blue;
-background-color: white;
-border-color: white;
-outline-style: ;
-	-webkit-transition: all 0.3s;
-	   -moz-transition: all 0.3s;
-	     -o-transition: all 0.3s;
-	        transition: all 0.3s;
-}
+.botonera>.btn-success {
+		color: blue;
+		background-color: white;
+		border-color: white;
+		outline-style: ;
+			-webkit-transition: all 0.3s;
+			   -moz-transition: all 0.3s;
+			     -o-transition: all 0.3s;
+			        transition: all 0.3s;
+		}
 .botonera>.btn-success:hover{
   -ms-transform: scale(1.1,1.1);
     -webkit-transform: scale(1.1,1.1);
@@ -679,3 +697,4 @@ border-radius: 2px;
 .select2-container-multi .select2-choices .select2-search-field input {
 width: 120px !important;
 }
+
