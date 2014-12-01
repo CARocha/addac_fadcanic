@@ -445,7 +445,11 @@ display: none;
 
 	.cd{
 		width: 10em !important;
+		margin-right: 0; 
+		margin-left: 1.2em;
 	}
+
+
 
 	.btnindicador {
 		padding: 10px 0;
