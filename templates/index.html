@@ -278,7 +278,6 @@ $(function () {
 <hr class="separador">
 <h3 class="text-success">Estadísticas Generales</h3>
 <hr class="separador">
-    <hr>
 
 <div class="panel panel-default panelgrafico">
 
@@ -288,72 +287,65 @@ $(function () {
   <div class="col-md-2">
    <span>
       <h3 class="text-success">ADDAC</h3>
-      <img src="{% static 'img/1.png' %}" alt="">
+      <img src="{% static 'img/2.png' %}" alt="">
       </span>
   </div>
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{addac_hombres}}</h2>
+      <i class="ahombre"><h2>{{addac_hombres}}</h2></i>
       <h6>HOMBRES</h6>
       </div>
       
   </div>
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-female fa-2x"></i>
-      <h2>{{addac_mujeres}}</h2>
+      <i class="amujeres"><h2>{{addac_mujeres}}</h2></i>
       <h6>MUJERES</h6>
       </div>
       
   </div>
 
-   <div class="col-xs-2 col-md-2 cd">
+   <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{addac_activos}}</h2>
+      <i class="aactivos"><h2>{{addac_activos}}</h2></i>
       <h6>ACTIVOS</h6>
       </div>
       
   </div>
    
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{addac_inactivos}}</h2>
+      <i class="ainactivos"><h2>{{addac_inactivos}}</h2></i>
       <h6>INACTIVOS</h6>
       </div>
       
   </div>
 
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{addac_jovenes}}</h2>
+      <i class="ajovenes"><h2>{{addac_jovenes}}</h2></i>
       <h6>JOVENES(16-25)</h6>
       </div>
       
   </div>
 
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{addac_adultos}}</h2>
+      <i class="aadultos"><h2>{{addac_adultos}}</h2></i>
       <h6>ADULTOS(>=26)</h6>
       </div>
       
   </div>
 
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{addac_promedio_mz.finca__area_finca__avg}}</h2>
+      <i class="apromedio"><h2>{{addac_promedio_mz.finca__area_finca__avg}}</h2></i> 
       <h6>PROMEDIO EN MZ x FAMILIA</h6>
       </div>
       
   </div>
 </div>
-
+  <hr style="color: #bbb; border-top: dotted 3px;" />
 <div id="fadcanic" class="row">
   <div class="col-md-2">
    <span>
@@ -361,63 +353,56 @@ $(function () {
       <img src="{% static 'img/1.png' %}" alt="">
       </span>
   </div>
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_hombres}}</h2>
+      <i class="ahombre"><h2>{{fad_hombres}}</h2></i>
       <h6>HOMBRES</h6>
       </div>
       
   </div>
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_mujeres}}</h2>
+      <i class="amujeres"><h2>{{fad_mujeres}}</h2></i>
       <h6>MUJERES</h6>
       </div>
       
   </div>
 
-   <div class="col-xs-2 col-md-2 cd">
+   <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_activos}}</h2>
+      <i class="aactivos"><h2>{{fad_activos}}</h2></i>
       <h6>ACTIVOS</h6>
       </div>
       
   </div>
    
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_inactivos}}</h2>
+      <i class="ainactivos"><h2>{{fad_inactivos}}</h2></i>
       <h6>INACTIVOS</h6>
       </div>
       
   </div>
 
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_jovenes}}</h2>
+      <i class="ajovenes"><h2>{{fad_jovenes}}</h2></i>
       <h6>JOVENES(16-25)</h6>
       </div>
       
   </div>
 
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_adultos}}</h2>
+      <i class="aadultos"><h2>{{fad_adultos}}</h2></i>
       <h6>ADULTOS(>=26)</h6>
       </div>
       
   </div>
 
-  <div class="col-xs-2 col-md-2 cd">
+  <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
-      <i class="fa fa-male fa-2x"></i>
-      <h2>{{fad_promedio_mz.finca__area_finca__avg|floatformat:2}}</h2>
+      <i class="apromedio"><h2>{{fad_promedio_mz.finca__area_finca__avg|floatformat:2}}</h2></i>
       <h6>PROMEDIO EN MZ x FAMILIA</h6>
       </div>
       

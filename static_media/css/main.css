@@ -282,27 +282,57 @@ margin-bottom: 0.9em;
 }
 .space i{
 	display: inline-block;
-	background-color: #9ba5a8;
+	/*background-color: #9ba5a8;*/
 	padding: 0.3em 0.5em 0.3em 0.5em;
 	color: #fff;
 	-webkit-border-radius: 19px 20px 20px 20px;
 	-moz-border-radius: 19px 20px 20px 20px;
 	border-radius: 19px 20px 20px 20px;
 }
+
+.space i.ahombre {
+	background-color: #ea3e3b;
+}
+.space i.amujeres {
+	background-color: #37b8e7;
+}
+.space i.aactivos {
+	background-color: #72ab3e;
+}
+.space i.ainactivos {
+	background-color: #bbbbbb;
+}
+.space i.ajovenes {
+	background-color: #934c91;
+}
+.space i.aadultos {
+	background-color: #edc112;
+}
+.space i.apromedio {
+	background-color: #c2db39;
+}
 .space h2{
 	display: inline-block;
 	margin-bottom: 0 !important;
 	margin-top: 0 !important;
-	color: #9c9b9b;
+	color: #fff;
 	font-size: 36px;
 	font-weight: bold;
+}
+.addacol {
+	border-right:3px dotted #bbb;
+	border-left:3px dotted #bbb;
+}
+.fadcol {
+	border-right:3px dotted #bbb;
+	border-left:3px dotted #bbb;
 }
 .cd h6{
 	color: #9ba5a8;
 }
 
 .panelgrafico{
-	margin-top: 3em;
+	margin-top: 0em;
 }
 
 .text-success,.text-info{
