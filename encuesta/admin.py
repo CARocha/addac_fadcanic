@@ -144,7 +144,7 @@ class DecadeBornListFilter(admin.SimpleListFilter):
             return queryset.filter(edad__gte=26)
 
 
-class ProductorAdmin(admin.ModelAdmin):
+class ProductorAdmin(ImportExportModelAdmin):
     search_fields = ('nombre', 'cedula_productor')
     list_display = ('nombre', 'sexo', 'cedula_productor')
     list_filter = ('sexo','pertenece', DecadeBornListFilter)
