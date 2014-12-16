@@ -41,6 +41,7 @@ class Productores(models.Model):
     class Meta:
         verbose_name= 'Productores'
         verbose_name_plural = 'Productores'
+        ordering = ('nombre', )
 
 
     def __str__(self):
@@ -69,6 +70,7 @@ class Recolector(models.Model):
     class Meta:
         unique_together = ('nombre',)
         verbose_name_plural = 'Recolectores'
+        ordering = ('nombre', )
 
     def __unicode__(self):
         return self.nombre
@@ -79,6 +81,7 @@ class Oficinas(models.Model):
     class Meta:
         unique_together = ('nombre',)
         verbose_name_plural = 'Oficinas'
+        ordering = ('nombre', )
 
     def __unicode__(self):
         return self.nombre
@@ -339,11 +342,12 @@ class CultivosSaf(models.Model):
     nombre = models.CharField(max_length=250)
     unidad = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = "Cultivos SAF"
-
     def __str__(self):
         return '%s - %s' % (self.nombre, self.unidad)
+
+    class Meta:
+        verbose_name_plural = "Cultivos SAF"
+        ordering = ('nombre', )
 
 class SeguridadSaf(models.Model):
     cultivos = models.ForeignKey(CultivosSaf)
@@ -378,12 +382,12 @@ class CultivosAnuales(models.Model):
     nombre = models.CharField(max_length=250)
     unidad = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = "Cultivos anuales"
-
     def __str__(self):
         return '%s - %s' % (self.nombre, self.unidad)
 
+    class Meta:
+        verbose_name_plural = "Cultivos anuales"
+        ordering = ('nombre', )
 
 class SeguridadCAnuales(models.Model):
     cultivos = models.ForeignKey(CultivosAnuales)
@@ -438,11 +442,13 @@ class ProductoAnimal(models.Model):
     nombre = models.CharField(max_length=250)
     unidad = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = "Producto animal"
-
     def __str__(self):
         return '%s - %s' % (self.nombre, self.unidad)
+
+    class Meta:
+        verbose_name_plural = "Producto animal"
+        ordering = ('nombre', )
+    
 
 class SeguridadPAnimal(models.Model):
     producto = models.ForeignKey(ProductoAnimal)
@@ -490,11 +496,14 @@ class ProductoProcesado(models.Model):
     nombre = models.CharField(max_length=250)
     unidad = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = "Producto procesado"
-
     def __str__(self):
         return '%s - %s' % (self.nombre, self.unidad)
+
+    class Meta:
+        verbose_name_plural = "Producto procesado"
+        ordering = ('nombre', )
+
+    
 
 class SeguridadPProcesados(models.Model):
     producto = models.ForeignKey(ProductoProcesado)
@@ -522,11 +531,14 @@ class ServiciosActividades(models.Model):
     nombre = models.CharField('Servicio y actividad', max_length=250)
     unidad = models.CharField('unidad de medida', max_length=200)
 
-    class Meta:
-        verbose_name_plural = "Servicios de actividades"
-
     def __unicode__(self):
         return u'%s - %s' % (self.nombre, self.unidad)
+
+    class Meta:
+        verbose_name_plural = "Servicios de actividades"
+        ordering = ('nombre', )
+
+    
 
 class IngresoServicioNegocio(models.Model):
     servicios = models.ForeignKey(ServiciosActividades)
@@ -577,6 +589,10 @@ class AlimentosSeguridad(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    class Meta:
+        ordering = ('nombre', )
+        verbose_name_plural = 'Alimentos sobre seguridad alimentaria'
+
 CONSUMO_CHOICES=((1,'No suficiente'),(2,'Si suficiente'))
 CONSUMO_CHOICES_2=((1,'Diario'),(2,'Semanal'), 
                    (3, 'Ocasional'), (4,'No'))
@@ -604,17 +620,26 @@ class OrganizacionesDanCredito(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    class Meta:
+        ordering = ('nombre', )
+
 class UsoCredito(models.Model):
     nombre = models.CharField('Uso del credito', max_length=250)
 
     def __unicode__(self):
         return self.nombre
 
+    class Meta:
+        ordering = ('nombre', )
+
 class TipoFinanciamiento(models.Model):
     nombre = models.CharField(max_length=250)
 
     def __unicode__(self):
         return self.nombre
+
+    class Meta:
+        ordering = ('nombre', )
 
 class Credito(models.Model):
     organizacion = models.ForeignKey(OrganizacionesDanCredito, 
@@ -636,11 +661,12 @@ class Credito(models.Model):
 class TipoInnovacion(models.Model):
     nombre = models.CharField('Innovación', max_length=250)
 
-    class Meta:
-        verbose_name_plural = 'Tipo de innovaciones'
-
     def __unicode__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name_plural = 'Tipo de innovaciones'
+        ordering = ('nombre', )
 
 CHOICE_SI_NO = (
         (1, "Si"),

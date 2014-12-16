@@ -147,7 +147,14 @@ class DecadeBornListFilter(admin.SimpleListFilter):
 class ProductorAdmin(ImportExportModelAdmin):
     search_fields = ('nombre', 'cedula_productor')
     list_display = ('id', 'nombre', 'sexo', 'cedula_productor')
+    list_display_links = ('id', 'nombre',)
     list_filter = ('sexo','pertenece', DecadeBornListFilter)
+
+    class Media:
+        css = {
+            'all': ('css/pretty.css',)
+        }
+        js = ('js/jquery.mask.js', 'js/productor.js')
 
 
 # Register your models here.
