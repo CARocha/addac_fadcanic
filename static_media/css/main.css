@@ -659,24 +659,20 @@ padding-left: 0;
 	
 }
 .indica{
-background-color: #5CB85C;
-margin-left: 5px;
-margin-bottom: 15px;
-height: 100px;
-padding-top: 10px;
-padding-bottom: 10px;
-text-align: center;
-
-}
-.indica a{
-	
-	width: 50px;
-	height: 50px;
+	background-color: #5CB85C;
+	margin-left: 5px;
+	margin-bottom: 15px;
+	height: 110px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	color: white;
 	text-decoration: none;
 	color: white;
 	font-weight: bold;
-	
+
 }
+
 
 .indica .glyphicon{
 	font-size: 35px;
@@ -747,3 +743,9 @@ border-radius: 2px;
 width: 120px !important;
 }
 
+.indica .fa-users{
+	line-height: 0 !important;
+}
+.indica .fa-home{
+	line-height: 2 !important;
+}
