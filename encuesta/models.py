@@ -49,14 +49,18 @@ class Productores(models.Model):
     def save(self, *args, **kwargs):
         self.contador = 1
         today = date.today()
-        try: 
-            edad1 = self.nacimiento.replace(year=today.year)
-        except ValueError:
-            edad1 = self.nacimiento.replace(year=today.year, day=self.nacimiento.day-1)
-        if edad1 > today:
-            self.edad = today.year - self.nacimiento.year - 1
-        else:
-            self.edad = today.year - self.nacimiento.year 
+        if self.nacimiento:
+            self.edad = today.year - self.nacimiento.year - ((today.month, today.day) < (self.nacimiento.month, self.nacimiento.day))
+        
+        # try: 
+        #     edad1 = self.nacimiento.replace(year=today.year)
+        # except ValueError:
+        #     edad1 = self.nacimiento.replace(year=today.year, day=self.nacimiento.day-1)
+
+        # if edad1 > today:
+        #     self.edad = today.year - self.nacimiento.year - 1
+        # else:
+        #     self.edad = today.year - self.nacimiento.year 
         super(Productores, self).save(*args, **kwargs)
 
 class Recolector(models.Model):

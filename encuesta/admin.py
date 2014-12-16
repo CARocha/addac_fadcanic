@@ -146,7 +146,7 @@ class DecadeBornListFilter(admin.SimpleListFilter):
 
 class ProductorAdmin(ImportExportModelAdmin):
     search_fields = ('nombre', 'cedula_productor')
-    list_display = ('nombre', 'sexo', 'cedula_productor')
+    list_display = ('id', 'nombre', 'sexo', 'cedula_productor')
     list_filter = ('sexo','pertenece', DecadeBornListFilter)
 
 
