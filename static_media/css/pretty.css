@@ -1,3 +1,66 @@
 #id_nombre {
 	text-transform: uppercase;
 }
+/*
+#branding h1 {
+	color: #fff;
+}
+
+#header {
+	background-color: #5a7d36;
+	color: #fff;
+}
+*/
+
+#finca_set-group h2 {
+	background-color: #37b8e7;
+	background-image: none;
+}
+
+#usotierra_set-group h2 {
+	background-color: #AE8215;
+	background-image: none;
+}
+
+#educacion_set-group h2 {
+	background-color: #934c91;
+	background-image: none;
+}
+
+#seguridadsaf_set-group h2 {
+	background-color: #edc112;
+	background-image: none;
+}
+
+#seguridadcanuales_set-group h2 {
+	background-color: #AE5215;
+	background-image: none;
+}
+#seguridadpanimal_set-group h2 {
+	background-color: #15ABAE;
+	background-image: none;
+}
+#seguridadpprocesados_set-group h2 {
+	background-color: #ea3e3b;
+	background-image: none;
+}
+#ingresoservicionegocio_set-group h2 {
+	background-color: #67073F;
+	background-image: none;
+}
+#seguridadalimentaria_set-group h2 {
+	background-color: #075230;
+	background-image: none;
+}
+#credito_set-group h2 {
+	background-color: #520707;
+	background-image: none;
+}
+#innovacion_set-group h2 {
+	background-color: #3E2323;
+	background-image: none;
+}
+#fotos_set-group h2 {
+	background-color: #3E2323;
+	background-image: none;
+}
