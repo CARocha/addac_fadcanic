@@ -53,7 +53,7 @@ class EducacionAdmin(admin.TabularInline):
     extra = 1
 
 class SeguridadSafAdmin(admin.TabularInline):
-    form = FormSeguridadSaf
+    #form = FormSeguridadSaf
     model = SeguridadSaf
     class Media:  
         css = {
@@ -62,37 +62,37 @@ class SeguridadSafAdmin(admin.TabularInline):
     extra = 1
 
 class SeguridadCAnualesAdmin(admin.TabularInline):
-    form = FormSeguridadCAnuales
+    #form = FormSeguridadCAnuales
     model = SeguridadCAnuales
     extra = 1
 
 class SeguridadPAnimalAdmin(admin.TabularInline):
-    form = FormSeguridadPAnimal
+    #form = FormSeguridadPAnimal
     model = SeguridadPAnimal
     extra = 1
 
 class SeguridadPProcesadosAdmin(admin.TabularInline):
-    form = FormSeguridadPProcesados
+    #form = FormSeguridadPProcesados
     model = SeguridadPProcesados
     extra = 1
 
 class IngresoServicioNegocioAdmin(admin.TabularInline):
-    form = FormIngresoServicioNegocio
+    #form = FormIngresoServicioNegocio
     model = IngresoServicioNegocio
     extra = 1
 
 class SeguridadAlimentariaAdmin(admin.TabularInline):
-    form = FormSeguridadAlimentaria
+    #form = FormSeguridadAlimentaria
     model = SeguridadAlimentaria
     extra = 1
 
 class CreditoAdmin(admin.TabularInline):
-    form = FormCredito
+    #form = FormCredito
     model = Credito
     extra = 1
 
 class InnovacionAdmin(admin.TabularInline):
-    form = FormInnovacion
+    #form = FormInnovacion
     model = Innovacion
     extra = 1
 
