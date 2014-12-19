@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from .models import *
 from sorl.thumbnail.admin import AdminImageMixin
-from .forms import ProductorAdminForm
+from .forms import *
 from import_export.admin import ImportExportModelAdmin
 from datetime import date
 
@@ -53,6 +53,7 @@ class EducacionAdmin(admin.TabularInline):
     extra = 1
 
 class SeguridadSafAdmin(admin.TabularInline):
+    form = FormSeguridadSaf
     model = SeguridadSaf
     class Media:  
         css = {
@@ -61,30 +62,37 @@ class SeguridadSafAdmin(admin.TabularInline):
     extra = 1
 
 class SeguridadCAnualesAdmin(admin.TabularInline):
+    form = FormSeguridadCAnuales
     model = SeguridadCAnuales
     extra = 1
 
 class SeguridadPAnimalAdmin(admin.TabularInline):
+    form = FormSeguridadPAnimal
     model = SeguridadPAnimal
     extra = 1
 
 class SeguridadPProcesadosAdmin(admin.TabularInline):
+    form = FormSeguridadPProcesados
     model = SeguridadPProcesados
     extra = 1
 
 class IngresoServicioNegocioAdmin(admin.TabularInline):
+    form = FormIngresoServicioNegocio
     model = IngresoServicioNegocio
     extra = 1
 
 class SeguridadAlimentariaAdmin(admin.TabularInline):
+    form = FormSeguridadAlimentaria
     model = SeguridadAlimentaria
     extra = 1
 
 class CreditoAdmin(admin.TabularInline):
+    form = FormCredito
     model = Credito
     extra = 1
 
 class InnovacionAdmin(admin.TabularInline):
+    form = FormInnovacion
     model = Innovacion
     extra = 1
 
@@ -109,35 +117,24 @@ class EncuestaAdmin(admin.ModelAdmin):
         return "\n".join([i.nombre_productor.nombre for i in obj.finca_set.all()])
     get_productor.short_description = 'Productor'
 
+    class Media:
+        css = {
+            'all': ('css/chosen.css',)
+        }
+        js = ('js/chosen.jquery.js','js/encuestas.js',)
+
 class DecadeBornListFilter(admin.SimpleListFilter):
-    # Human-readable title which will be displayed in the
-    # right admin sidebar just above the filter options.
     title = 'joven o adulto'
 
-    # Parameter for the filter that will be used in the URL query.
     parameter_name = 'decade'
 
     def lookups(self, request, model_admin):
-        """
-        Returns a list of tuples. The first element in each
-        tuple is the coded value for the option that will
-        appear in the URL query. The second element is the
-        human-readable name for the option that will appear
-        in the right sidebar.
-        """
         return (
             ('joven', 'joven'),
             ('adulto', 'adulto'),
         )
 
     def queryset(self, request, queryset):
-        """
-        Returns the filtered queryset based on the value
-        provided in the query string and retrievable via
-        `self.value()`.
-        """
-        # Compare the requested value (either 'joven' or 'adulto')
-        # to decide how to filter the queryset.
         if self.value() == 'joven':
             return queryset.filter(edad__range=(16,25))
         if self.value() == 'adulto':
@@ -152,9 +149,9 @@ class ProductorAdmin(ImportExportModelAdmin):
 
     class Media:
         css = {
-            'all': ('css/pretty.css',)
+            'all': ('css/pretty.css','css/chosen.css',)
         }
-        js = ('js/jquery.mask.js', 'js/productor.js')
+        js = ('js/jquery.mask.js', 'js/productor.js','js/chosen.jquery.js')
 
 
 # Register your models here.
@@ -162,6 +159,7 @@ admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 admin.site.register(Oficinas)
+admin.site.register(AlimentosSeguridad)
 # 
 #admin.site.register(Finca)
 admin.site.register(CultivosSaf)

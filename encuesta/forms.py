@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from .models import Encuesta, Productores, Finca
+from django.forms import ModelForm, Select
+from .models import *
 from lugar.models import Departamento, Municipio, Comunidad
 from lookups import *
 from selectable.forms import AutoCompleteSelectField
@@ -12,6 +13,70 @@ class ProductorAdminForm(forms.ModelForm):
         model = Finca
         widgets = {
             'nombre_productor': selectable.AutoCompleteSelectWidget(lookup_class=ProductorLookup),
+        }
+
+class FormSeguridadPProcesados(ModelForm):
+    
+    class Meta:
+        model = SeguridadPProcesados
+        widgets = {
+            'producto': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormSeguridadSaf(ModelForm):
+    
+    class Meta:
+        model = SeguridadSaf
+        widgets = {
+            'cultivos': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormSeguridadCAnuales(ModelForm):
+    
+    class Meta:
+        model = SeguridadCAnuales
+        widgets = {
+            'cultivos': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormSeguridadPAnimal(ModelForm):
+    
+    class Meta:
+        model = SeguridadPAnimal
+        widgets = {
+            'producto': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormIngresoServicioNegocio(ModelForm):
+    
+    class Meta:
+        model = IngresoServicioNegocio
+        widgets = {
+            'servicios': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormCredito(ModelForm):
+    
+    class Meta:
+        model = Credito
+        widgets = {
+            'organizacion': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormSeguridadAlimentaria(ModelForm):
+    
+    class Meta:
+        model = SeguridadAlimentaria
+        widgets = {
+            'alimentos': Select(attrs={'class': 'chosen-select'}),
+        }
+
+class FormInnovacion(ModelForm):
+    
+    class Meta:
+        model = Innovacion
+        widgets = {
+            'innovacion': Select(attrs={'class': 'chosen-select'}),
         }
 
 def fecha_choice():
