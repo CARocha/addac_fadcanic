@@ -23,18 +23,30 @@ CHOICE_ACTIVO = (
     (2,'No activo')
 )
 
+GRUPOS_ETNICOS = (
+    (1, 'Miskitu'),
+    (2, 'Mayagna'),
+    (3, 'Mestizo'),
+    (4, 'Afrodecendiente'),
+    (5, 'Otro'),
+)
+
 @python_2_unicode_compatible
 class Productores(models.Model):
     nombre = models.CharField('Nombre y apellido', max_length=250, null=True, blank=True)
     cedula_productor = models.CharField(max_length=25,null=True,blank=True,
                                         help_text='Introduzca cedula del productor')
+
     sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
+                                null=True, blank=True)
+    grupo = models.IntegerField('Grupo étnico', choices=GRUPOS_ETNICOS, 
+                                null=True, blank=True)
+    departamento = models.CharField('Departamento/Región', max_length=250,
                                 null=True, blank=True)
     celular = models.IntegerField('Número celular', null=True, blank=True)
     nacimiento = models.DateField('Fecha de nacimiento', null=True, blank=True)
     pertenece = models.IntegerField(choices=CHOICE_ORGANIZACION, null=True, blank=True)
     activo = models.IntegerField(choices=CHOICE_ACTIVO, null=True, blank=True)
-
     contador = models.IntegerField(editable=False)
     edad = models.IntegerField(editable=False, null=True, blank=True)
 
@@ -131,6 +143,7 @@ AGUA_CHOICES = (
     (10,'Pozo con brocal y bomba'),
     (11,'Agua filtrada y certificada p/consumo'),
     (12,'Agua por tuberia y bombeo eléctrico'),
+    (13,'Fuente sin protección'),
     )
 LEGALIDAD_CHOICES = (
     (1,'Derecho real'),
@@ -185,14 +198,15 @@ class Finca(models.Model):
     )
     
     area_finca = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca el area de la finca en MZ')
-    zona = models.IntegerField(null=True, blank=True)
-    coordenadas_gps = models.DecimalField('Coordenadas Latitud',max_digits=8, decimal_places=6 ,null=True,blank=True,help_text='Introduzca las coordenadas Latitud')
-    coordenadas_lg = models.DecimalField('Coordenadas Longitud', max_digits=8, decimal_places=6, null=True, blank=True, help_text="Introduzca las coordenadas Longitud")
-    animal_bovino = models.IntegerField(help_text='Introduzca cuantos animales bovinos tiene')
-    animal_porcino = models.IntegerField(help_text='Introduzca cuantos animales porcinos tiene')
-    animal_equino = models.IntegerField(help_text='Introduzca cuantos animales equinos tiene')
-    animal_aves = models.IntegerField(help_text='Introduzca cuantas aves tiene')
-    animal_caprino = models.IntegerField(help_text='Introduzca cuantos animales caprino o pelibuey tiene')
+    person = models.IntegerField('Nº personas de la familia', null=True, blank=True)
+    zona = models.IntegerField('UTM, Zona', null=True, blank=True)
+    coordenadas_gps = models.DecimalField('N',max_digits=8, decimal_places=6 ,null=True,blank=True,help_text='Introduzca las coordenadas Latitud')
+    coordenadas_lg = models.DecimalField('E', max_digits=8, decimal_places=6, null=True, blank=True, help_text="Introduzca las coordenadas Longitud")
+    animal_bovino = models.IntegerField('Ganado bovino', help_text='Introduzca cuantos animales bovinos tiene')
+    animal_porcino = models.IntegerField('Cerdos', help_text='Introduzca cuantos animales porcinos tiene')
+    animal_equino = models.IntegerField('Equinos', help_text='Introduzca cuantos animales equinos tiene')
+    animal_aves = models.IntegerField('Aves', help_text='Introduzca cuantas aves tiene')
+    animal_caprino = models.IntegerField('Peli bueyes', help_text='Introduzca cuantos animales pelibuey tiene')
     tipo_casa = models.IntegerField(max_length=60,choices=TIPO_CHOICES,help_text='Introduzca que tipo de casa tiene')
     area_casa = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca area de la casa en pie cuadrado')
     seneamiento = models.IntegerField(choices=LETRINA_CHOICES, verbose_name='Saneamiento')
@@ -508,20 +522,20 @@ class ProductoProcesado(models.Model):
 class SeguridadPProcesados(models.Model):
     producto = models.ForeignKey(ProductoProcesado)
     #unidad_medida = models.IntegerField(choices=UNIDAD_COMER_CHOICES)
-    produccion = models.FloatField('Producción')
+    produccion = models.FloatField('Producción total')
     auto_consumo = models.FloatField('Auto-consumo')
     perdidas = models.FloatField()
     venta_no = models.FloatField('Venta no organizada')
     precio_promedio_no = models.FloatField('Precio promedio')
     venta_organizada = models.FloatField('Venta organizada')
-    maneja = models.IntegerField(choices=CHOICE_MANEJA)
+    maneja = models.IntegerField('Quién maneja el negocio', choices=CHOICE_MANEJA)
     #plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
 
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-       verbose_name = 'Seguridad A. Ingresos en productos procesados'
-       verbose_name_plural = 'Seguridad A. Ingresos en productos procesados'
+       verbose_name = 'Seguridad A. Ingresos en productos procesados SAF'
+       verbose_name_plural = 'Seguridad A. Ingresos en productos procesados SAF'
 
 #---------------------------------------------------------------------
 # Modelo: ingreso familiar por servicios y negocios

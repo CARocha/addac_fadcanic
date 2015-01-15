@@ -15,7 +15,7 @@ class FincaInline(admin.StackedInline):
     min_num = 1
     fieldsets = (
         (None, {
-            'fields': ('nombre_productor', ('finca'), 
+            'fields': ('nombre_productor', ('person','finca',), 
                 ('municipio', 'comunidad', 'microcuenca'), 'area_finca', 
                 ('zona', 'coordenadas_gps', 'coordenadas_lg' ))
         }),
@@ -170,3 +170,4 @@ admin.site.register(OrganizacionesDanCredito)
 admin.site.register(UsoCredito)
 admin.site.register(TipoInnovacion)
 admin.site.register(ServiciosActividades)
+admin.site.register(TipoFinanciamiento)
