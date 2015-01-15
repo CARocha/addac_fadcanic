@@ -658,7 +658,8 @@ class TipoFinanciamiento(models.Model):
 class Credito(models.Model):
     organizacion = models.ForeignKey(OrganizacionesDanCredito, 
                    verbose_name='Con qué organización tiene crédito actualmente?')
-    tipo_fina = models.ForeignKey(TipoFinanciamiento)
+    tipo_fina = models.ForeignKey(TipoFinanciamiento,
+                    verbose_name='Tipo de financiamiento')
     uso = models.ManyToManyField(UsoCredito, verbose_name='Rubro/Destino')
     personas = models.IntegerField('Número de personas beneficiarias de la familia')
 
