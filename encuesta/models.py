@@ -24,11 +24,13 @@ CHOICE_ACTIVO = (
 )
 
 GRUPOS_ETNICOS = (
-    (1, 'Miskitu'),
-    (2, 'Mayagna'),
+    (1, 'Creole'),
+    (2, 'Garífuna'),
     (3, 'Mestizo'),
-    (4, 'Afrodecendiente'),
-    (5, 'Otro'),
+    (4, 'Rama'),
+    (5, 'Ulwa'),
+    (6, 'Miskito'),
+    (7, 'Otros'),
 )
 
 @python_2_unicode_compatible

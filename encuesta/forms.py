@@ -81,9 +81,9 @@ class FormInnovacion(ModelForm):
 
 def fecha_choice():
     years = []
-    for en in Encuesta.objects.order_by('ano').values_list('ano', flat=True):
+    for en in Encuesta.objects.order_by('-ano').values_list('ano', flat=True):
         years.append((en,en))
-    return list(set(years))
+    return sorted(list(set(years)))
 
 DUENO_CHOICES = (
           ('', '-------'),

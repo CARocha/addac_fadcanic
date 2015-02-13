@@ -161,13 +161,12 @@
                       </tr>
                   </thead>
                   <tbody>
-                  	{% for k,v in tabla_eba.items %}
+                  	{% for fila in tabla_eba %}
                   		<tr>
-                          <td>{{k}}</td>
-                          {% for a in v %}
-                            <td>{{a}}</td>
-                          {% endfor %}
-                      	</tr>
+                        {%for celda in fila %}
+                        <td>{{celda}}</td>
+                        {%endfor%}
+                    </tr>
                   	{% endfor %}
                   </tbody>
 				</table>

@@ -322,9 +322,13 @@ def educacion(request, template="encuesta/educacion.html"):
         tabla_educacion.append(fila)
     tabla_eba = {}
     for obj in SEXO_CHOICE:
-        cnt_finalizado = a.filter(educacion__sexo_edad = obj[0],educacion__circ_estudio_adulto=1).count()
-        cnt_activo = a.filter(educacion__sexo_edad = obj[0],educacion__circ_estudio_adulto=2).count()
-        tabla_eba[obj[1]] = (cnt_finalizado, cnt_activo)
+        cnt_finalizado = a.filter(educacion__sexo_edad = obj[0]).aggregate(estudia_eba = Sum('educacion__estu_eba'),
+                                                                           estu_mined = Sum('educacion__estu_mined'),
+                                                                           estu_uni = Sum('educacion__estu_uni'),
+                                                                           egresado_eba = Sum('educacion__egresado_eba'),
+                                                                           egresado_mined = Sum('educacion__egresado_mined'),
+                                                                           )
+        tabla_eba[obj[1]] = (cnt_finalizado)
 
     return render(request, template, {'tabla_educacion':tabla_educacion,'grafo':grafo,
                                       'a':a.count(), 'tabla_eba':tabla_eba})
