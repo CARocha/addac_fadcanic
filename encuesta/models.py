@@ -134,7 +134,7 @@ AGUA_CHOICES = (
     )
 LEGALIDAD_CHOICES = (
     (1,'Derecho real'),
-    (2,'Derecho procesorio'),
+    (2,'Derecho pocesorio'),
     (3,'Promesa de venta'),
     (4,'Titulo de reforma agraria'),
     (5,'Titulo comunitario'),

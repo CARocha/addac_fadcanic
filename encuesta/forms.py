@@ -28,7 +28,7 @@ class FormSeguridadSaf(ModelForm):
     class Meta:
         model = SeguridadSaf
         widgets = {
-            'cultivos': Select(attrs={'class': 'chosen-select'}),
+            'cultivos': Select(attrs={'class': 'select2'}),
         }
 
 class FormSeguridadCAnuales(ModelForm):

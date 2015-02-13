@@ -20,7 +20,7 @@ class Municipio(models.Model):
         verbose_name_plural = 'Municipios'
 
     def __unicode__(self):
-        return self.nombre
+        return u'%s - %s' % (self.departamento, self.nombre)
 
 class Comunidad(models.Model):
     municipio = models.ForeignKey(Municipio)

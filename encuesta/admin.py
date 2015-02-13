@@ -53,7 +53,7 @@ class EducacionAdmin(admin.TabularInline):
     extra = 1
 
 class SeguridadSafAdmin(admin.TabularInline):
-    #form = FormSeguridadSaf
+    form = FormSeguridadSaf
     model = SeguridadSaf
     class Media:  
         css = {
@@ -119,9 +119,9 @@ class EncuestaAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            'all': ('css/chosen.css',)
+            'all': ('css/select2.css',)
         }
-        js = ('js/chosen.jquery.js','js/encuestas.js',)
+        js = ('js/select2.js','js/encuestas.js',)
 
 class DecadeBornListFilter(admin.SimpleListFilter):
     title = 'joven o adulto'
