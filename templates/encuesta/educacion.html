@@ -64,7 +64,7 @@
                 plotShadow: false
             },
             title: {
-                text: 'EBA(Finalizado, Activo)'
+                text: 'Educacion EBA'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -83,7 +83,7 @@
                 type: 'pie',
                 name: 'cuantos',
                 data: [ {%for k,v in tabla_eba.items%} 
-                          ['{{k}}',{{v}}],
+                          ['{{k}}',{{v.estudia_eba|default:0}}],
                         {%endfor%}
                    
                 ]
@@ -152,22 +152,30 @@
              <br>
            	 <div class="table-responsive">
                   <table class="table" id="myTable2">
-                 <caption>EBA</caption>
+                 <caption>Educación EBA</caption>
                  <thead>
                       <tr>
                           <th>Tipo de sexo</th>
-                          <th>Finalizado</th>
-                          <th>Activo</th>
+                          <th>Estudian EBA</th>
+                          <th>Estudia Mined</th>
+                          <th>Estudia Universitario</th>
+                          <th>Egresado del EBA</th>
+                          <th>Egresado del Mined</th>
                       </tr>
                   </thead>
                   <tbody>
-                  	{% for fila in tabla_eba %}
-                  		<tr>
-                        {%for celda in fila %}
-                        <td>{{celda}}</td>
-                        {%endfor%}
+                    
+                  	{% for k,v in tabla_eba.items %}
+                    <tr>
+                  		  <td>{{k}}</td>
+                        <td>{{v.estudia_eba|default:0}}</td>
+                        <td>{{v.estu_mined|default:0}}</td>
+                        <td>{{v.estu_uni|default:0}}</td>
+                        <td>{{v.egresado_eba|default:0}}</td>
+                        <td>{{v.egresado_mined|default:0}}</td>
                     </tr>
                   	{% endfor %}
+                    
                   </tbody>
 				</table>
            	 </div>
