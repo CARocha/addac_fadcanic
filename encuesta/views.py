@@ -320,6 +320,7 @@ def educacion(request, template="encuesta/educacion.html"):
                 saca_porcentajes(objeto['estudiando'], objeto['num_total'], False),
                 ]
         tabla_educacion.append(fila)
+
     tabla_eba = {}
     for obj in SEXO_CHOICE:
         cnt_finalizado = a.filter(educacion__sexo_edad = obj[0]).aggregate(estudia_eba = Sum('educacion__estu_eba'),
@@ -425,7 +426,7 @@ def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html
             if datos[key]==None:
                 datos[key]=0
         nivel_consumo = a.filter(seguridadalimentaria__alimentos=id,
-                                 seguridadalimentaria__nivel_consumo_suficiente=2).aggregate(nivel=Count('seguridadalimentaria'))
+                                 seguridadalimentaria__consumo=True).aggregate(nivel=Count('seguridadalimentaria'))
         fila=[] #[alimento, compran, porcentaje,nivel consumo,porcentaje]
         fila.append(ALIMENTO_CHOICES[id-1][1])
         fila.append(datos['compran'])
@@ -492,10 +493,10 @@ def ingreso_animal(request, template="encuesta/ingresos_animales.html"):
         cnt = a.filter(seguridadpanimal__maneja=obj[0]).count()
         grafo_maneja[obj[1]] = cnt
     #grafico para ver si tienen plan de negocio
-    grafo_plan = {}
-    for obj in CHOICE_PLAN_NEGOCIO:
-        cnt = a.filter(seguridadpanimal__plan_negocio=obj[0]).count()
-        grafo_plan[obj[1]] = cnt
+    # grafo_plan = {}
+    # for obj in CHOICE_PLAN_NEGOCIO:
+    #     cnt = a.filter(seguridadpanimal__plan_negocio=obj[0]).count()
+    #     grafo_plan[obj[1]] = cnt
 
     return render(request, template, {'a':a.count(), 'data':animales})
 
@@ -520,10 +521,10 @@ def ingreso_pprocesados(request, template="encuesta/ingresos_pprocesado.html"):
         cnt = a.filter(seguridadpprocesados__maneja=obj[0]).count()
         grafo_maneja[obj[1]] = cnt
     #grafico para ver si tienen plan de negocio
-    grafo_plan = {}
-    for obj in CHOICE_PLAN_NEGOCIO:
-        cnt = a.filter(seguridadpprocesados__plan_negocio=obj[0]).count()
-        grafo_plan[obj[1]] = cnt
+    # grafo_plan = {}
+    # for obj in CHOICE_PLAN_NEGOCIO:
+    #     cnt = a.filter(seguridadpprocesados__plan_negocio=obj[0]).count()
+    #     grafo_plan[obj[1]] = cnt
 
     return render(request, template, {'a':a.count(), 'data':animales})
 
