@@ -387,7 +387,10 @@ class SeguridadSaf(models.Model):
         verbose_name_plural = 'Seguridad A. en productos SAF'
 
     def save(self, *args, **kwargs):
-        self.rendimiento = self.produccion_total / self.area_produccion
+        try:
+            self.rendimiento = self.produccion_total / self.area_produccion
+        except:
+            self.rendimiento = 0
         super(SeguridadSaf, self).save(*args, **kwargs)
 
 #---------------------------------------------------------------------
