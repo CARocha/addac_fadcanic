@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'encuesta',
     'lugar',
+    'portada',
     'smart_selects',
     'south',
     'sorl.thumbnail',

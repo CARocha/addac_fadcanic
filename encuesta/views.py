@@ -8,6 +8,7 @@ from django.db.models import Count, Sum, Avg
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 import json as simplejson
+from portada.models import FotosPortada
 
 # CBV para el home y los graficos
 class HomeView(TemplateView):
@@ -16,6 +17,8 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         #nuevas salidas
+        #fotos de la portada
+        context['fotos'] = FotosPortada.objects.all()
         #por ADDAC
         context['addac_hombres'] = Productores.objects.filter(sexo=3,pertenece=2).count()
         context['addac_mujeres'] = Productores.objects.filter(sexo=1,pertenece=2).count()
