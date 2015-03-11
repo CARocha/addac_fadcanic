@@ -254,9 +254,9 @@ $(function () {
         <div class="carousel-inner">
           {% for foto in fotos %}
               <div class="item {% if forloop.first %}active{% endif %}">
-                {% thumbnail foto.imagen "1024x768" as im %}
-                  <img src="/media/{{im}}">
-                {% endthumbnail %}                          
+                
+                  <img src="/media/{{foto.imagen}}">
+                                        
               </div>
           {% endfor %}                          
         </div>
