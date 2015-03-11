@@ -254,7 +254,7 @@ $(function () {
         <div class="carousel-inner">
           {% for foto in fotos %}
               <div class="item {% if forloop.first %}active{% endif %}">
-                {% thumbnail foto.imagen "x768" as im %}
+                {% thumbnail foto.imagen "1024x768" as im %}
                   <img src="/media/{{im}}">
                 {% endthumbnail %}                          
               </div>
@@ -289,16 +289,16 @@ $(function () {
       </span>
   </div>
   <div class="col-xs-2 col-md-2 cd addacol">
-      <div class="space">
+      <div class="space"><a href="/lista/2/3/">
       <i class="ahombre badge"><h2>{{addac_hombres}}</h2></i>
-      <h6>HOMBRES</h6>
+      <h6>HOMBRES</h6></a>
       </div>
       
   </div>
   <div class="col-xs-2 col-md-2 cd addacol">
-      <div class="space">
+      <div class="space"><a href="#">
       <i class="amujeres badge"><h2>{{addac_mujeres}}</h2></i>
-      <h6>MUJERES</h6>
+      <h6>MUJERES</h6></a>
       </div>
       
   </div>
@@ -344,16 +344,16 @@ $(function () {
       </span>
   </div>
   <div class="col-xs-2 col-md-2 cd fadcol">
-      <div class="space">
+      <div class="space"><a href="#">
       <i class="ahombre badge"><h2>{{fad_hombres}}</h2></i>
-      <h6>HOMBRES</h6>
+      <h6>HOMBRES</h6></a>
       </div>
       
   </div>
   <div class="col-xs-2 col-md-2 cd fadcol">
-      <div class="space">
+      <div class="space"><a href="#">
       <i class="amujeres badge"><h2>{{fad_mujeres}}</h2></i>
-      <h6>MUJERES</h6>
+      <h6>MUJERES</h6></a>
       </div>
       
   </div>

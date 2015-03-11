@@ -134,6 +134,15 @@ class HomeView(TemplateView):
 
         return context
 
+def mostrar_productores(request, organizacion_id=None, sexo_id=None, template='encuesta/lista_productores.html'):
+
+    lista = Finca.objects.filter(nombre_productor__pertenece=organizacion_id, 
+                                 nombre_productor__sexo=sexo_id,
+                                 nombre_productor__activo=1).distinct()
+    
+    return render(request, template, locals())
+
+
 def entrar(request):
     form = AuthenticationForm(data=request.POST)
     if form.is_valid():
