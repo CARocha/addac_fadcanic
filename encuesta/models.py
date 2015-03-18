@@ -167,9 +167,13 @@ DUENO_CHOICES = (
 LETRINA_CHOICES = (
     (1,'Letrina(buen estado)'),
     (2,'Letrina(mal estado)'),
-    (3,'Inodoro'),
-    (4,'Sumidero'),
-    (5,'Letrina seca')
+    (3,'Inodoro(buen estado)'),
+    (4,'Inodoro(mal estado)'),
+    (5,'Sumidero(buen estado)'),
+    (6,'Sumidero(mal estado)'),
+    (7,'Letrina seca(buen estado)'),
+    (8,'Letrina seca(mal estado)'),
+    (9,'No tiene'),
     )
 
 #---------------------------------------------------------------------------
