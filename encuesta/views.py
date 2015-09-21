@@ -136,10 +136,25 @@ class HomeView(TemplateView):
 
 def mostrar_productores(request, organizacion_id=None, sexo_id=None, template='encuesta/lista_productores.html'):
 
-    lista = Finca.objects.filter(nombre_productor__pertenece=organizacion_id, 
-                                 nombre_productor__sexo=sexo_id,
-                                 nombre_productor__activo=1).distinct()
-    
+    years = []
+    for en in Encuesta.objects.order_by('-ano').values_list('ano', flat=True):
+        years.append((en,en))
+
+    sorted(list(set(years)))
+
+    personas = {}
+    for obj in Comunidad.objects.all():
+        for y in years:
+            query = Finca.objects.filter(comunidad=obj,
+                                    encuesta__ano=y[0],
+                                    nombre_productor__pertenece=organizacion_id, 
+                                    nombre_productor__sexo=sexo_id,
+                                    nombre_productor__activo=1).distinct()
+            if query:
+                personas[obj] = {y[1]:query}
+
+    print personas
+
     return render(request, template, locals())
 
 

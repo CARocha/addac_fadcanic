@@ -4,31 +4,36 @@
 <br><br><br><br><br><br>
 <div class="container-fluid">
 	<div class="row">
-		  <div class="col-md-2"></div>
+		<div class="col-md-2"></div>
 		  <div class="col-md-8">
-		  	<h3>Lista de x para x</h3>
+		  {{personas}}
+		{% for k,v in personas.items %}
+		  	<h3>Lista de {{k}}</h3>
 		  	<table class="table table-hover">
 		      <thead>
 		        <tr>
-		          
 		          <th>Nombre</th>
 		          <th>Departamento</th>
 		          <th>Municipio</th>
+		          <th>Año de encuesta</th>
 		        </tr>
 		      </thead>
 		      <tbody>
-		      	{% for a in lista %}
+		      	{% for a in v %}
 					<tr>
 			          <td>{{a.nombre_productor}}</td>
 			          <td>{{a.municipio.departamento}}</td>
 			          <td>{{a.comunidad}}</td>
+			          <td>{{a.encuesta.ano}}</td>
 			        </tr>
 				{% endfor %}
 		        
 		      </tbody>
 		    </table>
-		  </div>
-		  <div class="col-md-2"></div>
+		  
+		{% endfor %}
+		</div>
+		<div class="col-md-2"></div>
 	</div>
 </div>
 {% endblock %}
