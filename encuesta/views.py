@@ -29,7 +29,7 @@ class HomeView(TemplateView):
         context['addac_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=2).aggregate(Avg('finca__area_finca'))
         lista_encuestas_addac = {}
         for year in fecha_choice():
-            num_anio = Encuesta.objects.filter(ano=year[0], 
+            num_anio = Encuesta.objects.filter(ano=year[0],
                                                finca__nombre_productor__pertenece=2).count()
             lista_encuestas_addac[year[1]] = num_anio
         context['addac_num_encuestas'] = lista_encuestas_addac
@@ -43,7 +43,7 @@ class HomeView(TemplateView):
         context['fad_promedio_mz'] = Encuesta.objects.filter(finca__nombre_productor__pertenece=1).aggregate(Avg('finca__area_finca'))
         lista_encuestas_fad = {}
         for year in fecha_choice():
-            num_anio = Encuesta.objects.filter(ano=year[0], 
+            num_anio = Encuesta.objects.filter(ano=year[0],
                                                finca__nombre_productor__pertenece=2).count()
             lista_encuestas_fad[year[1]] = num_anio
         context['addac_num_encuestas'] = lista_encuestas_fad
@@ -64,7 +64,7 @@ class HomeView(TemplateView):
         # for e in SEXO_CHOICE_3:
         #     obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
         #     obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
-        #     obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+        #     obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=5, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
         #     analfabetismo_addac[e[1]] = (obj_2009,obj_2011,obj_2013)
         # context['analfabetismo_addac'] = analfabetismo_addac
 
@@ -72,7 +72,7 @@ class HomeView(TemplateView):
         # for e in SEXO_CHOICE_3:
         #     obj_2009 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2009).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
         #     obj_2011 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2011).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
-        #     obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']  
+        #     obj_2013 = Encuesta.objects.filter(educacion__sexo_edad = e[0],finca__comunidad__municipio__departamento=3, ano=2013).aggregate(Sum('educacion__nosabe_leer'))['educacion__nosabe_leer__sum']
         #     if obj_2011 != 0:
         #         obj_2011 = 0
         #     analfabetismo_fad[e[1]] = (obj_2009,obj_2011,obj_2013)
@@ -84,7 +84,7 @@ class HomeView(TemplateView):
         #     legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=5, encuesta__ano=year[0]).count()
         #     legalidad_addac[year[1]] = legal
         # context['legalidad_addac'] = legalidad_addac
-        
+
         # legalidad_fadcanic = {}
         # for year in fecha_choice():
         #     legal  = Finca.objects.filter(legalidad = 6,comunidad__municipio__departamento=3, encuesta__ano=year[0]).count()
@@ -130,28 +130,20 @@ class HomeView(TemplateView):
         #     obj_2013 = Encuesta.objects.filter(credito__uso=obj,finca__comunidad__municipio__departamento=3, ano=2013).count()
         #     credito_fadcanic[obj] = (obj_2009,obj_2011,obj_2013)
         # context['credito_fadcanic'] = credito_fadcanic
-        
+
 
         return context
 
 def mostrar_productores(request, organizacion_id=None, sexo_id=None, template='encuesta/lista_productores.html'):
 
-    years = []
-    for en in Encuesta.objects.order_by('-ano').values_list('ano', flat=True):
-        years.append((en,en))
-
-    sorted(list(set(years)))
-
     personas = {}
     for obj in Comunidad.objects.all():
-        for y in years:
-            query = Finca.objects.filter(comunidad=obj,
-                                    encuesta__ano=y[0],
-                                    nombre_productor__pertenece=organizacion_id, 
-                                    nombre_productor__sexo=sexo_id,
-                                    nombre_productor__activo=1).distinct()
-            if query:
-                personas[obj] = {y[1]:query}
+        query = Finca.objects.filter(comunidad=obj,
+                                nombre_productor__pertenece=organizacion_id,
+                                nombre_productor__sexo=sexo_id,
+                                nombre_productor__activo=1).distinct()
+        if query:
+            personas[obj] = query
 
     print personas
 
@@ -177,10 +169,10 @@ def _query_filtros(request):
         params['finca__comunidad__municipio'] = request.session['municipio']
     if request.session['departamento']:
         params['finca__comunidad__municipio__departamento'] = request.session['departamento']
-               
+
     if request.session['propietario']:
         params['finca__propietario'] = request.session['propietario']
-    
+
     #if request.session['repetido'] == True:
     #    return Encuesta.objects.filter(**params).filter(finca__repetido=True)
     #else:
@@ -196,7 +188,7 @@ def ConsultaView(request, template='consulta.html'):
             request.session['municipio'] = form.cleaned_data['municipio']
             request.session['comunidad'] = form.cleaned_data['comunidad']
             request.session['propietario'] = form.cleaned_data['propietario']
-            request.session['repetido'] = form.cleaned_data['repetido'] 
+            request.session['repetido'] = form.cleaned_data['repetido']
             request.session['activo'] = True
             centinela = 1
         else:
@@ -217,59 +209,52 @@ def ConsultaView(request, template='consulta.html'):
 
 #funcion para el primer indicador
 def generales(request, template='encuesta/generales.html'):
-    a = _query_filtros(request)
+    query = _query_filtros(request)
+    a = query.count()
     rangos = {'0 - mz':(0,0),
-              '0.1 - 5 mz':(0.1,5),
-              '5 - 20 mz':(6,20),
-              '21 - 50 mz':(21,50),
-              '>51 mz':(51,10000),
+              '0.1 - 5 mz':(0.1,5.99),
+              '6 - 20 mz':(6,20.99),
+              '21 - 50 mz':(21,50.99),
+              '>51 mz':(51,1000000),
             }
-    lista1 = {} 
+    lista1 = {}
     for k,v in rangos.items():
-        cnt = a.filter(finca__area_finca__range=v).count()
+        cnt = query.filter(finca__area_finca__range=v).count()
         try:
             perct = cnt * 100 / a.count()
         except:
             perct = 0
         lista1[k] = (cnt,perct)
 
-    frecuencia = a.aggregate(bovino=Count('finca__animal_bovino'),porcino=Count('finca__animal_porcino'),
-                       equino=Count('finca__animal_equino'),aves=Count('finca__animal_aves'),
-                       caprino=Count('finca__animal_caprino'))
-    total = a.aggregate(bovino=Sum('finca__animal_bovino'),porcino=Sum('finca__animal_porcino'),
-                       equino=Sum('finca__animal_equino'),aves=Sum('finca__animal_aves'),
-                       caprino=Sum('finca__animal_caprino'))
-    promedio = a.aggregate(bovino=Avg('finca__animal_bovino'),porcino=Avg('finca__animal_porcino'),
-                       equino=Avg('finca__animal_equino'),aves=Avg('finca__animal_aves'),
-                       caprino=Avg('finca__animal_caprino'))
-    try:
-        perct_bovino = frecuencia['bovino']*100/a.count()
-    except:
-        perct_bovino = 0
-    try:
-        perct_porcino = frecuencia['porcino']*100/a.count()
-    except:
-        perct_porcino = 0
-    try:
-        perct_equino = frecuencia['equino']*100/a.count()
-    except:
-        perct_equino = 0
-    try:
-        perct_aves = frecuencia['aves']*100/a.count()
-    except:
-        perct_aves = 0
-    try:
-        perct_caprino = frecuencia['caprino']*100/a.count()
-    except:
-        perct_caprino = 0
+    total_fincas = query.count()
+    # TODO: Frecuencia de animales
+    bovino = query.filter(finca__animal_bovino__gt=0).count()
+    porcino = query.filter(finca__animal_porcino__gt=0).count()
+    equino = query.filter(finca__animal_equino__gt=0).count()
+    aves = query.filter(finca__animal_aves__gt=0).count()
+    caprino = query.filter(finca__animal_caprino__gt=0).count()
+    # TODO: Porcentajes de los animales
+    por_bovino = (float(bovino) / total_fincas) * 100 if total_fincas != 0 else 0
+    por_porcino = (float(porcino) / total_fincas) * 100 if total_fincas != 0 else 0
+    por_equino = (float(equino) / total_fincas) * 100 if total_fincas != 0 else 0
+    por_aves = (float(aves) / total_fincas) * 100 if total_fincas != 0  else 0
+    por_caprino = (float(caprino) / total_fincas) * 100 if total_fincas != 0 else 0
+    # TODO: totales por animales
+    sum_bovino = query.aggregate(Sum('finca__animal_bovino'))
+    sum_porcino = query.aggregate(Sum('finca__animal_porcino'))
+    sum_equino = query.aggregate(Sum('finca__animal_equino'))
+    sum_aves = query.aggregate(Sum('finca__animal_aves'))
+    sum_caprino = query.aggregate(Sum('finca__animal_caprino'))
+    # TODO: promedio de los animales
+    pro_bovino = query.filter(finca__animal_bovino__gt=0).aggregate(Avg('finca__animal_bovino'))
+    pro_porcino = query.filter(finca__animal_porcino__gt=0).aggregate(Avg('finca__animal_porcino'))
+    pro_equino = query.filter(finca__animal_equino__gt=0).aggregate(Avg('finca__animal_equino'))
+    pro_aves = query.filter(finca__animal_aves__gt=0).aggregate(Avg('finca__animal_aves'))
+    pro_caprino = query.filter(finca__animal_caprino__gt=0).aggregate(Avg('finca__animal_caprino'))
 
-    animales = {'Bovino':(frecuencia['bovino'],perct_bovino,total['bovino'],promedio['bovino']),
-                'Porcino':(frecuencia['porcino'],perct_porcino,total['porcino'],promedio['porcino']),
-                'Equino':(frecuencia['equino'],perct_equino,total['equino'],promedio['equino']),
-                'Aves':(frecuencia['aves'],perct_aves,total['aves'],promedio['aves']),
-                'Caprino':(frecuencia['caprino'],perct_caprino,total['caprino'],promedio['caprino'])}    
 
-    return render(request, template, {'a':a.count(), 'lista1':lista1, 'animales':animales})
+
+    return render(request, template, locals())
 
 #CBV para la ayuda del sistema
 class AyudaView(TemplateView):
@@ -298,12 +283,12 @@ def graficos(request, template="encuesta/detalle_casa.html"):
         propietario_casa[obj[1]] = cnt
 
     rangos = {'0 - mts':(0,0),
-              '1 - 5 mts':(0.1,5),
-              '5 - 20 mts':(6,20),
-              '21 - 50 mts':(21,50),
-              '>51 mts':(51,10000),
+              '1 - 5 mts':(0.1,5.99),
+              '5 - 20 mts':(6,20.99),
+              '21 - 50 mts':(21,50.99),
+              '>51 mts':(51,10000000),
             }
-    area_casa = {} 
+    area_casa = {}
     for k,v in rangos.items():
         cnt = a.filter(finca__area_casa__range=v).count()
         area_casa[k] = (cnt)
@@ -388,11 +373,11 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
     suma = a.aggregate(total_uso = Sum('usotierra__total_uso'),
                         bosque_primario = Sum('usotierra__bosque_primario'),
                         bosque_secundario= Sum('usotierra__bosque_secundario'),
-                        tacotales = Sum('usotierra__tacotal'), 
-                        cultivos_perennes = Sum('usotierra__cultivos_perennes'), 
-                        cultivos_semiperennes = Sum('usotierra__cultivos_semiperennes'), 
-                        cultivos_anuales = Sum('usotierra__cultivos_anuales'), 
-                        potrero_sin_arboles = Sum('usotierra__potrero_sin_arboles'), 
+                        tacotales = Sum('usotierra__tacotal'),
+                        cultivos_perennes = Sum('usotierra__cultivos_perennes'),
+                        cultivos_semiperennes = Sum('usotierra__cultivos_semiperennes'),
+                        cultivos_anuales = Sum('usotierra__cultivos_anuales'),
+                        potrero_sin_arboles = Sum('usotierra__potrero_sin_arboles'),
                         potrero_arboles = Sum('usotierra__potrero_arboles'),
                         plantaciones_forestales= Sum('usotierra__plantaciones_forestales'),
                     )
@@ -405,7 +390,7 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
         'cultivos_perennes':{'usotierra__cultivos_perennes__gt': 0 },
         'cultivos_semiperennes':{'usotierra__cultivos_semiperennes__gt': 0 },
         'cultivos_anuales':{'usotierra__cultivos_anuales__gt': 0 },
-        'potrero_sin_arboles': {'usotierra__potrero_sin_arboles__gt': 0 }, 
+        'potrero_sin_arboles': {'usotierra__potrero_sin_arboles__gt': 0 },
         'potrero_arboles': {'usotierra__potrero_arboles__gt': 0 },
         'plantaciones_forestales': {'usotierra__plantaciones_forestales__gt': 0 }
     }
@@ -428,22 +413,22 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
         fila.append("%.2f" % porcentaje_area)
         resultados.append(fila)
     try:
-        porcentaje_cobertura_boscosa = (( (float(suma['bosque_primario']) * 1) + (float(suma['cultivos_anuales'])*0.5) + 
-                             (float(suma['bosque_secundario'])*0.7) + (float(suma['cultivos_perennes'])*0.5) + 
-                             (float(suma['cultivos_semiperennes'])*0.5) + (float(suma['tacotales']) * 0.5) + 
-                             (float(suma['potrero_sin_arboles'])*0.5) + (float(suma['plantaciones_forestales']) * 1) + 
+        porcentaje_cobertura_boscosa = (( (float(suma['bosque_primario']) * 1) + (float(suma['cultivos_anuales'])*0.5) +
+                             (float(suma['bosque_secundario'])*0.7) + (float(suma['cultivos_perennes'])*0.5) +
+                             (float(suma['cultivos_semiperennes'])*0.5) + (float(suma['tacotales']) * 0.5) +
+                             (float(suma['potrero_sin_arboles'])*0.5) + (float(suma['plantaciones_forestales']) * 1) +
                              (float(suma['potrero_arboles']) * 0.3)) / float(suma['total_uso']))*100
         porcentaje_cobertura_boscosa = "%.2f" % porcentaje_cobertura_boscosa
     except:
         porcentaje_cobertura_boscosa = 0
-    
+
     return render(request, template, {'a':a.count(),'data':resultados,
                                       'porcentaje_cobertura':porcentaje_cobertura_boscosa})
 
 #Funcion para calcular la seguridad alimentaria
 def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html"):
     a = _query_filtros(request)
-    id_alimentos = [dato[0] for dato in ALIMENTO_CHOICES] 
+    id_alimentos = [dato[0] for dato in ALIMENTO_CHOICES]
     total_encuestas=a.count() #usado para el porcentaje
     datos = []
     resultados = []
@@ -458,10 +443,10 @@ def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html
         fila.append(ALIMENTO_CHOICES[id-1][1])
         fila.append(datos['compran'])
         porcentaje = (float(datos['compran'])/total_encuestas)*100
-        fila.append("%.2f" % porcentaje) 
+        fila.append("%.2f" % porcentaje)
         fila.append(nivel_consumo['nivel'])
         porcentaje = (float(nivel_consumo['nivel'])/total_encuestas)*100
-        fila.append("%.2f" % porcentaje) 
+        fila.append("%.2f" % porcentaje)
         resultados.append(fila)
     return render(request, template, {'a':a.count(), 'data':resultados})
 
@@ -496,7 +481,7 @@ def ingreso_anuales(request, template="encuesta/ingresos_anuales.html"):
                                                                     precio_organizado=Avg('seguridadcanuales__precio_promedio_orga'))
         if cnt['total_manzanas'] > 0:
             anuales[obj[1]] = cnt
-    
+
     return render(request, template, {'a':a.count(), 'data':anuales})
 
 #Funcion sobre ingreso en pruductos animales
@@ -616,7 +601,7 @@ VALID_VIEWS = {
         'ingreso_procesados': ingreso_pprocesados,
         'ingreso_negocio': ingreso_negocio,
         'ingreso_saf': ingreso_saf,
-        
+
 }
 # Función para obtener las url
 def _get_view(request, vista):

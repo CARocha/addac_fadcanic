@@ -31,10 +31,10 @@
             series: [{
                 type: 'pie',
                 name: 'manzanas',
-                data: [ {%for k,v in lista1.items%} 
+                data: [ {%for k,v in lista1.items%}
                           ['{{k}}',{{v.0}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
@@ -63,12 +63,25 @@
             },
             series: [{
                 type: 'pie',
-                name: 'aniamles',
-                data: [ {%for k,v in animales.items%} 
-                          ['{{k}}',{{v.0}}],
-                        {%endfor%}
-                   
-                ]
+                name: 'animales',
+                 data: [{
+                    name: "Bovino",
+                    y: {{bovino}}
+                }, {
+                    name: "Porcino",
+                    y: {{porcino}},
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: "Equino",
+                    y: {{equino}}
+                }, {
+                    name: "Aves",
+                    y: {{aves}}
+                }, {
+                    name: "Caprino",
+                    y: {{caprino}}
+                }]
                 }]
         });
     });
@@ -105,7 +118,7 @@
       <div class="tab-content">
     <div class="tab-pane active" id="tabla">
 
-              
+
 
      <div class="panel-body">
              {% include "indicadores.html" %}
@@ -131,29 +144,53 @@
 				</table>
            	 </div>
            	 <div class="table-responsive">
-                 <table class="table" id="myTable2">
-                 <caption>Animales</caption>
-                 <thead>
-                      <tr>
-                          <th>Tipos animales</th>
-                          <th>Cuantos animales tiene</th>
-                          <th>%</th>
-                          <th>Total de animales</th>
-                          <th>Promedio por finca</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  	{% for k,v in animales.items %}
-                  		<tr>
-                          <td>{{k}}</td>
-                          <td>{{v.0}}</td>
-                          <td>{{v.1}}</td>
-                          <td>{{v.2}}</td>
-                          <td>{{v.3|floatformat:2}}</td>
-                      	</tr>
-                  	{% endfor %}
-                  </tbody>
-				</table>
+                 <table class="table" id="myTable">
+                <caption>Tabla animales</caption>
+                <thead>
+                   <tr>
+                     <th>Animales</th>
+                     <th>Frecuencia Finca</th>
+                     <th>Porcentajes (%)</th>
+                     <th>Total Animales</th>
+                     <th>Promedio</th>
+                   </tr>
+               </thead>
+               <tr>
+                <td>Bovino</td>
+                 <td>{{ bovino }}</td>
+                 <td>{{ por_bovino|floatformat:0 }}</td>
+                 <td>{{ sum_bovino.finca__animal_bovino__sum|floatformat:0 }}</td>
+                 <td>{{ pro_bovino.finca__animal_bovino__avg|floatformat:0  }}</td>
+              </tr>
+              <tr>
+                <td>Porcino</td>
+                 <td>{{ porcino }}</td>
+                 <td>{{ por_porcino|floatformat:0 }}</td>
+                 <td>{{ sum_porcino.finca__animal_porcino__sum|floatformat:0  }}</td>
+                 <td>{{ pro_porcino.finca__animal_porcino__avg|floatformat:0  }}</td>
+              </tr>
+              <tr>
+                <td>Equino</td>
+                <td>{{ equino }}</td>
+                <td>{{ por_equino|floatformat:0 }}</td>
+                 <td>{{ sum_equino.finca__animal_equino__sum|floatformat:0  }}</td>
+                 <td>{{ pro_equino.finca__animal_equino__avg|floatformat:0  }}</td>
+              </tr>
+              <tr>
+                <td>Aves</td>
+                 <td>{{ aves }}</td>
+                 <td>{{ por_aves|floatformat:0 }}</td>
+                 <td>{{ sum_aves.finca__animal_aves__sum|floatformat:0  }}</td>
+                 <td>{{ pro_aves.finca__animal_aves__avg|floatformat:0  }}</td>
+              </tr>
+              <tr>
+                <td>Caprino</td>
+               <td>{{ caprino }}</td>
+               <td>{{ por_caprino|floatformat:0 }}</td>
+                 <td>{{ sum_caprino.finca__animal_caprino__sum|floatformat:0 }}</td>
+                 <td>{{ pro_caprino.finca__animal_caprino__avg|floatformat:0  }}</td>
+              </tr>
+                </table>
            	 </div>
          </div>
     </div>
@@ -175,7 +212,7 @@
 
       </div>
     </div> <!-- terminas las tablas -->
-    
+
   </div>
 </div>
 {% endblock contenido %}

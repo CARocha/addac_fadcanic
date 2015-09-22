@@ -4,8 +4,8 @@ register = template.Library()
 
 @register.filter(name='calculaperct')
 def calculaperct(value1, value2):
-    try:  
-        resultado = value1 / value2 * 100
+    try:
+        resultado = (float(value1) / value2 * 100)
         return resultado
-    except:  
+    except:
         return 0

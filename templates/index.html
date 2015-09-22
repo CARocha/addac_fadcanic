@@ -21,12 +21,12 @@ $(function () {
                 }
             }]
         },
-        series: [{% for k,v in analfabetismo_fad.items %}         
+        series: [{% for k,v in analfabetismo_fad.items %}
                   {
                       type: 'column',
                       name: '{{k}}',
                       data: [{% for valor in v %}{{valor}},{% endfor %}]
-                  }, 
+                  },
                 {% endfor %}
               ]
     });
@@ -49,13 +49,13 @@ $(function () {
             }]
         },
         series: [{% for k,v in analfabetismo_addac.items %}
-                  
+
                         {
                             type: 'column',
                             name: '{{k}}',
                             data: [{% for valor in v %}{{valor}},{% endfor %}]
                         },
-                      
+
                     {% endfor %}
               ]
     });
@@ -110,12 +110,12 @@ $(function () {
                 }
             }]
         },
-        series: [{% for k,v in propietario_addac.items %}         
+        series: [{% for k,v in propietario_addac.items %}
                   {
                       type: 'column',
                       name: '{{k}}',
                       data: [{% for valor in v %}{{valor}},{% endfor %}]
-                  }, 
+                  },
                 {% endfor %}
               ]
     });
@@ -137,12 +137,12 @@ $(function () {
                 }
             }]
         },
-        series: [{% for k,v in credito_addac.items %}         
+        series: [{% for k,v in credito_addac.items %}
                   {
                       type: 'column',
                       name: '{{k}}',
                       data: [{% for valor in v %}{{valor}},{% endfor %}]
-                  }, 
+                  },
                 {% endfor %}
               ]
     });
@@ -178,7 +178,7 @@ $(function () {
                 ]
             }]
         });
-        // otro grafo mas 
+        // otro grafo mas
         $('#contenedor7').highcharts({
         title: {
             text: 'Propietario de la finca'
@@ -196,12 +196,12 @@ $(function () {
                 }
             }]
         },
-        series: [{% for k,v in propietario_fadcanic.items %}         
+        series: [{% for k,v in propietario_fadcanic.items %}
                   {
                       type: 'column',
                       name: '{{k}}',
                       data: [{% for valor in v %}{{valor}},{% endfor %}]
-                  }, 
+                  },
                 {% endfor %}
               ]
     });
@@ -223,16 +223,16 @@ $(function () {
                 }
             }]
         },
-        series: [{% for k,v in credito_fadcanic.items %}         
+        series: [{% for k,v in credito_fadcanic.items %}
                   {
                       type: 'column',
                       name: '{{k}}',
                       data: [{% for valor in v %}{{valor}},{% endfor %}]
-                  }, 
+                  },
                 {% endfor %}
               ]
     });
-  
+
 
 });//fin function
   </script>
@@ -246,8 +246,8 @@ $(function () {
         <ol class="carousel-indicators">
           {% for foto in  fotos %}
             <li data-target="#carousel-example-generic" data-slide-to="{{forloop.counter}}" {% if forloop.first %}class="active"{% endif %} ></li>
-            
-          {% endfor %}                                  
+
+          {% endfor %}
         </ol>
 
         <!-- Wrapper for slides -->
@@ -256,9 +256,9 @@ $(function () {
               <div class="item {% if forloop.first %}active{% endif %}">
                 {% thumbnail foto.imagen "1400x400" crop="center" as im %}
                   <img src="/media/{{im}}">
-                {% endthumbnail %}                        
+                {% endthumbnail %}
               </div>
-          {% endfor %}                          
+          {% endfor %}
         </div>
         <!-- Controls -->
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
@@ -266,8 +266,8 @@ $(function () {
         </a>
         <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>               
-        
+        </a>
+
     </div>
 </section>
 
@@ -293,14 +293,14 @@ $(function () {
       <i class="ahombre badge"><h2>{{addac_hombres}}</h2></i>
       <h6>HOMBRES</h6></a>
       </div>
-      
+
   </div>
   <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space"><a href="/lista/2/1/">
       <i class="amujeres badge"><h2>{{addac_mujeres}}</h2></i>
       <h6>MUJERES</h6></a>
       </div>
-      
+
   </div>
 
    <div class="col-xs-2 col-md-2 cd addacol">
@@ -308,7 +308,7 @@ $(function () {
       <i class="aactivos badge"><h2>{{addac_activos}}</h2></i>
       <h6>ACTIVOS</h6>
       </div>
-      
+
   </div>
 
   <div class="col-xs-2 col-md-2 cd addacol">
@@ -316,7 +316,7 @@ $(function () {
       <i class="ajovenes badge"><h2>{{addac_jovenes}}</h2></i>
       <h6>JOVENES(16-25)</h6>
       </div>
-      
+
   </div>
 
   <div class="col-xs-2 col-md-2 cd addacol">
@@ -324,15 +324,15 @@ $(function () {
       <i class="aadultos badge"><h2>{{addac_adultos}}</h2></i>
       <h6>ADULTOS(>=26)</h6>
       </div>
-      
+
   </div>
 
   <div class="col-xs-2 col-md-2 cd addacol">
       <div class="space">
-      <i class="apromedio badge"><h2>{{addac_promedio_mz.finca__area_finca__avg|floatformat:2}}</h2></i> 
+      <i class="apromedio badge"><h2>{{addac_promedio_mz.finca__area_finca__avg|floatformat:2}}</h2></i>
       <h6>PROMEDIO EN MZ x FAMILIA</h6>
       </div>
-      
+
   </div>
 </div>
   <hr style="color: #bbb; border-top: dotted 3px;" />
@@ -344,18 +344,18 @@ $(function () {
       </span>
   </div>
   <div class="col-xs-2 col-md-2 cd fadcol">
-      <div class="space"><a href="#">
+      <div class="space"><a href="/lista/1/3/">
       <i class="ahombre badge"><h2>{{fad_hombres}}</h2></i>
       <h6>HOMBRES</h6></a>
       </div>
-      
+
   </div>
   <div class="col-xs-2 col-md-2 cd fadcol">
-      <div class="space"><a href="#">
+      <div class="space"><a href="/lista/1/1/">
       <i class="amujeres badge"><h2>{{fad_mujeres}}</h2></i>
       <h6>MUJERES</h6></a>
       </div>
-      
+
   </div>
 
    <div class="col-xs-2 col-md-2 cd fadcol">
@@ -363,16 +363,16 @@ $(function () {
       <i class="aactivos badge"><h2>{{fad_activos}}</h2></i>
       <h6>ACTIVOS</h6>
       </div>
-      
+
   </div>
-  
+
 
   <div class="col-xs-2 col-md-2 cd fadcol">
       <div class="space">
       <i class="ajovenes badge"><h2>{{fad_jovenes}}</h2></i>
       <h6>JOVENES(16-25)</h6>
       </div>
-      
+
   </div>
 
   <div class="col-xs-2 col-md-2 cd fadcol">
@@ -380,7 +380,7 @@ $(function () {
       <i class="aadultos badge"><h2>{{fad_adultos}}</h2></i>
       <h6>ADULTOS(>=26)</h6>
       </div>
-      
+
   </div>
 
   <div class="col-xs-2 col-md-2 cd fadcol">
@@ -388,14 +388,14 @@ $(function () {
       <i class="apromedio badge"><h2>{{fad_promedio_mz.finca__area_finca__avg|floatformat:2}}</h2></i>
       <h6>PROMEDIO EN MZ x FAMILIA</h6>
       </div>
-      
+
   </div>
 </div>
-</div> 
+</div>
     <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-  
+
 
     <div class="row">
     <hr class="separador">
@@ -403,38 +403,38 @@ $(function () {
         <hr class="separador">
         <div class="col-lg-12 col-md-12 col-xs-12">
           <div class="panel panel-default panelgrafico">
-       
+
             <div class="panel-body">
-              
+
               <!-- <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div> -->
               <div class="col-lg-7 col-md-12 col-xs-12">
                 <p>El Programa Agenda de Innovación y Desarrollo de las comunidades Multiétnicas para Enfrentar de Manera Exitosa el reto del Cambio Climático y el Mercado Globalizado ejecutado por FADCANIC en la Región Autónoma del Caribe Sur (municipios de Bluefields, El Rama, Kukra Hill, Laguna de Perlas, Perlas, Desembocadura del Río Grande, y El Tortuguero) y por ADDAC en el municipio de Rancho Grande (departamento de Matagalpa) y Waslala (Región Autónoma del Caribe Norte), es un seguimiento del programa Innovación fase I, que fue desarrollado entre los años 2009 al 2013, el mismo tiene por lema “anclando las Lecciones del Programa de Innovación Agroforestal del Trópico Húmedo de Nicaragua”.</p>
               </div>
-              
+
               <div class="col-lg-5 col-md-12 col-xs-12">
                 <img src="{% static 'img/1c.png' %}" alt="">
               </div>
 
-      
-     
-              
+
+
+
                   <!-- <div id="contenedor1" style="max-width: 600px; height: 400px; margin: 0 auto" class="center-block"></div> -->
-             
+
                     <div class="col-lg-5 col-md-12 col-xs-12 paraf">
                       <img src="{% static 'img/2c.png' %}" alt="">
                     </div>
 
                     <div class="col-lg-7 col-md-12 col-xs-12 paraf">
-                       <p>La finalidad del programa radica en que las familias rurales pobres, organizaciones comunitarias y cooperativas del trópico húmedo de Nicaragua, innoven sistemas de desarrollo local sostenible con equidad que les permita mejorar las estrategias de vida y conservar los recursos naturales.</p>            
+                       <p>La finalidad del programa radica en que las familias rurales pobres, organizaciones comunitarias y cooperativas del trópico húmedo de Nicaragua, innoven sistemas de desarrollo local sostenible con equidad que les permita mejorar las estrategias de vida y conservar los recursos naturales.</p>
 
-              <p>Los principales objetivos del programa son:</p> 
-                
+              <p>Los principales objetivos del programa son:</p>
+
                 <ol>
 
                   <li>Mejoramiento sostenible de los ingresos, seguridad alimentaria y salud
                       ambiental de 3,000 familias en 8 municipios pobres de la zona del trópico
                       húmedo quienes de manera organizada ejecutan su agenda de innovación y
-                      desarrollo.  
+                      desarrollo.
                   </li>
 
                   <li>Asegurada la integración activa y efectiva de las organizaciones socias,
@@ -443,8 +443,8 @@ $(function () {
 
                 </ol>
               </div>
-                
-         
+
+
 
 
 <div class="col-lg-12 col-md-12 col-xs-12 paraf">
@@ -458,12 +458,12 @@ $(function () {
                       <li>Crédito.</li>
                       <li>Ingresos económicos por producción, negocios y servicios.</li>
                       <li>Innovaciones</li>
-                    </ol> 
+                    </ol>
 
               <br><br>
         </div>
 
-    </div> 
+    </div>
 </div>
    </div>
         </div>
@@ -477,34 +477,34 @@ $(function () {
 <hr class="separador">
   <div class="row">
     <div id=""class="col-xs-12 col-md-4 col-lg-4 wow animated fadeInLeft" data-wow-delay="">
-      
+
       <div class="panel panel-default">
 
           <div class="panel-heading">
 
-            
+
             <h3>Legalidad</h3>
 
           </div>
 
           <div class="panel-body">
-              
+
               <div id="contenedor3" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
-              </div>       
+              </div>
           </div>
 
       </div>
 
- 
+
      <div  id="fade2"  class="col-xs-12 col-md-4 col-lg-4 wow animated fadeInLeft" data-wow-delay="0.25s">
       <div class="panel panel-default">
 
           <div class="panel-heading">
-            
+
             <h3>Propietario</h3>
 
           </div>
-        
+
           <div class="panel-body">
            <div id="contenedor4" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
 
@@ -516,7 +516,7 @@ $(function () {
       <div class="panel panel-default">
 
           <div class="panel-heading">
-            
+
             <h3>Crédito</h3>
 
           </div>
@@ -525,7 +525,7 @@ $(function () {
 
             <div id="contenedor5" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
           </div>
-          
+
       </div>
     </div>
        </div>
@@ -538,11 +538,11 @@ $(function () {
   <hr class="separador">
   <div class="row">
 <div class="col-xs-12 col-md-4 col-lg-4 wow animated fadeInRight" data-wow-delay="0.5s">
-  
+
     <div class="panel panel-default">
 
         <div class="panel-heading">
-          
+
           <h3>Legalidad</h3>
 
         </div>
@@ -550,7 +550,7 @@ $(function () {
         <div class="panel-body">
            <div id="contenedor6" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
-        
+
     </div>
 
 </div>
@@ -558,7 +558,7 @@ $(function () {
     <div class="panel panel-default">
 
         <div class="panel-heading">
-         
+
           <h3>Propietario</h3>
 
         </div>
@@ -566,7 +566,7 @@ $(function () {
         <div class="panel-body">
             <div id="contenedor7" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
-        
+
     </div>
 </div>
 <div class="col-xs-12 col-md-4 col-lg-4 wow animated fadeInRight" data-wow-delay="">
@@ -574,7 +574,7 @@ $(function () {
     <div class="panel panel-default">
 
         <div class="panel-heading">
-          
+
           <h3>Crédito</h3>
 
         </div>
@@ -583,12 +583,12 @@ $(function () {
 
        <div id="contenedor8" style="max-width: 400px; height: 400px; margin: 0 auto"></div>
         </div>
-        
+
     </div>
 </div>
-</div> 
 </div>
- --> 
+</div>
+ -->
 {% include "modalogin.html" %}
 {% endblock contenido %}
 

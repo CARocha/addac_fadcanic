@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% load ayudar %}
+
 {% block extra_js %}
 <script>
      $(document).ready(function () {
@@ -31,10 +33,10 @@
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {%for k,v in tipo_casa.items%} 
+                data: [ {%for k,v in tipo_casa.items%}
                           ['{{k}}',{{v}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
@@ -64,10 +66,10 @@
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {%for k,v in fuente_agua.items%} 
+                data: [ {%for k,v in fuente_agua.items%}
                           ['{{k}}',{{v}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
@@ -97,10 +99,10 @@
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {%for k,v in legalidad.items%} 
+                data: [ {%for k,v in legalidad.items%}
                           ['{{k}}',{{v}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
@@ -130,10 +132,10 @@
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {%for k,v in propietario_casa.items%} 
+                data: [ {%for k,v in propietario_casa.items%}
                           ['{{k}}',{{v}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
@@ -163,10 +165,10 @@
             series: [{
                 type: 'pie',
                 name: '',
-                data: [ {%for k,v in area_casa.items%} 
+                data: [ {%for k,v in area_casa.items%}
                           ['{{k}}',{{v}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
@@ -210,6 +212,27 @@
        <div class="panel-body">
        <div class="container-fluid ">
         <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+         <div class="table-responsive">
+                 <table class="table" id="myTable">
+                 <caption>Tipos de casas</caption>
+                 <thead>
+                      <tr>
+                          <th>Tipo de casa</th>
+                          <th>Frecuencia</th>
+                          <th>%</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for k,v in tipo_casa.items %}
+                        <tr>
+                          <td>{{k}}</td>
+                          <td>{{v}}</td>
+                          <td>{{v|calculaperct:a|floatformat:2}}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+             </div>
       </div>
        </div>
     </div>
@@ -219,6 +242,27 @@
     <div class="panel-body" >
       <div class="container-fluid ">
         <div id="container2" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+        <div class="table-responsive">
+                 <table class="table" id="myTable">
+                 <caption>Fuentes de agua</caption>
+                 <thead>
+                      <tr>
+                          <th>Tipo de fuentes de agua</th>
+                          <th>Frecuencia</th>
+                          <th>%</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for k,v in fuente_agua.items %}
+                        <tr>
+                          <td>{{k}}</td>
+                          <td>{{v}}</td>
+                          <td>{{v|calculaperct:a|floatformat:2}}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+             </div>
       </div>
     </div>
     </div>
@@ -228,6 +272,27 @@
     <div class="panel-body" >
       <div class="container-fluid ">
         <div id="container3" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+        <div class="table-responsive">
+                 <table class="table" id="myTable">
+                 <caption>Legalidad</caption>
+                 <thead>
+                      <tr>
+                          <th>Tipo de fuentes de agua</th>
+                          <th>Frecuencia</th>
+                          <th>%</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for k,v in legalidad.items %}
+                        <tr>
+                          <td>{{k}}</td>
+                          <td>{{v}}</td>
+                          <td>{{v|calculaperct:a|floatformat:2}}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+             </div>
       </div>
     </div>
     </div>
@@ -254,7 +319,7 @@
 
       </div>
     </div> <!-- terminas las tablas -->
-    
+
   </div>
 </div>
 {% endblock contenido %}
