@@ -52,11 +52,12 @@
                 {
                     name: '{{value.0}}',
                     data: [{{value.1}}],
-               
+
                 },
                 {% endfor %}]
         });
     //grafico eba
+    {% if pintar %}
      $('#container1').highcharts({
             chart: {
                 plotBackgroundColor: null,
@@ -82,14 +83,15 @@
             series: [{
                 type: 'pie',
                 name: 'cuantos',
-                data: [ {%for k,v in tabla_eba.items%} 
+                data: [ {%for k,v in tabla_eba.items%}
                           ['{{k}}',{{v.estudia_eba|default:0}}],
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
-  
+     {% endif %}
+
     });
 </script>
 {% endblock extra_js %}
@@ -118,7 +120,7 @@
     </ul>
 
       <div class="tab-content">
-    <div class="tab-pane active" id="tabla">         
+    <div class="tab-pane active" id="tabla">
 
      <div class="panel-body">
              {% include "indicadores.html" %}
@@ -150,7 +152,8 @@
 				</table>
            	 </div>
              <br>
-           	 <div class="table-responsive">
+             {% if pintar %}
+                <div class="table-responsive">
                   <table class="table" id="myTable2">
                  <caption>Educación EBA</caption>
                  <thead>
@@ -164,21 +167,23 @@
                       </tr>
                   </thead>
                   <tbody>
-                    
-                  	{% for k,v in tabla_eba.items %}
+
+                    {% for k,v in tabla_eba.items %}
                     <tr>
-                  		  <td>{{k}}</td>
+                        <td>{{k}}</td>
                         <td>{{v.estudia_eba|default:0}}</td>
                         <td>{{v.estu_mined|default:0}}</td>
                         <td>{{v.estu_uni|default:0}}</td>
                         <td>{{v.egresado_eba|default:0}}</td>
                         <td>{{v.egresado_mined|default:0}}</td>
                     </tr>
-                  	{% endfor %}
-                    
+                    {% endfor %}
+
                   </tbody>
-				</table>
-           	 </div>
+              </table>
+             </div>
+             {% endif %}
+
          </div>
     </div>
 
@@ -190,7 +195,10 @@
             <div class="container-fluid ">
               <div id="container" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
               <br>
-              <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+              {% if pintar %}
+                <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+              {% endif %}
+
             </div>
             </div>
           </div>
@@ -199,7 +207,7 @@
 
       </div>
     </div> <!-- terminas las tablas -->
-    
+
   </div>
 </div>
 {% endblock contenido %}

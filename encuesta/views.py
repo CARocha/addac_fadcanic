@@ -343,8 +343,11 @@ def educacion(request, template="encuesta/educacion.html"):
                                                                            )
         tabla_eba[obj[1]] = (cnt_finalizado)
 
+    pintar = tabla_eba["Hombres de 25 adelante"]["estudia_eba"]
+
+
     return render(request, template, {'tabla_educacion':tabla_educacion,'grafo':grafo,
-                                      'a':a.count(), 'tabla_eba':tabla_eba})
+                                      'a':a.count(), 'tabla_eba':tabla_eba, 'pintar':pintar})
 
 #Función para mostrar los datos de credito su uso y con quien tiene.
 def credito(request, template="encuesta/credito.html"):
@@ -412,6 +415,13 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
         porcentaje_area = (float(suma[key])/suma['total_uso'])*100 if suma['total_uso']!= 0  else 0
         fila.append("%.2f" % porcentaje_area)
         resultados.append(fila)
+
+    resultados2 = []
+    for obj in resultados:
+        if obj[0] != "Total uso":
+            resultados2.append(obj)
+
+    print resultados2
     try:
         porcentaje_cobertura_boscosa = (( (float(suma['bosque_primario']) * 1) + (float(suma['cultivos_anuales'])*0.5) +
                              (float(suma['bosque_secundario'])*0.7) + (float(suma['cultivos_perennes'])*0.5) +
@@ -423,7 +433,7 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
         porcentaje_cobertura_boscosa = 0
 
     return render(request, template, {'a':a.count(),'data':resultados,
-                                      'porcentaje_cobertura':porcentaje_cobertura_boscosa})
+                                      'porcentaje_cobertura':porcentaje_cobertura_boscosa,'resultados2':resultados2})
 
 #Funcion para calcular la seguridad alimentaria
 def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html"):
@@ -458,11 +468,8 @@ def innovaciones(request, template="encuesta/innovaciones.html"):
     total_no = 0
     for obj in TipoInnovacion.objects.all().order_by('nombre'):
         si = a.filter(innovacion__innovacion=obj, innovacion__aplica=1).count()
-        total_si += si
         no = a.filter(innovacion__innovacion=obj, innovacion__aplica=2).count()
-        total_no += no
-        conteo[obj.nombre] = (si/a.count()*100, no/a.count()*100)
-
+        conteo[obj.nombre] = (si,no)
     return render(request, template, {'a':a.count(), 'data': conteo})
 
 #Funcion sobre ingreso en cultivos anuales
@@ -470,17 +477,18 @@ def ingreso_anuales(request, template="encuesta/ingresos_anuales.html"):
     a = _query_filtros(request)
 
     anuales = {}
-    for obj in SISTEMAS_CHOICES:
-        cnt = a.filter(seguridadcanuales__cultivos=obj[0]).aggregate(total_manzanas=Sum('seguridadcanuales__area_produccion'),
-                                                                    total_prudccion=Sum('seguridadcanuales__produccion'),
-                                                                    total_autoconsumo=Sum('seguridadcanuales__auto_consumo'),
-                                                                    total_perdida=Sum('seguridadcanuales__perdidas'),
-                                                                    venta_no=Sum('seguridadcanuales__venta_no'),
-                                                                    precio_no=Avg('seguridadcanuales__precio_promedio_no'),
-                                                                    venta_organizada=Sum('seguridadcanuales__venta_organizada'),
-                                                                    precio_organizado=Avg('seguridadcanuales__precio_promedio_orga'))
+    for obj in CultivosAnuales.objects.all():
+        cnt = a.filter(seguridadcanuales__cultivos=obj).aggregate(
+            total_manzanas=Sum('seguridadcanuales__area_produccion'),
+            total_prudccion=Sum('seguridadcanuales__produccion'),
+            total_autoconsumo=Sum('seguridadcanuales__auto_consumo'),
+            total_perdida=Sum('seguridadcanuales__perdidas'),
+            venta_no=Sum('seguridadcanuales__venta_no'),
+            precio_no=Avg('seguridadcanuales__precio_promedio_no'),
+            venta_organizada=Sum('seguridadcanuales__venta_organizada'),
+            precio_organizado=Avg('seguridadcanuales__precio_promedio_orga'))
         if cnt['total_manzanas'] > 0:
-            anuales[obj[1]] = cnt
+            anuales[obj] = cnt
 
     return render(request, template, {'a':a.count(), 'data':anuales})
 

@@ -3,6 +3,81 @@
 {% load staticfiles %}
 {% load ayudar %}
 
+{% block extra_js %}
+<script type="text/javascript">
+  $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'pie',
+        },
+        title: {
+            text: 'Porcentaje de producción de cultivos anuales'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'producción',
+            data: [
+                {%for k,v in data.items%}
+                  ['{{k}}',   {{v.total_prudccion}}],
+                {% endfor %}
+            ]
+        }]
+    });
+});
+
+$(function () {
+    $('#container1').highcharts({
+        chart: {
+            type: 'pie',
+        },
+        title: {
+            text: 'Porcentaje de total de perdidas de cultivos anuales'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'producción',
+            data: [
+                {%for k,v in data.items%}
+                  ['{{k}}',   {{v.total_perdida}}],
+                {% endfor %}
+            ]
+        }]
+    });
+});
+
+</script>
+
+
+{% endblock extra_js %}
+
 {% block contenido %}
 	<br><br><br><br><br><br>
 <div class="container">
@@ -27,7 +102,7 @@
     </ul>
 
       <div class="tab-content">
-    <div class="tab-pane active" id="tabla">         
+    <div class="tab-pane active" id="tabla">
 
      <div class="panel-body">
              {% include "indicadores.html" %}
@@ -36,7 +111,7 @@
                  <caption>Cultivos anuales</caption>
                  <thead>
                       <tr>
-                          <th>Cultivos</th>
+                          <th width="20%">Cultivos</th>
                           <th>Área en prod.(Mz)</th>
                           <th>Total producción</th>
                           <th>Total autoconsumo</th>
@@ -56,9 +131,9 @@
                       <td>{{v.total_autoconsumo}}</td>
                       <td>{{v.total_perdida}}</td>
                       <td>{{v.venta_no}}</td>
-                      <td>{{v.precio_no}}</td>
+                      <td>{{v.precio_no|floatformat:2}}</td>
                       <td>{{v.venta_organizada}}</td>
-                      <td>{{v.precio_organizado}}</td>
+                      <td>{{v.precio_organizado|floatformat:2}}</td>
                   </tr>
                   {%endfor%}
                   </tbody>
@@ -84,7 +159,7 @@
 
       </div>
     </div> <!-- terminas las tablas -->
-    
+
   </div>
 </div>
 {% endblock contenido %}

@@ -27,7 +27,7 @@
     </ul>
 
       <div class="tab-content">
-    <div class="tab-pane active" id="tabla">         
+    <div class="tab-pane active" id="tabla">
 
      <div class="panel-body">
              {% include "indicadores.html" %}
@@ -37,24 +37,24 @@
                  <thead>
                       <tr>
                           <th>Innovaciones</th>
-                          <th>% si</th>
-                          <th>% no</th>
+                          <th>Porcentaje SI</th>
+                          <th> Porcentaje NO</th>
                       </tr>
                   </thead>
                   <tbody>
                   {%for k,v in data.items%}
                   <tr>
-                    
+
                       <td>
                           {{k}}
                       </td>
                       <td>
-                          {{v.0}}
+                          {{v.0|calculaperct:a|floatformat:2}} %
                       </td>
                       <td>
-                          {{v.1}}
+                          {{v.1|calculaperct:a|floatformat:2}} %
                       </td>
-                                           
+
                   </tr>
                   {%endfor%}
                   </tbody>
@@ -80,7 +80,7 @@
 
       </div>
     </div> <!-- terminas las tablas -->
-    
+
   </div>
 </div>
 {% endblock contenido %}

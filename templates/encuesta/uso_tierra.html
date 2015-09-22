@@ -32,65 +32,69 @@
             series: [{
                 type: 'pie',
                 name: 'Porcentaje',
-                data: [ {%for k in data%}    
-                        ['{{k.0}}',{{k.1}}],
+                data: [ {%for k in resultados2%}
+                            ['{{k.0}}',{{k.1}}],
+
                         {%endfor%}
-                   
+
                 ]
                 }]
         });
-        //segundo grafico
-       
-     $('#container1').highcharts({
+   });
+
+$(function () {
+    // Create the chart
+    $('#container22').highcharts({
         chart: {
             type: 'column'
         },
-            title: {
-                text: 'Uso de tierra [Areas totales]'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: [
-                    'Opciones'
-                ]
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Porcentajes (%)'
-                }
-            },
-
-            tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
+        title: {
+            text: 'Uso de tierra [Areas totales]'
         },
-            plotOptions: {
-                column: {
-                    groupPadding: 0,
-                    pointPadding: 0.9,
-                    borderWidth: 0
-                },
-                series: {
-                    pointWidth: 55,
-                    minPointLength : 1
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentajes (%)'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
                 }
-            },
-            series: [{% for value in data %}
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        series: [{
+            name: "",
+            colorByPoint: true,
+            data: [
+              {% for value in resultados2 %}
                 {
                     name: '{{value.0}}',
-                    data: [{{value.3}}],
-               
+                    y: {{value.4}},
                 },
-                {% endfor %}]
-        });
-   });
+              {% endfor %}
+              ]
+        }]
+    });
+});
 </script>
 {% endblock %}
 
@@ -117,7 +121,7 @@
     </ul>
 
       <div class="tab-content">
-    <div class="tab-pane active" id="tabla">         
+    <div class="tab-pane active" id="tabla">
 
      <div class="panel-body">
              {% include "indicadores.html" %}
@@ -140,7 +144,7 @@
                       <td>
                           {{cosito}}
                       </td>
-                    {%endfor%}                           
+                    {%endfor%}
                   </tr>
                   {%endfor%}
                   </tbody>
@@ -155,8 +159,8 @@
                   </thead>
                   <tbody>
                   <tr>
-                      <td>{{porcentaje_cobertura}} %</td>                        
-                  </tr>              
+                      <td>{{porcentaje_cobertura}} %</td>
+                  </tr>
                   </tbody>
               </table>
     </div>
@@ -169,7 +173,7 @@
             <div class="container-fluid ">
               <div id="container" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
               <br>
-              <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+              <div id="container22" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
             </div>
             </div>
           </div>
@@ -178,7 +182,7 @@
 
       </div>
     </div> <!-- terminas las tablas -->
-    
+
   </div>
 </div>
 {% endblock contenido %}
