@@ -5,74 +5,75 @@
 
 {% block extra_js %}
 <script>
-     $(document).ready(function () {
-        // Build the chart
-        $('#container').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
+$(function () {
+    // Create the chart
+    $('#container1').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Compran alimentos por clasificacion'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
             title: {
-                text: 'Alimentos que compran'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
+                text: 'Conteos'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}'
                 }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Porcentaje',
-                data: [ {%for k in data%} 
-                          ['{{k.0}}',{{k.1}}],
-                        {%endfor%}
-                   
-                ]
-                }]
-        });
-        //segundo grafico
-         $('#container1').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Nivel de consumo'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Porcentajes',
-                data: [ {%for k in data%} 
-                          ['{{k.0}}',{{k.3}}],
-                        {%endfor%}
-                   
-                ]
-                }]
-        });
-   });
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b><br/>'
+        },
+
+        series: [{
+            name: "",
+            colorByPoint: true,
+            data: [
+              
+                {
+                    name: 'Carbohidratos',
+                    y: {{carbohidrato}},
+                },
+                {
+                    name: 'Vitaminas',
+                    y: {{vitaminas}},
+                },
+                {
+                    name: 'Grasas',
+                    y: {{grasas}},
+                },
+                {
+                    name: 'Proteínas',
+                    y: {{proteinas}},
+                },
+                {
+                    name: 'Minerales',
+                    y: {{minerales}},
+                },
+              
+              ]
+        }]
+    });
+});
 </script>
 {% endblock %}
 
@@ -112,18 +113,30 @@
                           <th>Alimentos</th>
                           <th>Compran</th>
                           <th>%</th>
-                          <th>Nivel de consumo suficiente</th>
+                          <th>Nivel de consumo diario</th>
+                          <th>%</th>
+                          <th>Nivel de consumo semanal</th>
+                          <th>%</th>
+                          <th>Nivel de consumo ocacional</th>
+                          <th>%</th>
+                          <th>Nivel de consumo NO</th>
                           <th>%</th>
                       </tr>
                   </thead>
                   <tbody>
-                  {%for item in data%}
+                  {%for k,v in productos_sa.items%}
                   <tr>
-                    {% for cosito in item%}
-                      <td>
-                          {{cosito}}
-                      </td>
-                    {%endfor%}                           
+                      <td>{{k}}</td>
+                      <td>{{v.0}}</td>
+                      <td>{{v.0|calculaperct:a|floatformat:2}}</td>
+                      <td>{{v.1}}</td>
+                      <td>{{v.1|calculaperct:a|floatformat:2}}</td> 
+                      <td>{{v.2}}</td>
+                      <td>{{v.2|calculaperct:a|floatformat:2}}</td> 
+                      <td>{{v.3}}</td>  
+                      <td>{{v.3|calculaperct:a|floatformat:2}}</td>
+                      <td>{{v.4}}</td>
+                      <td>{{v.4|calculaperct:a|floatformat:2}}</td>                
                   </tr>
                   {%endfor%}
                   </tbody>
@@ -138,8 +151,6 @@
                <div class="panel-body" >
                   {% include "indicadores.html" %}
             <div class="container-fluid ">
-              <div id="container" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
-              <br>
               <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
             </div>
             </div>

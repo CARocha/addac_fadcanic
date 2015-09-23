@@ -145,8 +145,6 @@ def mostrar_productores(request, organizacion_id=None, sexo_id=None, template='e
         if query:
             personas[obj] = query
 
-    print personas
-
     return render(request, template, locals())
 
 
@@ -420,8 +418,6 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
     for obj in resultados:
         if obj[0] != "Total uso":
             resultados2.append(obj)
-
-    print resultados2
     try:
         porcentaje_cobertura_boscosa = (( (float(suma['bosque_primario']) * 1) + (float(suma['cultivos_anuales'])*0.5) +
                              (float(suma['bosque_secundario'])*0.7) + (float(suma['cultivos_perennes'])*0.5) +
@@ -435,30 +431,42 @@ def uso_tierra(request, template="encuesta/uso_tierra.html"):
     return render(request, template, {'a':a.count(),'data':resultados,
                                       'porcentaje_cobertura':porcentaje_cobertura_boscosa,'resultados2':resultados2})
 
+#conteo de cuanta gente compra los alimentos por clasificacion
+def compran_productos(request, id_clasificacion):
+    a = _query_filtros(request)
+
+    conteo = 0
+    for obj in AlimentosSeguridad.objects.filter(clasificacion=id_clasificacion):
+        conteo = a.filter(seguridadalimentaria__alimentos=obj, 
+                                seguridadalimentaria__comprar=True).count()
+
+    return conteo
+
 #Funcion para calcular la seguridad alimentaria
 def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html"):
     a = _query_filtros(request)
-    id_alimentos = [dato[0] for dato in ALIMENTO_CHOICES]
-    total_encuestas=a.count() #usado para el porcentaje
-    datos = []
-    resultados = []
-    for id in id_alimentos:
-        datos = a.filter(seguridadalimentaria__alimentos=id).aggregate(compran=Sum('seguridadalimentaria__comprar'))
-        for key in datos.keys():
-            if datos[key]==None:
-                datos[key]=0
-        nivel_consumo = a.filter(seguridadalimentaria__alimentos=id,
-                                 seguridadalimentaria__consumo=True).aggregate(nivel=Count('seguridadalimentaria'))
-        fila=[] #[alimento, compran, porcentaje,nivel consumo,porcentaje]
-        fila.append(ALIMENTO_CHOICES[id-1][1])
-        fila.append(datos['compran'])
-        porcentaje = (float(datos['compran'])/total_encuestas)*100
-        fila.append("%.2f" % porcentaje)
-        fila.append(nivel_consumo['nivel'])
-        porcentaje = (float(nivel_consumo['nivel'])/total_encuestas)*100
-        fila.append("%.2f" % porcentaje)
-        resultados.append(fila)
-    return render(request, template, {'a':a.count(), 'data':resultados})
+
+    productos_sa = {}
+    clasificacion = {}
+    for obj in AlimentosSeguridad.objects.all():
+        compran = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__comprar=True).count()
+        diario = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=1).count()
+        semanal = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=2).count()
+        ocasional = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=3).count()
+        no = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=4).count()
+    
+        productos_sa[obj] = (compran,diario,semanal,ocasional,no)
+
+    carbohidrato = compran_productos(request, 1)
+    vitaminas = compran_productos(request, 2)
+    grasas = compran_productos(request, 3)
+    proteinas = compran_productos(request, 4)
+    minerales = compran_productos(request, 5)
+
+    return render(request, template, {'a':a.count(),'productos_sa':productos_sa,
+                                      'carbohidrato':carbohidrato,
+                                      'vitaminas':vitaminas, 'grasas':grasas,
+                                      'proteinas':proteinas, 'minerales':minerales})
 
 #Función sobre las innovaciones en la finca
 def innovaciones(request, template="encuesta/innovaciones.html"):

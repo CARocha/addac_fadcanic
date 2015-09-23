@@ -153,13 +153,16 @@ class ProductorAdmin(ImportExportModelAdmin):
         }
         js = ('js/jquery.mask.js', 'js/productor.js','js/chosen.jquery.js')
 
+class AlimentosSeguridadAdmin(ImportExportModelAdmin):
+    list_display = ('id', 'nombre', 'clasificacion')
+    list_filter = ('clasificacion',)
 
 # Register your models here.
 admin.site.register(Productores, ProductorAdmin)
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 admin.site.register(Oficinas)
-admin.site.register(AlimentosSeguridad)
+admin.site.register(AlimentosSeguridad, AlimentosSeguridadAdmin)
 # 
 #admin.site.register(Finca)
 admin.site.register(CultivosSaf)
