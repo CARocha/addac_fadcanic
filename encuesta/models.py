@@ -64,6 +64,7 @@ class Productores(models.Model):
     def save(self, *args, **kwargs):
         self.contador = 1
         today = date.today()
+        self.nombre = self.nombre.upper()
         if self.nacimiento:
             self.edad = today.year - self.nacimiento.year - ((today.month, today.day) < (self.nacimiento.month, self.nacimiento.day))
         
@@ -80,6 +81,10 @@ class Productores(models.Model):
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=100)
+
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.upper()
+        super(Recolector, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ('nombre',)
@@ -206,8 +211,8 @@ class Finca(models.Model):
     area_finca = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca el area de la finca en MZ')
     person = models.IntegerField('Nº personas de la familia', null=True, blank=True)
     zona = models.IntegerField('UTM, Zona', null=True, blank=True)
-    coordenadas_gps = models.DecimalField('N',max_digits=8, decimal_places=6 ,null=True,blank=True,help_text='Introduzca las coordenadas Latitud')
-    coordenadas_lg = models.DecimalField('E', max_digits=8, decimal_places=6, null=True, blank=True, help_text="Introduzca las coordenadas Longitud")
+    coordenadas_gps = models.FloatField('N', null=True,blank=True,help_text='Introduzca las coordenadas Latitud')
+    coordenadas_lg = models.FloatField('E', null=True, blank=True, help_text="Introduzca las coordenadas Longitud")
     animal_bovino = models.IntegerField('Ganado bovino', help_text='Introduzca cuantos animales bovinos tiene')
     animal_porcino = models.IntegerField('Cerdos', help_text='Introduzca cuantos animales porcinos tiene')
     animal_equino = models.IntegerField('Equinos', help_text='Introduzca cuantos animales equinos tiene')

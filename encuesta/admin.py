@@ -55,6 +55,9 @@ class EducacionAdmin(admin.TabularInline):
 class SeguridadSafAdmin(admin.TabularInline):
     form = FormSeguridadSaf
     model = SeguridadSaf
+    fields = ('cultivos','area_desarrollo','area_produccion','produccion_total',
+                'auto_consumo','consumo_animal','perdidas','venta_no','precio_promedio_no',
+                'venta_organizada','precio_promedio_orga')
     class Media:  
         css = {
             'all': ('css/saf.css',)
@@ -64,6 +67,9 @@ class SeguridadSafAdmin(admin.TabularInline):
 class SeguridadCAnualesAdmin(admin.TabularInline):
     #form = FormSeguridadCAnuales
     model = SeguridadCAnuales
+    fields = ('cultivos','area_produccion','produccion','auto_consumo',
+                'consumo_animal','perdidas','venta_no','precio_promedio_no',
+                'venta_organizada','precio_promedio_orga')
     extra = 1
 
 class SeguridadPAnimalAdmin(admin.TabularInline):
@@ -107,8 +113,9 @@ class EncuestaAdmin(admin.ModelAdmin):
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha', 'get_productor','recolector',)
-    list_filter = ('ano',)
+    list_display = ('fecha', 'get_productor','recolector','get_municipio','get_comunidad',
+                    'get_propietario','get_total_area')
+    list_filter = ('ano','finca__municipio__nombre', 'finca__propietario')
     date_hierarchy = 'fecha'
     search_fields = ['finca__nombre_productor__nombre',]
 
@@ -116,6 +123,22 @@ class EncuestaAdmin(admin.ModelAdmin):
     def get_productor(self, obj):
         return "\n".join([i.nombre_productor.nombre for i in obj.finca_set.all()])
     get_productor.short_description = 'Productor'
+
+    def get_municipio(self, obj):
+        return "\n".join([i.municipio.nombre for i in obj.finca_set.all()])
+    get_municipio.short_description = 'Municipio'
+
+    def get_comunidad(self, obj):
+        return "\n".join([i.comunidad.nombre for i in obj.finca_set.all()])
+    get_comunidad.short_description = 'Comunidad'
+
+    def get_propietario(self, obj):
+        return "\n".join([i.propietario for i in obj.finca_set.all()])
+    get_propietario.short_description = 'Propietario'
+
+    def get_total_area(self, obj):
+        return "\n".join([str(i.area_finca) for i in obj.finca_set.all()])
+    get_total_area.short_description = 'Total area(Mz)'
 
     class Media:
         css = {
