@@ -302,6 +302,27 @@
     <div class="panel-body" >
       <div class="container-fluid ">
         <div id="container4" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+        <div class="table-responsive">
+                 <table class="table" id="myTable">
+                 <caption>Propietario</caption>
+                 <thead>
+                      <tr>
+                          <th>Propietario</th>
+                          <th>Frecuencia</th>
+                          <th>%</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for k,v in propietario_casa.items %}
+                        <tr>
+                          <td>{{k}}</td>
+                          <td>{{v}}</td>
+                          <td>{{v|calculaperct:a|floatformat:2}}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+             </div>
       </div>
     </div>
     </div>
@@ -311,6 +332,27 @@
     <div class="panel-body" >
       <div class="container-fluid ">
         <div id="container5" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
+        <div class="table-responsive">
+                 <table class="table" id="myTable">
+                 <caption>Area de la casa</caption>
+                 <thead>
+                      <tr>
+                          <th>Areas</th>
+                          <th>Frecuencia</th>
+                          <th>%</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for k,v in area_casa.items %}
+                        <tr>
+                          <td>{{k}}</td>
+                          <td>{{v}}</td>
+                          <td>{{v|calculaperct:a|floatformat:2}}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+             </div>
       </div>
     </div>
     </div>

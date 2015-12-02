@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect, HttpRespons
 from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
-from .forms import *
+from .forms import PrincipalForm
 from django.db.models import Count, Sum, Avg
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
