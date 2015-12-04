@@ -3,6 +3,123 @@
 {% load staticfiles %}
 {% load ayudar %}
 
+{% block extra_js %}
+<script>
+
+$(function () {
+    // Create the chart
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Innovaciones aplicadas en las finca (SI)'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentajes (%)'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>'
+        },
+
+        series: [{
+            name: "Innovación",
+            colorByPoint: true,
+            data: [
+            {% for k,v in data.items %}
+              {% if  v.0 >= 60 %}
+                {
+                      name: "{{k}}",
+                      y: {{v.0|calculaperct:a|floatformat:2}},
+                },
+              {% endif %}
+              {% endfor %}
+            ]
+        }],
+    });
+});
+
+$(function () {
+    // Create the chart
+    $('#container1').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Innovaciones aplicadas en las finca (NO)'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Porcentajes (%)'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>'
+        },
+
+        series: [{
+            name: "Innovación",
+            colorByPoint: true,
+            data: [
+            {% for k,v in data.items %}
+              {% if  v.1 >= 246 %}
+                {
+                      name: "{{k}}",
+                      y: {{v.1|calculaperct:a|floatformat:2}},
+                },
+              {% endif %}
+              {% endfor %}
+            ]
+        }],
+    });
+});
+</script>
+{% endblock extra_js %}
+
 {% block contenido %}
 	<br><br><br><br><br><br>
 <div class="container">

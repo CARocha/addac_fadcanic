@@ -473,19 +473,22 @@ def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html
                                       'vitaminas':vitaminas, 'grasas':grasas,
                                       'proteinas':proteinas, 'minerales':minerales})
 
-#Función sobre las innovaciones en la finca
+# Función sobre las innovaciones en la finca
+
+
 def innovaciones(request, template="encuesta/innovaciones.html"):
     a = _query_filtros(request)
     conteo = {}
-    total_si = 0
-    total_no = 0
     for obj in TipoInnovacion.objects.all().order_by('nombre'):
         si = a.filter(innovacion__innovacion=obj, innovacion__aplica=1).count()
         no = a.filter(innovacion__innovacion=obj, innovacion__aplica=2).count()
         conteo[obj.nombre] = (si,no)
+
     return render(request, template, {'a':a.count(), 'data': conteo})
 
-#Funcion sobre ingreso en cultivos anuales
+# Funcion sobre ingreso en cultivos anuales
+
+
 def ingreso_anuales(request, template="encuesta/ingresos_anuales.html"):
     a = _query_filtros(request)
 
