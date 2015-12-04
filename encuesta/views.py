@@ -3,23 +3,25 @@ from django.shortcuts import render, redirect, HttpResponseRedirect, HttpRespons
 from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
-from .forms import PrincipalForm
-from django.db.models import Count, Sum, Avg
+from .forms import PrincipalForm, fecha_choice
+from django.db.models import Sum, Avg
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 import json as simplejson
 from portada.models import FotosPortada
 
 # CBV para el home y los graficos
+
+
 class HomeView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        #nuevas salidas
-        #fotos de la portada
+# nuevas salidas
+# fotos de la portada
         context['fotos'] = FotosPortada.objects.all()
-        #por ADDAC
+# por ADDAC
         context['addac_hombres'] = Productores.objects.filter(sexo=3,pertenece=2).count()
         context['addac_mujeres'] = Productores.objects.filter(sexo=1,pertenece=2).count()
         context['addac_activos'] = Productores.objects.filter(pertenece=2,activo=1).count()
@@ -33,7 +35,7 @@ class HomeView(TemplateView):
                                                finca__nombre_productor__pertenece=2).count()
             lista_encuestas_addac[year[1]] = num_anio
         context['addac_num_encuestas'] = lista_encuestas_addac
-        #por FADCANIC
+# por FADCANIC
         context['fad_hombres'] = Productores.objects.filter(sexo=3,pertenece=1).count()
         context['fad_mujeres'] = Productores.objects.filter(sexo=1,pertenece=1).count()
         context['fad_activos'] = Productores.objects.filter(pertenece=1,activo=1).count()
@@ -50,8 +52,8 @@ class HomeView(TemplateView):
 
 
 
-        #empienzan los graficos de los anios
-        #analfabetismo
+# empienzan los graficos de los anios
+# analfabetismo
         # SEXO_CHOICE_3 = (
         #     (1,'Hombres de 25 adelante'),
         #     (2,'Mujeres de 25 adelante'),
@@ -134,6 +136,7 @@ class HomeView(TemplateView):
 
         return context
 
+
 def mostrar_productores(request, organizacion_id=None, sexo_id=None, template='encuesta/lista_productores.html'):
 
     personas = {}
@@ -157,6 +160,8 @@ def entrar(request):
         return redirect('/admin')
 
 # funcion para los filtros automaticos
+
+
 def _query_filtros(request):
     params = {}
     if 'fecha' in request.session:
@@ -437,7 +442,7 @@ def compran_productos(request, id_clasificacion):
 
     conteo = 0
     for obj in AlimentosSeguridad.objects.filter(clasificacion=id_clasificacion):
-        conteo = a.filter(seguridadalimentaria__alimentos=obj, 
+        conteo = a.filter(seguridadalimentaria__alimentos=obj,
                                 seguridadalimentaria__comprar=True).count()
 
     return conteo
@@ -454,7 +459,7 @@ def seguridad_alimentaria(request, template="encuesta/seguridad_alimentaria.html
         semanal = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=2).count()
         ocasional = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=3).count()
         no = a.filter(seguridadalimentaria__alimentos=obj, seguridadalimentaria__consumo=4).count()
-    
+
         productos_sa[obj] = (compran,diario,semanal,ocasional,no)
 
     carbohidrato = compran_productos(request, 1)

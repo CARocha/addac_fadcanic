@@ -7,55 +7,6 @@
 <script>
      $(document).ready(function () {
         // Build the chart
-     $('#container').highcharts({
-        chart: {
-            type: 'column'
-        },
-            title: {
-                text: 'Miembros que Alcanzaron la Primaria (primaria completa + secundaria incompleta + uni. o técnico + estudiando)'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: [
-                    'Opciones'
-                ]
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Porcentajes (%)'
-                }
-            },
-
-            tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-            plotOptions: {
-                column: {
-                    groupPadding: 0,
-                    pointPadding: 0.9,
-                    borderWidth: 0
-                },
-                series: {
-                    pointWidth: 55,
-                    minPointLength : 1
-                }
-            },
-            series: [{% for value in grafo %}
-                {
-                    name: '{{value.0}}',
-                    data: [{{value.1}}],
-
-                },
-                {% endfor %}]
-        });
     //grafico eba
     {% if pintar %}
      $('#container1').highcharts({
@@ -95,22 +46,22 @@
     });
 $(function () {
     // Create the chart
-    $('#container3').highcharts({
+    $('#container').highcharts({
         chart: {
             type: 'column'
         },
         title: {
-            text: 'Browser market shares. January, 2015 to May, 2015'
+            text: 'Miembros que Alcanzaron la Primaria (primaria completa + secundaria incompleta + uni. o técnico + estudiando)'
         },
         subtitle: {
-            text: 'Click the columns to view versions. Source: <a href="http://netmarketshare.com">netmarketshare.com</a>.'
+            text: ''
         },
         xAxis: {
             type: 'category'
         },
         yAxis: {
             title: {
-                text: 'Total percent market share'
+                text: 'Porcentajes (%)'
             }
 
         },
@@ -129,37 +80,20 @@ $(function () {
 
         tooltip: {
             headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>'
         },
 
         series: [{
-            name: "Brands",
+            name: "Tipos",
             colorByPoint: true,
-            data: [{
-                name: "Microsoft Internet Explorer",
-                y: 56.33,
-                drilldown: "Microsoft Internet Explorer"
-            }, {
-                name: "Chrome",
-                y: 24.03,
-                drilldown: "Chrome"
-            }, {
-                name: "Firefox",
-                y: 10.38,
-                drilldown: "Firefox"
-            }, {
-                name: "Safari",
-                y: 4.77,
-                drilldown: "Safari"
-            }, {
-                name: "Opera",
-                y: 0.91,
-                drilldown: "Opera"
-            }, {
-                name: "Proprietary or Undetectable",
-                y: 0.2,
-                drilldown: null
-            }]
+            data: [
+            {% for value in grafo %}
+                      {
+                          name: "{{value.0}}",
+                          y: {{value.1}},
+                      },
+              {% endfor %}
+            ]
         }],
     });
 });
@@ -271,7 +205,6 @@ $(function () {
 
             </div>
             </div>
-            <div id="container3" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
           </div>
 
 
