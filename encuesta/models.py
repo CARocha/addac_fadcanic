@@ -9,18 +9,18 @@ from django.db.models import F
 from datetime import date
 
 SEXO_PRODUCTOR_CHOICES = (
-    (1,'Mujer'),
-    (3,'Hombre')
+    (1, 'Mujer'),
+    (3, 'Hombre')
 )
 
 CHOICE_ORGANIZACION = (
-    (1,'FADCANIC'),
-    (2,'ADDAC')
+    (1, 'FADCANIC'),
+    (2, 'ADDAC')
 )
 
 CHOICE_ACTIVO = (
-    (1,'Activo'),
-    (2,'No activo')
+    (1, 'Activo'),
+    (2, 'No activo')
 )
 
 GRUPOS_ETNICOS = (
@@ -33,30 +33,35 @@ GRUPOS_ETNICOS = (
     (7, 'Otros'),
 )
 
+
 @python_2_unicode_compatible
 class Productores(models.Model):
-    nombre = models.CharField('Nombre y apellido', max_length=250, null=True, blank=True)
-    cedula_productor = models.CharField(max_length=25,null=True,blank=True,
+    nombre = models.CharField(
+        'Nombre y apellido',
+        max_length=250,
+        null=True,
+        blank=True)
+    cedula_productor = models.CharField(max_length=25, null=True, blank=True,
                                         help_text='Introduzca cedula del productor')
 
-    sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES, 
-                                null=True, blank=True)
-    grupo = models.IntegerField('Grupo étnico', choices=GRUPOS_ETNICOS, 
+    sexo = models.IntegerField('Sexo del productor', choices=SEXO_PRODUCTOR_CHOICES,
+                               null=True, blank=True)
+    grupo = models.IntegerField('Grupo étnico', choices=GRUPOS_ETNICOS,
                                 null=True, blank=True)
     departamento = models.CharField('Departamento/Región', max_length=250,
-                                null=True, blank=True)
+                                    null=True, blank=True)
     celular = models.IntegerField('Número celular', null=True, blank=True)
     nacimiento = models.DateField('Fecha de nacimiento', null=True, blank=True)
-    pertenece = models.IntegerField(choices=CHOICE_ORGANIZACION, null=True, blank=True)
+    pertenece = models.IntegerField(
+        choices=CHOICE_ORGANIZACION, null=True, blank=True)
     activo = models.IntegerField(choices=CHOICE_ACTIVO, null=True, blank=True)
     contador = models.IntegerField(editable=False)
     edad = models.IntegerField(editable=False, null=True, blank=True)
 
     class Meta:
-        verbose_name= 'Productores'
+        verbose_name = 'Productores'
         verbose_name_plural = 'Productores'
         ordering = ('nombre', )
-
 
     def __str__(self):
         return u'%s' % (self.nombre)
@@ -66,9 +71,11 @@ class Productores(models.Model):
         today = date.today()
         self.nombre = self.nombre.upper()
         if self.nacimiento:
-            self.edad = today.year - self.nacimiento.year - ((today.month, today.day) < (self.nacimiento.month, self.nacimiento.day))
-        
-        # try: 
+            self.edad = today.year - self.nacimiento.year - \
+                ((today.month, today.day) <
+                 (self.nacimiento.month, self.nacimiento.day))
+
+        # try:
         #     edad1 = self.nacimiento.replace(year=today.year)
         # except ValueError:
         #     edad1 = self.nacimiento.replace(year=today.year, day=self.nacimiento.day-1)
@@ -76,8 +83,9 @@ class Productores(models.Model):
         # if edad1 > today:
         #     self.edad = today.year - self.nacimiento.year - 1
         # else:
-        #     self.edad = today.year - self.nacimiento.year 
+        #     self.edad = today.year - self.nacimiento.year
         super(Productores, self).save(*args, **kwargs)
+
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=100)
@@ -94,6 +102,7 @@ class Recolector(models.Model):
     def __unicode__(self):
         return self.nombre
 
+
 class Oficinas(models.Model):
     nombre = models.CharField(max_length=100)
 
@@ -105,125 +114,180 @@ class Oficinas(models.Model):
     def __unicode__(self):
         return self.nombre
 
+
 @python_2_unicode_compatible
 class Encuesta(models.Model):
-    fecha = models.DateField('Fecha de la encuesta', help_text='Introduzca fecha')
+    fecha = models.DateField(
+        'Fecha de la encuesta',
+        help_text='Introduzca fecha')
     ano = models.IntegerField('año', editable=False)
-    recolector = models.ForeignKey(Recolector, verbose_name='Nombre recolector de datos')
-    fecha2 = models.DateField('Fecha de ingreso de la encuesta', null=True, blank=True)
+    recolector = models.ForeignKey(Recolector,
+                                   verbose_name='Nombre recolector de datos')
+    fecha2 = models.DateField(
+        'Fecha de ingreso de la encuesta',
+        null=True,
+        blank=True)
     personas = models.CharField('Personas que introdujeron los datos', max_length=250, null=True,
                                 blank=True)
-    #oficina = models.ForeignKey(Oficinas, verbose_name='Oficina de introducción de datos',
+    # oficina = models.ForeignKey(Oficinas, verbose_name='Oficina de introducción de datos',
     #                            null=True, blank=True)
-    oficina2 = models.ForeignKey(Oficinas, verbose_name='Oficina de introducción de datos', null=True, blank=True)
+    oficina2 = models.ForeignKey(
+        Oficinas,
+        verbose_name='Oficina de introducción de datos',
+        null=True,
+        blank=True)
 
     def __str__(self):
-        return u'%s - %s' % (str(self.fecha),str(self.recolector))
+        return u'%s - %s' % (str(self.fecha), str(self.recolector))
 
     def save(self, *args, **kwargs):
         self.ano = self.fecha.year
         super(Encuesta, self).save(*args, **kwargs)
 
-    #def __productor__(self):
+    # def __productor__(self):
     #    campesino = Finca.objects.filter(encuesta__id=self.id)
     #    return campesino[0]
 
 
 TIPO_CHOICES = (
-    (1,'Madera rolliza con techo de paja'),
-    (2,'Madera (tablas) y techo de paja'),
-    (3,'Madera (tablas) con techo de zinc'),
-    (4,'Minifalda con techo de zinc'),
-    (5,'Concreto con techo de zinc'),
-    (6,'Otras mejoras(2 pisos..)')
+    (1, 'Madera rolliza con techo de paja'),
+    (2, 'Madera (tablas) y techo de paja'),
+    (3, 'Madera (tablas) con techo de zinc'),
+    (4, 'Minifalda con techo de zinc'),
+    (5, 'Concreto con techo de zinc'),
+    (6, 'Otras mejoras(2 pisos..)')
 )
 AGUA_CHOICES = (
-    (1,'Ojo de agua'),
-    (2,'Creeke'),
-    (3,'Pozo con brocal'),
-    (4,'Agua entubada'),
-    (5,'Pozo rustico'),
-    (6,'Agua por gravedad'),
-    (7,'Otros'),
-    (8,'Agua central certificado'),
-    (9,'Pozo rustico sin manejo'),
-    (10,'Pozo con brocal y bomba'),
-    (11,'Agua filtrada y certificada p/consumo'),
-    (12,'Agua por tuberia y bombeo eléctrico'),
-    (13,'Fuente sin protección'),
-    )
+    (1, 'Ojo de agua'),
+    (2, 'Creeke'),
+    (3, 'Pozo con brocal'),
+    (4, 'Agua entubada'),
+    (5, 'Pozo rustico'),
+    (6, 'Agua por gravedad'),
+    (7, 'Otros'),
+    (8, 'Agua central certificado'),
+    (9, 'Pozo rustico sin manejo'),
+    (10, 'Pozo con brocal y bomba'),
+    (11, 'Agua filtrada y certificada p/consumo'),
+    (12, 'Agua por tuberia y bombeo eléctrico'),
+    (13, 'Fuente sin protección'),
+)
 LEGALIDAD_CHOICES = (
-    (1,'Derecho real'),
-    (2,'Derecho pocesorio'),
-    (3,'Promesa de venta'),
-    (4,'Titulo de reforma agraria'),
-    (5,'Titulo comunitario'),
-    (6,'Sin documentos'),
-    (7,'Escritura publica')
-    )
+    (1, 'Derecho real'),
+    (2, 'Derecho pocesorio'),
+    (3, 'Promesa de venta'),
+    (4, 'Titulo de reforma agraria'),
+    (5, 'Titulo comunitario'),
+    (6, 'Sin documentos'),
+    (7, 'Escritura publica')
+)
 DUENO_CHOICES = (
-    ('hombre','Hombre'),
-    ('mujer','Mujer'),
-    ('ambos','Ambos'),
-    ('parientes','Parientes'),
-    ('otros','Otros(alquiler o posada)')
-    )
+    ('hombre', 'Hombre'),
+    ('mujer', 'Mujer'),
+    ('ambos', 'Ambos'),
+    ('parientes', 'Parientes'),
+    ('otros', 'Otros(alquiler o posada)')
+)
 
 LETRINA_CHOICES = (
-    (1,'Letrina(buen estado)'),
-    (2,'Letrina(mal estado)'),
-    (3,'Inodoro(buen estado)'),
-    (4,'Inodoro(mal estado)'),
-    (5,'Sumidero(buen estado)'),
-    (6,'Sumidero(mal estado)'),
-    (7,'Letrina seca(buen estado)'),
-    (8,'Letrina seca(mal estado)'),
-    (9,'No tiene'),
-    )
+    (1, 'Letrina(buen estado)'),
+    (2, 'Letrina(mal estado)'),
+    (3, 'Inodoro(buen estado)'),
+    (4, 'Inodoro(mal estado)'),
+    (5, 'Sumidero(buen estado)'),
+    (6, 'Sumidero(mal estado)'),
+    (7, 'Letrina seca(buen estado)'),
+    (8, 'Letrina seca(mal estado)'),
+    (9, 'No tiene'),
+)
 
 #---------------------------------------------------------------------------
 #      Modelo: Datos generales de las familias socias
 #---------------------------------------------------------------------------
 
+
 @python_2_unicode_compatible
 class Finca(models.Model):
-    nombre_productor = models.ForeignKey('Productores', related_name='productores')
-    finca = models.CharField("Nombre Finca",max_length=150,null=True,blank=True,help_text='Introduzca nombre de la finca')
-    municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio', 
-                                 related_name="municipio")
+    nombre_productor = models.ForeignKey(
+        'Productores', related_name='productores')
+    finca = models.CharField(
+        "Nombre Finca",
+        max_length=150,
+        null=True,
+        blank=True,
+        help_text='Introduzca nombre de la finca')
+    municipio = models.ForeignKey(Municipio, help_text='Introduzca nombre de la municipio',
+                                  related_name="municipio")
     comunidad = ChainedForeignKey(
-        Comunidad, 
+        Comunidad,
         chained_field="municipio",
-        chained_model_field="municipio", 
-        show_all=False, 
+        chained_model_field="municipio",
+        show_all=False,
         auto_choose=True
     )
     microcuenca = ChainedForeignKey(
         Microcuenca,
         null=True,
-        blank=True, 
+        blank=True,
         chained_field="comunidad",
-        chained_model_field="comunidad", 
-        show_all=False, 
+        chained_model_field="comunidad",
+        show_all=False,
         auto_choose=True,
     )
-    
-    area_finca = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca el area de la finca en MZ')
-    person = models.IntegerField('Nº personas de la familia', null=True, blank=True)
+
+    area_finca = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text='Introduzca el area de la finca en MZ')
+    person = models.IntegerField(
+        'Nº personas de la familia',
+        null=True,
+        blank=True)
     zona = models.IntegerField('UTM, Zona', null=True, blank=True)
-    coordenadas_gps = models.FloatField('N', null=True,blank=True,help_text='Introduzca las coordenadas Latitud')
-    coordenadas_lg = models.FloatField('E', null=True, blank=True, help_text="Introduzca las coordenadas Longitud")
-    animal_bovino = models.IntegerField('Ganado bovino', help_text='Introduzca cuantos animales bovinos tiene')
-    animal_porcino = models.IntegerField('Cerdos', help_text='Introduzca cuantos animales porcinos tiene')
-    animal_equino = models.IntegerField('Equinos', help_text='Introduzca cuantos animales equinos tiene')
-    animal_aves = models.IntegerField('Aves', help_text='Introduzca cuantas aves tiene')
-    animal_caprino = models.IntegerField('Peli bueyes', help_text='Introduzca cuantos animales pelibuey tiene')
-    tipo_casa = models.IntegerField(max_length=60,choices=TIPO_CHOICES,help_text='Introduzca que tipo de casa tiene')
-    area_casa = models.DecimalField(max_digits=10,decimal_places=2,help_text='Introduzca area de la casa en pie cuadrado')
-    seneamiento = models.IntegerField(choices=LETRINA_CHOICES, verbose_name='Saneamiento')
-    fuente_agua = models.IntegerField(max_length=60,choices=AGUA_CHOICES,help_text='Introduzca gestion del agua')
-    legalidad = models.IntegerField(max_length=60,choices=LEGALIDAD_CHOICES, help_text='Introduzca la legalidad de la propiedad')
-    propietario = models.CharField(max_length=50,choices=DUENO_CHOICES,help_text='Introduzca el propietario de la finca')
+    coordenadas_gps = models.FloatField(
+        'N',
+        null=True,
+        blank=True,
+        help_text='Introduzca las coordenadas Latitud')
+    coordenadas_lg = models.FloatField(
+        'E',
+        null=True,
+        blank=True,
+        help_text="Introduzca las coordenadas Longitud")
+    animal_bovino = models.IntegerField(
+        'Ganado bovino',
+        help_text='Introduzca cuantos animales bovinos tiene')
+    animal_porcino = models.IntegerField(
+        'Cerdos', help_text='Introduzca cuantos animales porcinos tiene')
+    animal_equino = models.IntegerField(
+        'Equinos', help_text='Introduzca cuantos animales equinos tiene')
+    animal_aves = models.IntegerField(
+        'Aves', help_text='Introduzca cuantas aves tiene')
+    animal_caprino = models.IntegerField(
+        'Peli bueyes', help_text='Introduzca cuantos animales pelibuey tiene')
+    tipo_casa = models.IntegerField(
+        max_length=60,
+        choices=TIPO_CHOICES,
+        help_text='Introduzca que tipo de casa tiene')
+    area_casa = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text='Introduzca area de la casa en pie cuadrado')
+    seneamiento = models.IntegerField(
+        choices=LETRINA_CHOICES,
+        verbose_name='Saneamiento')
+    fuente_agua = models.IntegerField(
+        max_length=60,
+        choices=AGUA_CHOICES,
+        help_text='Introduzca gestion del agua')
+    legalidad = models.IntegerField(
+        max_length=60,
+        choices=LEGALIDAD_CHOICES,
+        help_text='Introduzca la legalidad de la propiedad')
+    propietario = models.CharField(
+        max_length=50,
+        choices=DUENO_CHOICES,
+        help_text='Introduzca el propietario de la finca')
 
     encuesta = models.ForeignKey(Encuesta)
 
@@ -231,58 +295,61 @@ class Finca(models.Model):
         return u'%s' % (self.nombre_productor)
 
     def save(self, *args, **kwargs):
-        Productores.objects.filter(id=self.nombre_productor_id).update(contador=F('contador') + 1)
+        Productores.objects.filter(
+            id=self.nombre_productor_id).update(
+            contador=F('contador') + 1)
         super(Finca, self).save(*args, **kwargs)
-        
+
     class Meta:
         ordering = ('finca',)
-        verbose_name= 'Datos generales de la finca'
+        verbose_name = 'Datos generales de la finca'
 
 #-------------------------------------------------------------
 #     uso de la tierra
 #-------------------------------------------------------------
 
+
 class UsoTierra(models.Model):
-    bosque_primario = models.DecimalField(max_digits=10,decimal_places=2, 
+    bosque_primario = models.DecimalField(max_digits=10, decimal_places=2,
                                           default='0.00', null=True, blank=True)
-    primario_observacion = models.CharField('Observaciones', max_length=250, 
+    primario_observacion = models.CharField('Observaciones', max_length=250,
                                             null=True, blank=True)
-    bosque_secundario = models.DecimalField(max_digits=10,decimal_places=2, 
+    bosque_secundario = models.DecimalField(max_digits=10, decimal_places=2,
                                             default='0.00', null=True, blank=True)
     secundario_observacion = models.CharField('Observaciones', max_length=250,
                                               null=True, blank=True)
-    tacotal =  models.DecimalField(max_digits=10,decimal_places=2, 
-                                    default='0.00', null=True, blank=True)
+    tacotal = models.DecimalField(max_digits=10, decimal_places=2,
+                                  default='0.00', null=True, blank=True)
     tacotal_observacion = models.CharField('Observaciones', max_length=250,
-                                            null=True, blank=True)
-    cultivos_perennes = models.DecimalField(max_digits=10,decimal_places=2, 
+                                           null=True, blank=True)
+    cultivos_perennes = models.DecimalField(max_digits=10, decimal_places=2,
                                             default='0.00', null=True, blank=True)
     perennes_observacion = models.CharField('Observaciones', max_length=250,
                                             null=True, blank=True)
-    cultivos_semiperennes = models.DecimalField(max_digits=10,decimal_places=2, 
+    cultivos_semiperennes = models.DecimalField(max_digits=10, decimal_places=2,
                                                 default='0.00', null=True, blank=True)
     semiperennes_observacion = models.CharField('Observaciones', max_length=250,
                                                 null=True, blank=True)
-    cultivos_anuales = models.DecimalField(max_digits=10,decimal_places=2, 
-                                            default='0.00', null=True, blank=True)
+    cultivos_anuales = models.DecimalField(max_digits=10, decimal_places=2,
+                                           default='0.00', null=True, blank=True)
     anuales_observacion = models.CharField('Observaciones', max_length=250,
-                                            null=True, blank=True)
-    potrero_sin_arboles = models.DecimalField(max_digits=10,decimal_places=2, 
+                                           null=True, blank=True)
+    potrero_sin_arboles = models.DecimalField(max_digits=10, decimal_places=2,
                                               default='0.00', null=True, blank=True)
     sin_arboles_observacion = models.CharField('Observaciones', max_length=250,
-                                                null=True, blank=True)
-    potrero_arboles = models.DecimalField(max_digits=10,decimal_places=2, 
-                                        default='0.00', null=True, blank=True)
+                                               null=True, blank=True)
+    potrero_arboles = models.DecimalField(max_digits=10, decimal_places=2,
+                                          default='0.00', null=True, blank=True)
     arboles_observacion = models.CharField('Observaciones', max_length=250,
-                                            null=True, blank=True)
-    pastos_corte = models.DecimalField(max_digits=10,decimal_places=2, 
-                                                default='0.00', null=True, blank=True)
-    pasto_obsercacion = models.CharField('Observaciones', max_length=250, 
-                                                null=True, blank=True)
-    plantaciones_forestales = models.DecimalField(max_digits=10,decimal_places=2, 
-                                                default='0.00', null=True, blank=True)
-    forestales_observacion = models.CharField('Observaciones', max_length=250, 
-                                                null=True, blank=True)
+                                           null=True, blank=True)
+    pastos_corte = models.DecimalField(max_digits=10, decimal_places=2,
+                                       default='0.00', null=True, blank=True)
+    pasto_obsercacion = models.CharField('Observaciones', max_length=250,
+                                         null=True, blank=True)
+    plantaciones_forestales = models.DecimalField(max_digits=10, decimal_places=2,
+                                                  default='0.00', null=True, blank=True)
+    forestales_observacion = models.CharField('Observaciones', max_length=250,
+                                              null=True, blank=True)
 
     total_uso = models.FloatField(editable=False)
 
@@ -290,35 +357,37 @@ class UsoTierra(models.Model):
 
     def save(self, *args, **kwargs):
         self.total_uso = self.bosque_primario + self.bosque_secundario + \
-                         self.tacotal + self.cultivos_perennes + \
-                         self.cultivos_semiperennes + self.cultivos_anuales + \
-                         self.potrero_sin_arboles + self.potrero_arboles + \
-                         self.plantaciones_forestales
+            self.tacotal + self.cultivos_perennes + \
+            self.cultivos_semiperennes + self.cultivos_anuales + \
+            self.potrero_sin_arboles + self.potrero_arboles + \
+            self.plantaciones_forestales
         super(UsoTierra, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name= 'Uso de tierra'
+        verbose_name = 'Uso de tierra'
 
 SEXO_CHOICE = (
-    (1,'Hombres de 25 adelante'),
-    (2,'Mujeres de 25 adelante'),
-    (3,'Hombres Jóvenes de 15 a 24'),
-    (4,'Mujeres Jóvenes de 15 a 24'),
-    (5,'Hombres adolescentes de 9 a 14'),
-    (6,'Mujeres adolescentes de 9 a 14'),
-    (7,'Hombres niños de 1 a 8'),
-    (8,'Mujeres niñas de 1 a 8'),
-    )
+    (1, 'Hombres de 25 adelante'),
+    (2, 'Mujeres de 25 adelante'),
+    (3, 'Hombres Jóvenes de 15 a 24'),
+    (4, 'Mujeres Jóvenes de 15 a 24'),
+    (5, 'Hombres adolescentes de 9 a 14'),
+    (6, 'Mujeres adolescentes de 9 a 14'),
+    (7, 'Hombres niños de 1 a 8'),
+    (8, 'Mujeres niñas de 1 a 8'),
+)
 
 CHOICE_EBA = (
-        (1, "Finalizado"),
-        (2, "Activo"),
+    (1, "Finalizado"),
+    (2, "Activo"),
 
-    )
+)
 
 #------------------------------------------------------------------------
 #  Modelo: Educacion
 #------------------------------------------------------------------------
+
+
 class Educacion(models.Model):
     sexo_edad = models.IntegerField(choices=SEXO_CHOICE)
     num_persona = models.IntegerField('No. de persona')
@@ -334,7 +403,8 @@ class Educacion(models.Model):
     estu_mined = models.IntegerField('Estu. MINED', null=True, blank=True)
     estu_uni = models.IntegerField('Estu. UNV.Tecn', null=True, blank=True)
     egresado_eba = models.IntegerField('Egresado EBA', null=True, blank=True)
-    egresado_mined = models.IntegerField('Egresado MINED', null=True, blank=True)
+    egresado_mined = models.IntegerField(
+        'Egresado MINED', null=True, blank=True)
 
     encuesta = models.ForeignKey(Encuesta)
 
@@ -345,22 +415,23 @@ class Educacion(models.Model):
 #---------------------------------------------------------------------
 #  Modelo: Seguridad alimentaria e ingreso en productos saf
 #---------------------------------------------------------------------
-SISTEMAS_CHOICES=(
-    (1,'Cafe bajo sombra'),(2,'Cacao bajo sombra'),
-    (3,'Parcela energetica'),(4,'Parcela silvopastoril'),
-    (5,'Cerca Viva'),(6,'Huerto mixto'),(7,'Parcela forrajera'),
-    (8,'Parcela frutales'),(9,'Cultivos Anuales con Arboles'),
-    (10,'Cultivo callejon'),(11,'Parcela agroforestal succecional'),
-    (12,'Achiote con sombra'),(13,'Parcela de coco'),
-    (14,'Parcela de pejibaye'),(15,'Parcela con raices'),(16,'Tuberculos'))
+SISTEMAS_CHOICES = (
+    (1, 'Cafe bajo sombra'), (2, 'Cacao bajo sombra'),
+    (3, 'Parcela energetica'), (4, 'Parcela silvopastoril'),
+    (5, 'Cerca Viva'), (6, 'Huerto mixto'), (7, 'Parcela forrajera'),
+    (8, 'Parcela frutales'), (9, 'Cultivos Anuales con Arboles'),
+    (10, 'Cultivo callejon'), (11, 'Parcela agroforestal succecional'),
+    (12, 'Achiote con sombra'), (13, 'Parcela de coco'),
+    (14, 'Parcela de pejibaye'), (15, 'Parcela con raices'), (16, 'Tuberculos'))
 
-UNIDAD_COMER_CHOICES=(
-    (1,'qq pergaminos'),(2,'qq'),
-    (3,'Unidad'),(4,'Cienes'),
-    (5,'Pie tablar'),(6,'Docenas'),
-    (7,'Racimo'),(8,'Lbs'),
-    (9,'Carga'),(10,'Cabezas')
-    )
+UNIDAD_COMER_CHOICES = (
+    (1, 'qq pergaminos'), (2, 'qq'),
+    (3, 'Unidad'), (4, 'Cienes'),
+    (5, 'Pie tablar'), (6, 'Docenas'),
+    (7, 'Racimo'), (8, 'Lbs'),
+    (9, 'Carga'), (10, 'Cabezas')
+)
+
 
 @python_2_unicode_compatible
 class CultivosSaf(models.Model):
@@ -374,6 +445,7 @@ class CultivosSaf(models.Model):
         verbose_name_plural = "Cultivos SAF"
         ordering = ('nombre', )
 
+
 class SeguridadSaf(models.Model):
     cultivos = models.ForeignKey(CultivosSaf)
     area_desarrollo = models.FloatField('Area en desarrollo (en Mz)')
@@ -383,9 +455,12 @@ class SeguridadSaf(models.Model):
     auto_consumo = models.FloatField(null=True, blank=True)
     perdidas = models.FloatField('Pérdidas', null=True, blank=True)
     venta_no = models.FloatField('Venta no organizada', null=True, blank=True)
-    precio_promedio_no = models.FloatField('Precio promedio/unidad', null=True, blank=True)
-    venta_organizada = models.FloatField('Venta organizada', null=True, blank=True)
-    precio_promedio_orga = models.FloatField('Precio promedio/unidad', null=True, blank=True)
+    precio_promedio_no = models.FloatField(
+        'Precio promedio/unidad', null=True, blank=True)
+    venta_organizada = models.FloatField(
+        'Venta organizada', null=True, blank=True)
+    precio_promedio_orga = models.FloatField(
+        'Precio promedio/unidad', null=True, blank=True)
 
     rendimiento = models.FloatField(editable=False, null=True, blank=True)
 
@@ -405,6 +480,8 @@ class SeguridadSaf(models.Model):
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
 #---------------------------------------------------------------------
+
+
 @python_2_unicode_compatible
 class CultivosAnuales(models.Model):
     nombre = models.CharField(max_length=250)
@@ -417,6 +494,7 @@ class CultivosAnuales(models.Model):
         verbose_name_plural = "Cultivos anuales"
         ordering = ('nombre', )
 
+
 class SeguridadCAnuales(models.Model):
     cultivos = models.ForeignKey(CultivosAnuales)
     area_produccion = models.FloatField('Area en producción (en Mz)')
@@ -425,46 +503,51 @@ class SeguridadCAnuales(models.Model):
     auto_consumo = models.FloatField('Auto-consumo', null=True, blank=True)
     perdidas = models.FloatField(null=True, blank=True)
     venta_no = models.FloatField('Venta no organizada', null=True, blank=True)
-    precio_promedio_no = models.FloatField('Precio promedio', null=True, blank=True)
-    venta_organizada = models.FloatField('Venta organizada', null=True, blank=True)
-    precio_promedio_orga = models.FloatField('Precio promedio', null=True, blank=True)
+    precio_promedio_no = models.FloatField(
+        'Precio promedio', null=True, blank=True)
+    venta_organizada = models.FloatField(
+        'Venta organizada', null=True, blank=True)
+    precio_promedio_orga = models.FloatField(
+        'Precio promedio', null=True, blank=True)
 
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-       verbose_name = 'Seguridad A. Ingresos en cultivos anuales'
-       verbose_name_plural = 'Seguridad A. Ingresos en cultivos anuales'
+        verbose_name = 'Seguridad A. Ingresos en cultivos anuales'
+        verbose_name_plural = 'Seguridad A. Ingresos en cultivos anuales'
 
 #---------------------------------------------------------------------
 # Modelo: seguridad cultivos anuales
 #---------------------------------------------------------------------
 
 CHOICE_ANIAMLES = (
-        (1,'Leche'),
-        (2,'Crema'),
-        (3,'Cuajada/Queso'),
-        (4,'Mantequilla'),
-        (5,'Bovinas'),
-        (6,'Cerdos'),
-        (7,'Manteca'),
-        (8,'Aves'),
-        (9,'Huevos'),
-        (10,'Pelibuey'),
-        (11,'Embutidos'),
-        (12,'Pescado'),
-        (13,'Mariscos'),
-        (14,'Otros'),
-    )
+    (1, 'Leche'),
+    (2, 'Crema'),
+    (3, 'Cuajada/Queso'),
+    (4, 'Mantequilla'),
+    (5, 'Bovinas'),
+    (6, 'Cerdos'),
+    (7, 'Manteca'),
+    (8, 'Aves'),
+    (9, 'Huevos'),
+    (10, 'Pelibuey'),
+    (11, 'Embutidos'),
+    (12, 'Pescado'),
+    (13, 'Mariscos'),
+    (14, 'Otros'),
+)
 
 CHOICE_MANEJA = (
-        (1, "Mujer"),
-        (2, "Hombre"),
-        (3, "Ambos"),
-    )
+    (1, "Mujer"),
+    (2, "Hombre"),
+    (3, "Ambos"),
+)
 CHOICE_PLAN_NEGOCIO = (
-        (1, "Si"),
-        (2, "No"),
-    )
+    (1, "Si"),
+    (2, "No"),
+)
+
+
 @python_2_unicode_compatible
 class ProductoAnimal(models.Model):
     nombre = models.CharField(max_length=250)
@@ -476,7 +559,7 @@ class ProductoAnimal(models.Model):
     class Meta:
         verbose_name_plural = "Producto animal"
         ordering = ('nombre', )
-    
+
 
 class SeguridadPAnimal(models.Model):
     producto = models.ForeignKey(ProductoAnimal)
@@ -494,30 +577,31 @@ class SeguridadPAnimal(models.Model):
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-       verbose_name = 'Seguridad A. Ingresos en producto animal'
-       verbose_name_plural = 'Seguridad A. Ingresos en producto animales'
+        verbose_name = 'Seguridad A. Ingresos en producto animal'
+        verbose_name_plural = 'Seguridad A. Ingresos en producto animales'
 
 
 #---------------------------------------------------------------------
 # Modelo: seguridad y productos procesados
 #---------------------------------------------------------------------
 CHOICE_PRODUCTOS_PROCESADOS = (
-        (1,'Aceite de coco,palma'),
-        (2,'Vinagres'),
-        (3,'Chocolate, cacao polvo'),
-        (4,'Café molido'),
-        (5,'Harinas(banano,pejib, fruta de pan)'),
-        (6,'Encurtidos, salsas'),
-        (7,'Pinolillos, pozoles'),
-        (8,'Especias molidas(canela, curcuma, achiote)'),
-        (9,'Chips(platanitos,hojuela de yuca)'),
-        (10,'Jaleas, Mermeladas'),
-        (11,'Bebidas(frescos,jugos,agua de coco)'),
-        (12,'Pan, reposterias'),
-        (13,'Plantas cuales:'),
-        (14,'Semillas cuales'),
-        (15,'Otros productos procesados'),
-    )
+    (1, 'Aceite de coco,palma'),
+    (2, 'Vinagres'),
+    (3, 'Chocolate, cacao polvo'),
+    (4, 'Café molido'),
+    (5, 'Harinas(banano,pejib, fruta de pan)'),
+    (6, 'Encurtidos, salsas'),
+    (7, 'Pinolillos, pozoles'),
+    (8, 'Especias molidas(canela, curcuma, achiote)'),
+    (9, 'Chips(platanitos,hojuela de yuca)'),
+    (10, 'Jaleas, Mermeladas'),
+    (11, 'Bebidas(frescos,jugos,agua de coco)'),
+    (12, 'Pan, reposterias'),
+    (13, 'Plantas cuales:'),
+    (14, 'Semillas cuales'),
+    (15, 'Otros productos procesados'),
+)
+
 
 @python_2_unicode_compatible
 class ProductoProcesado(models.Model):
@@ -531,7 +615,6 @@ class ProductoProcesado(models.Model):
         verbose_name_plural = "Producto procesado"
         ordering = ('nombre', )
 
-    
 
 class SeguridadPProcesados(models.Model):
     producto = models.ForeignKey(ProductoProcesado)
@@ -542,18 +625,21 @@ class SeguridadPProcesados(models.Model):
     venta_no = models.FloatField('Venta no organizada')
     precio_promedio_no = models.FloatField('Precio promedio')
     venta_organizada = models.FloatField('Venta organizada')
-    maneja = models.IntegerField('Quién maneja el negocio', choices=CHOICE_MANEJA)
+    maneja = models.IntegerField(
+        'Quién maneja el negocio',
+        choices=CHOICE_MANEJA)
     #plan_negocio = models.IntegerField(choices=CHOICE_PLAN_NEGOCIO)
 
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-       verbose_name = 'Seguridad A. Ingresos en productos procesados SAF'
-       verbose_name_plural = 'Seguridad A. Ingresos en productos procesados SAF'
+        verbose_name = 'Seguridad A. Ingresos en productos procesados SAF'
+        verbose_name_plural = 'Seguridad A. Ingresos en productos procesados SAF'
 
 #---------------------------------------------------------------------
 # Modelo: ingreso familiar por servicios y negocios
 #---------------------------------------------------------------------
+
 
 class ServiciosActividades(models.Model):
     nombre = models.CharField('Servicio y actividad', max_length=250)
@@ -566,7 +652,6 @@ class ServiciosActividades(models.Model):
         verbose_name_plural = "Servicios de actividades"
         ordering = ('nombre', )
 
-    
 
 class IngresoServicioNegocio(models.Model):
     servicios = models.ForeignKey(ServiciosActividades)
@@ -579,36 +664,37 @@ class IngresoServicioNegocio(models.Model):
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-       verbose_name = 'Ingreso familiar por servicios y negocios'
-       verbose_name_plural = 'Ingreso familiar por servicios y negocios'
+        verbose_name = 'Ingreso familiar por servicios y negocios'
+        verbose_name_plural = 'Ingreso familiar por servicios y negocios'
 
 #---------------------------------------------------------------------
 # Modelo: seguridad alimentaria: consumo y adquisiciones
 #---------------------------------------------------------------------
 
-ALIMENTO_CHOICES=(
-    (1,'Agua'),(2,'Maiz'),
-    (3,'Frijol'),(4,'Arroz'),
-    (5,'Azucar'),(6,'Yuca'),
-    (7,'Malanga'),(8,'Quequisque'),
-    (9,'Naranjilla'),(10,'Parras'),
-    (11,'Café'),(12,'Cacao'),
-    (13,'Coco'),(14,'Leña'),
-    (15,'Guineo'),(16,'Platano'),
-    (17,'Madera'),(18,'Naranja'),
-    (19,'Aguacate'),(20,'Pejibaye'),
-    (21,'Achiote'),(22,'Leche'),
-    (23,'Cuajada'),(24,'Queso'),
-    (25,'Crema'),(26,'Carne de Res'),
-    (27,'Huevos'),(28,'Gallinas'),
-    (29,'Carne de Cerdo'),(30,'Pinolillo'),
-    (31,'Avena'),(32,'Pescado'),
-    (33,'Pan'),(34,'Aceite'),(35,'Manteca'),
-    (36,'Papa'),(37,'Cebolla'),(38,'Chiltoma'),(39,'Tomate'))
+ALIMENTO_CHOICES = (
+    (1, 'Agua'), (2, 'Maiz'),
+    (3, 'Frijol'), (4, 'Arroz'),
+    (5, 'Azucar'), (6, 'Yuca'),
+    (7, 'Malanga'), (8, 'Quequisque'),
+    (9, 'Naranjilla'), (10, 'Parras'),
+    (11, 'Café'), (12, 'Cacao'),
+    (13, 'Coco'), (14, 'Leña'),
+    (15, 'Guineo'), (16, 'Platano'),
+    (17, 'Madera'), (18, 'Naranja'),
+    (19, 'Aguacate'), (20, 'Pejibaye'),
+    (21, 'Achiote'), (22, 'Leche'),
+    (23, 'Cuajada'), (24, 'Queso'),
+    (25, 'Crema'), (26, 'Carne de Res'),
+    (27, 'Huevos'), (28, 'Gallinas'),
+    (29, 'Carne de Cerdo'), (30, 'Pinolillo'),
+    (31, 'Avena'), (32, 'Pescado'),
+    (33, 'Pan'), (34, 'Aceite'), (35, 'Manteca'),
+    (36, 'Papa'), (37, 'Cebolla'), (38, 'Chiltoma'), (39, 'Tomate'))
 
-CLASIFICACION_CHOICES=((1,'Carbohidratos'),(2,'Vitaminas'),
-                        (3,'Grasas'), (4,'Proteínas'),
-                        (5,'Minerales'))
+CLASIFICACION_CHOICES = ((1, 'Carbohidratos'), (2, 'Vitaminas'),
+                         (3, 'Grasas'), (4, 'Proteínas'),
+                         (5, 'Minerales'))
+
 
 class AlimentosSeguridad(models.Model):
     nombre = models.CharField(max_length=250)
@@ -621,9 +707,10 @@ class AlimentosSeguridad(models.Model):
         ordering = ('nombre', )
         verbose_name_plural = 'Alimentos sobre seguridad alimentaria'
 
-CONSUMO_CHOICES=((1,'No suficiente'),(2,'Si suficiente'))
-CONSUMO_CHOICES_2=((1,'Diario'),(2,'Semanal'), 
-                   (3, 'Ocasional'), (4,'No'))
+CONSUMO_CHOICES = ((1, 'No suficiente'), (2, 'Si suficiente'))
+CONSUMO_CHOICES_2 = ((1, 'Diario'), (2, 'Semanal'),
+                     (3, 'Ocasional'), (4, 'No'))
+
 
 class SeguridadAlimentaria(models.Model):
     alimentos = models.ForeignKey(AlimentosSeguridad)
@@ -636,7 +723,7 @@ class SeguridadAlimentaria(models.Model):
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-        verbose_name_plural = "S.A. Consumo y adquisiciones" 
+        verbose_name_plural = "S.A. Consumo y adquisiciones"
 
 
 #---------------------------------------------------------------------
@@ -651,6 +738,7 @@ class OrganizacionesDanCredito(models.Model):
     class Meta:
         ordering = ('nombre', )
 
+
 class UsoCredito(models.Model):
     nombre = models.CharField('Uso del credito', max_length=250)
 
@@ -659,6 +747,7 @@ class UsoCredito(models.Model):
 
     class Meta:
         ordering = ('nombre', )
+
 
 class TipoFinanciamiento(models.Model):
     nombre = models.CharField(max_length=250)
@@ -669,13 +758,15 @@ class TipoFinanciamiento(models.Model):
     class Meta:
         ordering = ('nombre', )
 
+
 class Credito(models.Model):
-    organizacion = models.ForeignKey(OrganizacionesDanCredito, 
-                   verbose_name='Con qué organización tiene crédito actualmente?')
+    organizacion = models.ForeignKey(OrganizacionesDanCredito,
+                                     verbose_name='Con qué organización tiene crédito actualmente?')
     tipo_fina = models.ForeignKey(TipoFinanciamiento,
-                    verbose_name='Tipo de financiamiento')
+                                  verbose_name='Tipo de financiamiento')
     uso = models.ManyToManyField(UsoCredito, verbose_name='Rubro/Destino')
-    personas = models.IntegerField('Número de personas beneficiarias de la familia')
+    personas = models.IntegerField(
+        'Número de personas beneficiarias de la familia')
 
     encuesta = models.ForeignKey(Encuesta)
 
@@ -698,9 +789,10 @@ class TipoInnovacion(models.Model):
         ordering = ('nombre', )
 
 CHOICE_SI_NO = (
-        (1, "Si"),
-        (2, "No"),
-    )
+    (1, "Si"),
+    (2, "No"),
+)
+
 
 class Innovacion(models.Model):
     innovacion = models.ForeignKey(TipoInnovacion)
@@ -715,18 +807,23 @@ class Innovacion(models.Model):
 # Modelo: innovaciones
 #---------------------------------------------------------------------
 
+
 class Fotos(models.Model):
-    nombre = models.CharField(max_length=200,help_text="Nombre de la foto a subir")
-    adjunto = ImageField(upload_to="attachments", blank=True, 
+    nombre = models.CharField(
+        max_length=200,
+        help_text="Nombre de la foto a subir")
+    adjunto = ImageField(upload_to="attachments", blank=True,
                          help_text="Suba su archivo aqui")
 
     encuesta = models.ForeignKey(Encuesta)
 
     def get_absolute_url(self):
-        return '%s%s/%s' % (settings.MEDIA_URL,settings.ATTACHMENT_FOLDER, self.id)
+        return '%s%s/%s' % (settings.MEDIA_URL,
+                            settings.ATTACHMENT_FOLDER, self.id)
 
     def get_download_url(self):
-        return '%s%s/%s' % (settings.MEDIA_URL,settings.ATTACHMENT_FOLDER, self.nombre)
+        return '%s%s/%s' % (settings.MEDIA_URL,
+                            settings.ATTACHMENT_FOLDER, self.nombre)
 
     class Meta:
         verbose_name_plural = "Subir archivos fotograficos de las familia"

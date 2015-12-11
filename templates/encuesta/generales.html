@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load ayudar %}
 
 {% block extra_js %}
 <script>
@@ -123,7 +124,7 @@
      <div class="panel-body">
              {% include "indicadores.html" %}
               <div class="table-responsive">
-                 <table class="table" id="myTable">
+                 <table class="table" id="">
                  <caption>Areas en manzanas</caption>
                  <thead>
                       <tr>
@@ -133,13 +134,35 @@
                       </tr>
                   </thead>
                   <tbody>
-                  	{% for k,v in lista1.items %}
-                  		<tr>
-                          <td>{{k}}</td>
-                          <td>{{v.0}}</td>
-                          <td>{{v.1}}</td>
-                      	</tr>
-                  	{% endfor %}
+            		<tr>
+                      <td>0 Mz</td>
+                      <td>{{cero2}}</td>
+                      <td>{{cero2|calculaperct:a|floatformat:2}}</td>
+                	</tr>
+
+                  <tr>
+                      <td>0.1 - 5 Mz</td>
+                      <td>{{cinco}}</td>
+                      <td>{{cinco|calculaperct:a|floatformat:2}}</td>
+                  </tr>
+
+                  <tr>
+                      <td>6 - 20 Mz</td>
+                      <td>{{veinte}}</td>
+                      <td>{{veinte|calculaperct:a|floatformat:2}}</td>
+                  </tr>
+
+                  <tr>
+                      <td>21 - 50 Mz</td>
+                      <td>{{cincuenta}}</td>
+                      <td>{{cincuenta|calculaperct:a|floatformat:2}}</td>
+                  </tr>
+
+                  <tr>
+                      <td>51 Mz  a más</td>
+                      <td>{{mas}}</td>
+                      <td>{{mas|calculaperct:a|floatformat:2}}</td>
+                  </tr>
                   </tbody>
 				</table>
            	 </div>
