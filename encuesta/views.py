@@ -740,6 +740,19 @@ def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
 
     return render(request, template, {'a': a.count(), 'data': saf})
 
+def busquedaProductor(request):
+    if request.is_ajax():
+        productor = Productores.objects.filter(nombre__icontains= request.GET['nombre'] ).values('nombre', 'id')
+        return HttpResponse( simplejson.dumps( list(productor)), mimetype='application/json' ) 
+    else:
+        return HttpResponse("Solo Ajax");
+
+def mapa(request, template="encuesta/mapa.html"):
+    a = _query_filtros(request)
+
+
+    return render(request, template, {'a': a.count()})
+
 # urls de los indicadores
 VALID_VIEWS = {
     'entrar': entrar,

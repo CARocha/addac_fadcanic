@@ -178,6 +178,27 @@
                 }
             });
         });
+
+
+        $('#busquedaProductor').keyup(function(e){
+             consulta = $("#busquedaProductor").val();
+             $.ajax({
+             data: {'nombre': consulta},
+             url: '/productor/busqueda/',
+             type: 'get',
+             success : function(data) {
+                     console.log(data[0].nombre);
+             },
+             error : function(message) {
+                     console.log(message);
+                  }
+             });
+            });
+
+
+
+
+        
         
     });
 </script>
