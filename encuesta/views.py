@@ -750,7 +750,6 @@ def busquedaProductor(request):
 def mapa(request, template="encuesta/mapa.html"):
     a = _query_filtros(request)
 
-
     return render(request, template, {'a': a.count()})
 
 # urls de los indicadores
@@ -768,6 +767,7 @@ VALID_VIEWS = {
     'ingreso_procesados': ingreso_pprocesados,
     'ingreso_negocio': ingreso_negocio,
     'ingreso_saf': ingreso_saf,
+    'mapa': mapa,
 
 }
 # Función para obtener las url
