@@ -742,7 +742,7 @@ def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
 
 def busquedaProductor(request):
     if request.is_ajax():
-        productor = Productores.objects.filter(nombre__icontains= request.GET['nombre'] ).values('nombre', 'id')
+        productor = Productores.objects.filter(nombre__icontains = request.GET['nombre'] ).values('nombre', 'id')
         return HttpResponse( simplejson.dumps( list(productor)), mimetype='application/json' ) 
     else:
         return HttpResponse("Solo Ajax");
