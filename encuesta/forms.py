@@ -16,7 +16,7 @@ class ProductorAdminForm(forms.ModelForm):
         }
 
 class FormSeguridadPProcesados(ModelForm):
-    
+
     class Meta:
         model = SeguridadPProcesados
         widgets = {
@@ -24,7 +24,7 @@ class FormSeguridadPProcesados(ModelForm):
         }
 
 class FormSeguridadSaf(ModelForm):
-    
+
     class Meta:
         model = SeguridadSaf
         #widgets = {
@@ -32,7 +32,7 @@ class FormSeguridadSaf(ModelForm):
         #}
 
 class FormSeguridadCAnuales(ModelForm):
-    
+
     class Meta:
         model = SeguridadCAnuales
         widgets = {
@@ -40,7 +40,7 @@ class FormSeguridadCAnuales(ModelForm):
         }
 
 class FormSeguridadPAnimal(ModelForm):
-    
+
     class Meta:
         model = SeguridadPAnimal
         widgets = {
@@ -48,7 +48,7 @@ class FormSeguridadPAnimal(ModelForm):
         }
 
 class FormIngresoServicioNegocio(ModelForm):
-    
+
     class Meta:
         model = IngresoServicioNegocio
         widgets = {
@@ -56,7 +56,7 @@ class FormIngresoServicioNegocio(ModelForm):
         }
 
 class FormCredito(ModelForm):
-    
+
     class Meta:
         model = Credito
         widgets = {
@@ -64,7 +64,7 @@ class FormCredito(ModelForm):
         }
 
 class FormSeguridadAlimentaria(ModelForm):
-    
+
     class Meta:
         model = SeguridadAlimentaria
         widgets = {
@@ -72,7 +72,7 @@ class FormSeguridadAlimentaria(ModelForm):
         }
 
 class FormInnovacion(ModelForm):
-    
+
     class Meta:
         model = Innovacion
         widgets = {
@@ -100,11 +100,12 @@ REPETIDO_CHOICES = (
           ('4', '4 Años')
     )
 
+
 class PrincipalForm(forms.Form):
     fecha = forms.MultipleChoiceField(choices=fecha_choice())
-    departamento = forms.ModelChoiceField(queryset=Departamento.objects.all(), 
+    departamento = forms.ModelChoiceField(queryset=Departamento.objects.all(),
                                           required=False,
-                                          widget=forms.Select(attrs={'class': 'form-control'}), 
+                                          widget=forms.Select(attrs={'class': 'form-control'}),
                                           empty_label="Todos los Departamento")
 
     municipio = forms.ModelChoiceField(queryset=Municipio.objects.all(), required=False,
@@ -113,10 +114,14 @@ class PrincipalForm(forms.Form):
     comunidad = forms.ModelChoiceField(queryset=Comunidad.objects.all(), required=False,
                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
-    propietario = forms.ChoiceField(choices=DUENO_CHOICES, 
+    propietario = forms.ChoiceField(choices=DUENO_CHOICES,
                                     required=False,
                                     widget=forms.Select(attrs={'class': 'form-control'}))
 
-    repetido = forms.ChoiceField(choices=REPETIDO_CHOICES, 
-                                    required=False,
-                                    widget=forms.Select(attrs={'class': 'form-control'}))
+    repetido = forms.ChoiceField(choices=REPETIDO_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}))
+
+
+class FormMapa(forms.Form):
+    fecha1 = forms.ChoiceField(choices=fecha_choice(), label='fecha')

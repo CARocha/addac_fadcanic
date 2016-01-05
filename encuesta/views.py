@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect, HttpRespons
 from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
-from .forms import PrincipalForm, fecha_choice
+from .forms import PrincipalForm, fecha_choice, FormMapa
 from django.db.models import Sum, Avg
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
@@ -740,17 +740,20 @@ def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
 
     return render(request, template, {'a': a.count(), 'data': saf})
 
+
 def busquedaProductor(request):
     if request.is_ajax():
         productor = Productores.objects.filter(nombre__icontains = request.GET['nombre'] ).values('nombre', 'id')
-        return HttpResponse( simplejson.dumps( list(productor)), mimetype='application/json' ) 
+        return HttpResponse( simplejson.dumps( list(productor)), mimetype='application/json' )
     else:
         return HttpResponse("Solo Ajax");
 
-def mapa(request, template="encuesta/mapa.html"):
-    a = _query_filtros(request)
 
-    return render(request, template, {'a': a.count()})
+def mapa(request, template="encuesta/mapa.html"):
+    #a = _query_filtros(request)
+    form = FormMapa()
+
+    return render(request, template, {'form':form})
 
 # urls de los indicadores
 VALID_VIEWS = {

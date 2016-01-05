@@ -1,21 +1,99 @@
 {% extends "base.html" %}
 
-{% block contenido %}
-	<style type="text/css">
-      html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 100%; }
-    </style>
+{% block extra_js %}
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/markerclusterer.js"></script>
 
-     <div id="map"></div>
-     
-<script src="https://maps.googleapis.com/maps/api/js"></script>
 <script type="text/javascript">
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -84.397, lng: 12.644},
-    zoom: 8
-  });
+    var map;
+    $(document).ready(function() {
+    var infowindow = new google.maps.InfoWindow();
+    var myLatlng = new google.maps.LatLng(13.125,-85.243);
+    var myOptions = {
+        zoom: 8,
+        mapTypeControl: true,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    $.getJSON('/mapa/', function(data) {
+        $.each(data[0], function(name, item) {
+            var latlng = new google.maps.LatLng(item.lat, item.lon);
+            var marker = new google.maps.Marker({
+                position : latlng,
+                map : map,
+                title : name,
+                icon : 'http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld=bbT|'+(item.hombres+item.mujeres)+'|FABF15|000000',
+                item : ''
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+                var text = '<div class="infowindow"><b>'+name+'</b><br><div class="info">';
+                text += '<span>"Hombres:" </span>'+item.hombres+'<br> <span> "Mujeres:"</span> '+item.mujeres;
+                text += '<br><span>"Total:"</span> '+(item.hombres+item.mujeres)+'</div></div>';
+                infowindow.setContent(text);
+            });
+        });
+    });
+}); // fin del documents
+</script>
+<style type="text/css">
+.hidden{
+    visibility: hidden;
 }
- </script>
-{% endblock contenido %}
+</style>
+{% endblock %}
+
+{% block contenido %}
+<style type="text/css">
+    #map_canvas {
+    height: 600px;
+    margin: 0 auto;
+    width: 800px;
+    }
+    .infowindow{font-size: 13px; color: #069;}
+    .infowindow span{color: #4E4E4E;}
+    .infowindow .info{font-size: 13px; margin-top: 6px;}
+    .formulario_mapa {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-left: 320px;
+    }
+    .styled-select select {
+       background: #ccc;
+       width: 160px;
+       margin-top: 100px;
+       padding: 5px;
+       font-size: 16px;
+       line-height: 1;
+       border: 0;
+       border-radius: 0;
+       height: 34px;
+
+    }
+    input[type=submit] {
+        padding:5px 15px;
+        background:#ccc;
+        border:0 none;
+        cursor:pointer;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+    fieldset {
+        margin-right: 290px;
+    }
+</style>
+
+<div class="styled-select formulario_mapa">
+    <form  action="." method="POST">{% csrf_token %}
+    <fieldset>
+        <legend>Consultar:</legend>
+        {{form.fecha1}}
+            <input type="submit" name="yearactual" value="Refrescar">
+    </fieldset>
+    </form>
+</div>
+<div id="mapaindex">
+    <div id="map_canvas"></div>
+</div>
+{% endblock %}

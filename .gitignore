@@ -60,3 +60,4 @@ docs/_build/
 *.sql
 media/
 local_settings.py
+*.DS_Store
