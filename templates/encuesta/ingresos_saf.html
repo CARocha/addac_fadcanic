@@ -3,11 +3,87 @@
 {% load staticfiles %}
 {% load ayudar %}
 
+
+{% block extra_js %}
+<script type="text/javascript">
+
+$(function () {
+    // Create the chart
+  $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Ingreso por SAF (No organizado)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Porcentaje',
+                data: [ {%for k ,v in data.items%}
+                          ['{{k }} - C${{v.venta_no|calculaIngreso:v.precio_promedio_no|floatformat:2}}',{{v.venta_no|calculaIngreso:v.precio_promedio_no|floatformat:2}}],
+                        {%endfor%}
+
+                ]
+                }]
+        });
+
+ $('#container1').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Ingreso por SAF (Organizado)'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Porcentaje',
+                data: [ {%for k ,v in data.items%}
+                          ['{{k }} - C${{v.venta_organizada|calculaIngreso:v.precio_promedio_orga|floatformat:2}}',{{v.venta_organizada|calculaIngreso:v.precio_promedio_orga|floatformat:2}}],
+                        {%endfor%}
+
+                ]
+                }]
+        });
+
+}); //fin de la funcion
+</script>
+{% endblock extra_js %}
+
 {% block contenido %}
     <br><br><br><br><br><br>
 <div class="container">
     <hr class="separador">
-<h3 class="text-success">Indicador Ingresos por negocio</h3>
+<h3 class="text-success">Indicador Ingresos por productos SAF</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
 <div class="row" id="formularios">
@@ -33,7 +109,7 @@
              {% include "indicadores.html" %}
               <div class="table-responsive">
                  <table class="table" id="myTable">
-                 <caption>Tipos de negocios</caption>
+                 <caption>Tipos de saf (no organizado)</caption>
                  <thead>
                       <tr>
                           <th>Tipos</th>
@@ -54,9 +130,34 @@
                   </tbody>
                 </table>
              </div>
+
+            <br><br>
+            <div class="table-responsive">
+                 <table class="table" id="myTable">
+                 <caption>Tipos de saf (organizado)</caption>
+                 <thead>
+                      <tr>
+                          <th>Tipos</th>
+                          <th>Total Cantidad de unidades por año(organizado)</th>
+                          <th>Precio promedio(organizado)</th>
+                          <th>Total ingreso anual en C$ </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {%for k,v in data.items%}
+                  <tr>
+                      <td>{{k}}</td>
+                      <td>{{v.venta_organizada|floatformat:2}}</td>
+                      <td>{{v.precio_promedio_orga|floatformat:2}}</td>
+                      <td>{{v.venta_organizada|calculaIngreso:v.precio_promedio_orga|floatformat:2}}</td>
+                  </tr>
+                  {%endfor%}
+                  </tbody>
+                </table>
+             </div>
+
          </div>
     </div>
-
 
 
           <div class="tab-pane" id="grafico">

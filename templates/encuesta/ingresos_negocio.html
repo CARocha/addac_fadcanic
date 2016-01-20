@@ -3,6 +3,67 @@
 {% load staticfiles %}
 {% load ayudar %}
 
+{% block extra_js %}
+<script type="text/javascript">
+
+$(function () {
+    // Create the chart
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Ingreso por otros negocios'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Ingresos (C$)'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> del total<br/>'
+        },
+
+        series: [{
+            name: "Tipos",
+            colorByPoint: true,
+            data: [
+            {% for key,value in data.items %}
+                      {
+                          name: "{{key}}",
+                          y: {{value.ingresos}},
+                      },
+              {% endfor %}
+            ]
+        }],
+    });
+});
+
+
+</script>
+{% endblock extra_js %}
+
 {% block contenido %}
 	<br><br><br><br><br><br>
 <div class="container">
