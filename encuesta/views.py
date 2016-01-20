@@ -712,7 +712,7 @@ def ingreso_negocio(request, template="encuesta/ingresos_negocio.html"):
 # Funcion sobre ingreso en pruductos saf
 
 
-def ingreso_saf(request, template="encuesta/ingresos_negocio.html"):
+def ingreso_saf(request, template="encuesta/ingresos_saf.html"):
     a = _query_filtros(request)
 
     saf = {}

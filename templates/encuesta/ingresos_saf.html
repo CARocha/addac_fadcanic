@@ -4,9 +4,9 @@
 {% load ayudar %}
 
 {% block contenido %}
-	<br><br><br><br><br><br>
+    <br><br><br><br><br><br>
 <div class="container">
-	<hr class="separador">
+    <hr class="separador">
 <h3 class="text-success">Indicador Ingresos por negocio</h3>
 <hr class="separador">
 {% include "encuesta/breabcrumbs.html" %}
@@ -37,8 +37,8 @@
                  <thead>
                       <tr>
                           <th>Tipos</th>
-                          <th>Total Cantidad de unidades por año</th>
-                          <th>Precio promedio</th>
+                          <th>Total Cantidad de unidades por año(no organizado)</th>
+                          <th>Precio promedio(no organizado)</th>
                           <th>Total ingreso anual en C$ </th>
                       </tr>
                   </thead>
@@ -46,14 +46,14 @@
                   {%for k,v in data.items%}
                   <tr>
                       <td>{{k}}</td>
-                      <td>{{v.cantidad}}</td>
-                      <td>{{v.precio|floatformat:2}}</td>
-                      <td>{{v.ingresos}}</td>
+                      <td>{{v.venta_no|floatformat:2}}</td>
+                      <td>{{v.precio_promedio_no|floatformat:2}}</td>
+                      <td>{{v.venta_no|calculaIngreso:v.precio_promedio_no|floatformat:2}}</td>
                   </tr>
                   {%endfor%}
                   </tbody>
-				</table>
-           	 </div>
+                </table>
+             </div>
          </div>
     </div>
 
