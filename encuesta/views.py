@@ -765,7 +765,7 @@ def obtener_mapa_dashboard(request):
                 lista.append(dicc)
 
         serializado = simplejson.dumps(lista)
-        return HttpResponse(serializado, mimetype='application/json')
+        return HttpResponse(serializado, content_type='application/json')
 
 def mapa(request, template="encuesta/mapa.html"):
     a = _query_filtros(request)
