@@ -248,12 +248,12 @@ class Finca(models.Model):
         'N',
         null=True,
         blank=True,
-        help_text='Introduzca las coordenadas Latitud')
+        help_text='Introduzca las coordenadas Northing')
     coordenadas_lg = models.FloatField(
         'E',
         null=True,
         blank=True,
-        help_text="Introduzca las coordenadas Longitud")
+        help_text="Introduzca las coordenadas Easting")
     animal_bovino = models.IntegerField(
         'Ganado bovino',
         help_text='Introduzca cuantos animales bovinos tiene')

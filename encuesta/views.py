@@ -9,6 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 import json as simplejson
 from portada.models import FotosPortada
+import utm
 
 # CBV para el home y los graficos
 
@@ -749,11 +750,28 @@ def busquedaProductor(request):
         return HttpResponse("Solo Ajax");
 
 
-def mapa(request, template="encuesta/mapa.html"):
-    #a = _query_filtros(request)
-    form = FormMapa()
+def obtener_mapa_dashboard(request):
+    a = _query_filtros(request)
+    if request.is_ajax():
+        lista = []
+        for objeto in Finca.objects.filter(encuesta__in=a):
+            if objeto.zona == 16 or objeto.zona == 17:
+                valor = utm.to_latlon(objeto.coordenadas_gps, objeto.coordenadas_lg, objeto.zona, 'P')
+                dicc = dict(nombre=objeto.nombre_productor.nombre,
+                                id=objeto.id,
+                                lat=float(valor[0]),
+                                lon=float(valor[1]),
+                            )
+                lista.append(dicc)
 
-    return render(request, template, {'form':form})
+        serializado = simplejson.dumps(lista)
+        return HttpResponse(serializado, mimetype='application/json')
+
+def mapa(request, template="encuesta/mapa.html"):
+    a = _query_filtros(request)
+
+    form = FormMapa()
+    return render(request, template, {'a': a.count(),'form':form})
 
 # urls de los indicadores
 VALID_VIEWS = {

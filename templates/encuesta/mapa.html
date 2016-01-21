@@ -6,36 +6,38 @@
 
 <script type="text/javascript">
     var map;
-    $(document).ready(function() {
-    var infowindow = new google.maps.InfoWindow();
-    var myLatlng = new google.maps.LatLng(13.125,-85.243);
-    var myOptions = {
-        zoom: 8,
-        mapTypeControl: true,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-    }
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    $.getJSON('/mapa/', function(data) {
-        $.each(data[0], function(name, item) {
-            var latlng = new google.maps.LatLng(item.lat, item.lon);
-            var marker = new google.maps.Marker({
-                position : latlng,
-                map : map,
-                title : name,
-                icon : 'http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld=bbT|'+(item.hombres+item.mujeres)+'|FABF15|000000',
-                item : ''
+    var markers = [];
+    $(document).ready(function () {
+        var infowindow = new google.maps.InfoWindow();
+        var myLatlng = new google.maps.LatLng(13, -85);
+        var myOptions = {
+            zoom: 8,
+            mapTypeControl: true,
+            scaleControl: false,
+            scrollwheel: false,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+
+        $.getJSON("{% url 'obtener-lista' %}", function(data){
+            $.each(data, function(i, elemento){
+                var latlng = new google.maps.LatLng(elemento.lat, elemento.lon);
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: elemento.nombre,
+                    item: '',
+                    id: elemento.id
+                });
+                markers.push(marker);
             });
-            google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map, marker);
-                var text = '<div class="infowindow"><b>'+name+'</b><br><div class="info">';
-                text += '<span>"Hombres:" </span>'+item.hombres+'<br> <span> "Mujeres:"</span> '+item.mujeres;
-                text += '<br><span>"Total:"</span> '+(item.hombres+item.mujeres)+'</div></div>';
-                infowindow.setContent(text);
-            });
+            var markerCluster = new MarkerClusterer(map, markers);
         });
+
     });
-}); // fin del documents
+
 </script>
 <style type="text/css">
 .hidden{
@@ -49,7 +51,7 @@
     #map_canvas {
     height: 600px;
     margin: 0 auto;
-    width: 800px;
+    width: 700px;
     }
     .infowindow{font-size: 13px; color: #069;}
     .infowindow span{color: #4E4E4E;}
@@ -59,41 +61,41 @@
         padding-bottom: 10px;
         margin-left: 320px;
     }
-    .styled-select select {
-       background: #ccc;
-       width: 160px;
-       margin-top: 100px;
-       padding: 5px;
-       font-size: 16px;
-       line-height: 1;
-       border: 0;
-       border-radius: 0;
-       height: 34px;
-
-    }
-    input[type=submit] {
-        padding:5px 15px;
-        background:#ccc;
-        border:0 none;
-        cursor:pointer;
-        -webkit-border-radius: 5px;
-        border-radius: 5px;
-    }
-    fieldset {
-        margin-right: 290px;
-    }
 </style>
+<br><br><br><br><br><br>
+<div class="container">
+<hr class="separador">
+<h3 class="text-success">Indicador Mapa</h3>
+<hr class="separador">
+{% include "encuesta/breabcrumbs.html" %}
+<div class="row" id="formularios">
+    {% include "formulario.html" %}
+<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <ul class="nav nav-pills nav-justified">
+        <li class="active"><a href="#tabla" data-toggle="tab">mapa</a></li>
 
-<div class="styled-select formulario_mapa">
-    <form  action="." method="POST">{% csrf_token %}
-    <fieldset>
-        <legend>Consultar:</legend>
-        {{form.fecha1}}
-            <input type="submit" name="yearactual" value="Refrescar">
-    </fieldset>
-    </form>
+
+
+      <li id="mas" class="text-center btnindicador">
+        <span id="estado">
+          <span class="glyphicon glyphicon-arrow-down"></span>
+        </span> Cambiar de Indicador
+      </li>
+    </ul>
+
+      <div class="tab-content">
+    <div class="tab-pane active" id="tabla">
+        <div class="panel-body">
+             {% include "indicadores.html" %}
+             <div id="mapaindex">
+                <div id="map_canvas"></div>
+            </div>
+         </div>
+    </div>
+      </div>
+    </div> <!-- terminas las tablas -->
+
 </div>
-<div id="mapaindex">
-    <div id="map_canvas"></div>
 </div>
+
 {% endblock %}
