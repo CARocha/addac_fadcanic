@@ -245,12 +245,12 @@ class Finca(models.Model):
         blank=True)
     zona = models.IntegerField('UTM, Zona', null=True, blank=True)
     coordenadas_gps = models.FloatField(
-        'N',
+        'NORTHING',
         null=True,
         blank=True,
         help_text='Introduzca las coordenadas Northing')
     coordenadas_lg = models.FloatField(
-        'E',
+        'EASTING',
         null=True,
         blank=True,
         help_text="Introduzca las coordenadas Easting")

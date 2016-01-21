@@ -15,22 +15,22 @@ class FincaInline(admin.StackedInline):
     min_num = 1
     fieldsets = (
         (None, {
-            'fields': ('nombre_productor', ('person','finca',), 
-                ('municipio', 'comunidad', 'microcuenca'), 'area_finca', 
+            'fields': ('nombre_productor', ('person','finca',),
+                ('municipio', 'comunidad', 'microcuenca'), 'area_finca',
                 ('zona', 'coordenadas_gps', 'coordenadas_lg' ))
         }),
         ('Numero de animales en la finca', {
-            
+
             'fields': (('animal_bovino', 'animal_equino', 'animal_porcino'), ('animal_aves',
                 'animal_caprino'), )
         }),
         ('Datos generales de la propiedad', {
-            
+
             'fields': (('tipo_casa', 'area_casa', 'seneamiento'), ('fuente_agua', 'legalidad',
                 'propietario'), )
         }),
     )
-    
+
 
 class UsoTierraAdmin(admin.StackedInline):
     model = UsoTierra
@@ -58,7 +58,7 @@ class SeguridadSafAdmin(admin.TabularInline):
     fields = ('cultivos','area_desarrollo','area_produccion','produccion_total',
                 'auto_consumo','consumo_animal','perdidas','venta_no','precio_promedio_no',
                 'venta_organizada','precio_promedio_orga')
-    class Media:  
+    class Media:
         css = {
             'all': ('css/saf.css',)
         }
@@ -113,8 +113,8 @@ class EncuestaAdmin(admin.ModelAdmin):
                SeguridadPProcesadosAdmin, IngresoServicioNegocioAdmin, SeguridadAlimentariaAdmin,
                CreditoAdmin, InnovacionAdmin, FotosAdmin ]
 
-    list_display = ('fecha', 'get_productor','recolector','get_municipio','get_comunidad',
-                    'get_propietario','get_total_area')
+    list_display = ('fecha', 'get_productor','get_municipio','get_comunidad',
+                    'get_propietario','get_total_area', 'get_utm_data', 'get_northing','get_easthing')
     list_filter = ('ano','finca__municipio__nombre', 'finca__propietario')
     date_hierarchy = 'fecha'
     search_fields = ['finca__nombre_productor__nombre',]
@@ -139,6 +139,18 @@ class EncuestaAdmin(admin.ModelAdmin):
     def get_total_area(self, obj):
         return "\n".join([str(i.area_finca) for i in obj.finca_set.all()])
     get_total_area.short_description = 'Total area(Mz)'
+
+    def get_utm_data(self, obj):
+        return "\n".join([str(i.zona) for i in obj.finca_set.all()])
+    get_utm_data.short_description = 'zona UTM'
+
+    def get_northing(self, obj):
+        return "\n".join([str(i.coordenadas_gps) for i in obj.finca_set.all()])
+    get_northing.short_description = 'NORTHING'
+
+    def get_easthing(self, obj):
+        return "\n".join([str(i.coordenadas_lg) for i in obj.finca_set.all()])
+    get_easthing.short_description = 'EASTING'
 
     class Media:
         css = {
@@ -186,7 +198,7 @@ admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Recolector)
 admin.site.register(Oficinas)
 admin.site.register(AlimentosSeguridad, AlimentosSeguridadAdmin)
-# 
+#
 #admin.site.register(Finca)
 admin.site.register(CultivosSaf)
 admin.site.register(CultivosAnuales)
