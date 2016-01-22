@@ -723,6 +723,8 @@ def ingreso_saf(request, template="encuesta/ingresos_saf.html"):
                                                                     'seguridadsaf__area_produccion'),
                                                                 produccion_total=Sum(
                                                                     'seguridadsaf__produccion_total'),
+                                                                consumo_animal=Sum(
+                                                                    'seguridadsaf__consumo_animal'),
                                                                 auto_consumo=Sum(
                                                                     'seguridadsaf__auto_consumo'),
                                                                 perdidas=Sum(
@@ -735,6 +737,8 @@ def ingreso_saf(request, template="encuesta/ingresos_saf.html"):
                                                                     'seguridadsaf__venta_organizada'),
                                                                 precio_promedio_orga=Avg(
                                                                     'seguridadsaf__precio_promedio_orga'),
+                                                                rendimiento=Avg(
+                                                                    'seguridadsaf__rendimiento'),
                                                                 )
         if cnt['area_desarrollo'] > 0:
             saf[obj] = cnt

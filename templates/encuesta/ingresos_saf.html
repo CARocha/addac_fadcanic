@@ -80,6 +80,13 @@ $(function () {
 {% endblock extra_js %}
 
 {% block contenido %}
+<style type="text/css">
+  .tableScroll{
+    width:100%;
+    max-width:100%;
+    overflow:scroll;
+}
+</style>
     <br><br><br><br><br><br>
 <div class="container">
     <hr class="separador">
@@ -107,55 +114,49 @@ $(function () {
 
      <div class="panel-body">
              {% include "indicadores.html" %}
-              <div class="table-responsive">
+              <div class="table-responsive tableScroll">
                  <table class="table" id="myTable">
-                 <caption>Tipos de saf (no organizado)</caption>
+                 <caption>Ingresos SAF</caption>
                  <thead>
                       <tr>
-                          <th>Tipos</th>
-                          <th>Total Cantidad de unidades por año(no organizado)</th>
-                          <th>Precio promedio(no organizado)</th>
-                          <th>Total ingreso anual en C$ </th>
+                          <th>Cultivos</th>
+                          <th>Total area en desarrollo</th>
+                          <th>Total area producción</th>
+                          <th>Producción total </th>
+                          <th>Consumo animal </th>
+                          <th>Auto consumo</th>
+                          <th>Perdida</th>
+                          <th>Venta no organizada</th>
+                          <th>Precio de venta no organizada</th>
+                          <th>Ingreso no organizado</th>
+                          <th>Venta organizada </th>
+                          <th>Precio de venta organizada </th>
+                          <th>Ingreso organizada </th>
+                          <th>Rendimiento</th>
                       </tr>
                   </thead>
                   <tbody>
                   {%for k,v in data.items%}
                   <tr>
                       <td>{{k}}</td>
+                      <td>{{v.area_desarrollo|floatformat:2}}</td>
+                      <td>{{v.area_produccion|floatformat:2}}</td>
+                      <td>{{v.produccion_total|floatformat:2}}</td>
+                      <td>{{v.consumo_animal|floatformat:2}}</td>
+                      <td>{{v.auto_consumo|floatformat:2}}</td>
+                      <td>{{v.perdidas|floatformat:2}}</td>
                       <td>{{v.venta_no|floatformat:2}}</td>
                       <td>{{v.precio_promedio_no|floatformat:2}}</td>
                       <td>{{v.venta_no|calculaIngreso:v.precio_promedio_no|floatformat:2}}</td>
-                  </tr>
-                  {%endfor%}
-                  </tbody>
-                </table>
-             </div>
-
-            <br><br>
-            <div class="table-responsive">
-                 <table class="table" id="myTable">
-                 <caption>Tipos de saf (organizado)</caption>
-                 <thead>
-                      <tr>
-                          <th>Tipos</th>
-                          <th>Total Cantidad de unidades por año(organizado)</th>
-                          <th>Precio promedio(organizado)</th>
-                          <th>Total ingreso anual en C$ </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  {%for k,v in data.items%}
-                  <tr>
-                      <td>{{k}}</td>
                       <td>{{v.venta_organizada|floatformat:2}}</td>
                       <td>{{v.precio_promedio_orga|floatformat:2}}</td>
                       <td>{{v.venta_organizada|calculaIngreso:v.precio_promedio_orga|floatformat:2}}</td>
+                      <td>{{v.rendimiento|floatformat:2}}</td>
                   </tr>
                   {%endfor%}
                   </tbody>
                 </table>
              </div>
-
          </div>
     </div>
 
