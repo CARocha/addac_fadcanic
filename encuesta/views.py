@@ -755,8 +755,8 @@ def obtener_mapa_dashboard(request):
     if request.is_ajax():
         lista = []
         for objeto in Finca.objects.filter(encuesta__in=a):
-            if objeto.zona == 16 or objeto.zona == 17:
-                valor = utm.to_latlon(objeto.coordenadas_gps, objeto.coordenadas_lg, objeto.zona, 'P')
+            if objeto.zona == 16 or objeto.zona == 17 and objeto.coordenadas_lg > 0:
+                valor = utm.to_latlon(objeto.coordenadas_lg, objeto.coordenadas_gps, objeto.zona, 'P')
                 dicc = dict(nombre=objeto.nombre_productor.nombre,
                                 id=objeto.id,
                                 lat=float(valor[0]),
