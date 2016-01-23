@@ -32,6 +32,18 @@
                     id: elemento.id
                 });
                 markers.push(marker);
+                 google.maps.event.addListener(marker, "click", function() {
+               var html = '<b><a href="#' +'" class="verde">' + elemento.nombre +
+                          '</a></b><br><b class="gris">Sexo →</b> ' + elemento.sexo +
+                          '<br><b class="gris">Grupo étnico →</b> ' + elemento.grupo +
+                          '<br><b class="gris">Edad →</b> ' + elemento.edad;
+                          //+'<br><a href="#'+ elemento.id +'" class="btn botopococ btn-mini btn-success">Ver Productor</a>';
+                infowindow = new google.maps.InfoWindow({
+                          content: html,
+                          zIndex: 999,
+                });
+                    infowindow.open(map, this);
+                }); // termina addListener
             });
             var markerCluster = new MarkerClusterer(map, markers);
         });

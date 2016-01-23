@@ -765,6 +765,9 @@ def obtener_mapa_dashboard(request):
                                 id=objeto.id,
                                 lat=float(valor[0]),
                                 lon=float(valor[1]),
+                                sexo=objeto.nombre_productor.get_sexo_display(),
+                                grupo=objeto.nombre_productor.get_grupo_display(),
+                                edad=objeto.nombre_productor.edad,
                             )
                 lista.append(dicc)
 
