@@ -12,5 +12,6 @@ urlpatterns = patterns('encuesta.views',
     url(r'^consulta/ajax/comunidad/(?P<municipio>\d+)/$', 'get_comunidad'),
     url(r'^lista/(?P<organizacion_id>\d+)/(?P<sexo_id>\d+)/$', 'mostrar_productores'),
     url(r'^mapa/$',  'mapa', name="mapa"),
+    url(r'^exportar/(?P<modela>\d+)/$', 'spss_xls'),
 
 )

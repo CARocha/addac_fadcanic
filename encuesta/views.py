@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse, render_to_response
 from django.views.generic import TemplateView
 from django.core.exceptions import ViewDoesNotExist
 from .models import *
@@ -779,6 +779,41 @@ def mapa(request, template="encuesta/mapa.html"):
 
     form = FormMapa()
     return render(request, template, {'a': a.count(),'form':form})
+
+def volcar_xls(request, modelo):
+    encuestas = _query_filtros(request)
+
+    resultados = []
+    for encuesta in encuestas:
+        filas = []
+        filas.append(encuesta.fecha)
+        filas.append(encuesta.ano)
+        finca = encuesta.finca_set.all()
+        for obj in finca:
+                filas.append(obj.nombre_productor)
+                filas.append(obj.municipio)
+                filas.append(obj.comunidad)
+        if modelo == '1':
+            innovacion = encuesta.innovacion_set.all()
+            for obj in innovacion:
+                filas.append(obj.innovacion)
+                filas.append(obj.get_aplica_display())
+        resultados.append(filas)
+
+    dict = {'resultados':resultados}
+    return dict
+
+def spss_xls(request, modela):
+    varia = modela
+    dict = volcar_xls(request, modelo=varia)
+    return write_xls('spss.html', dict, 'spss.xls')
+
+def write_xls(template_src, context_dict, filename):
+    response = render_to_response(template_src, context_dict)
+    response['Content-Disposition'] = 'attachment; filename='+filename
+    response['Content-Type'] = 'application/vnd.ms-excel'
+    response['Charset']='UTF-8'
+    return response
 
 # urls de los indicadores
 VALID_VIEWS = {

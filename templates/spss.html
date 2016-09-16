@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}Hoja spss{% endblock %}</title>
+</head>
+<body>
+{% block contenido %}
+    <table>
+        <tr>
+            <!-- datos generales -->
+            <th>Fecha</th>
+            <th>Año de la encuesta</th>
+            <th>Nombre del productor</th>
+            <th>Municipio</th>
+            <th>Comunidad</th>
+            <!-- composicion de la familia -->
+            {% if ayuda == '1' %}
+                <th>Tipo de innovacion</th>
+                <th>Aplica </th>
+            {% endif %}
+
+        </tr>
+    {% for obj in resultados  %}
+    <tr>
+        {% for data in obj %}
+            <td>{{data}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock contenido %}
+</body>
+</html>
