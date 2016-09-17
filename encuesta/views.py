@@ -782,7 +782,7 @@ def mapa(request, template="encuesta/mapa.html"):
 
 def volcar_xls(request, modelo):
     encuestas = _query_filtros(request)
-
+    ayuda = modelo
     resultados = []
     for encuesta in encuestas:
         filas = []
@@ -794,13 +794,79 @@ def volcar_xls(request, modelo):
                 filas.append(obj.municipio)
                 filas.append(obj.comunidad)
         if modelo == '1':
+            anuales = encuesta.seguridadcanuales_set.all()
+            for obj in anuales:
+                filas.append(obj.cultivos)
+                filas.append(obj.area_produccion)
+                filas.append(obj.produccion)
+                filas.append(obj.consumo_animal)
+                filas.append(obj.auto_consumo)
+                filas.append(obj.perdidas)
+                filas.append(obj.venta_no)
+                filas.append(obj.precio_promedio_no)
+                filas.append(obj.venta_organizada)
+                filas.append(obj.precio_promedio_orga)
+        if modelo == '2':
+            animal = encuesta.seguridadpanimal_set.all()
+            for obj in animal:
+                filas.append(obj.producto)
+                filas.append(obj.produccion)
+                filas.append(obj.auto_consumo)
+                filas.append(obj.perdidas)
+                filas.append(obj.venta_no)
+                filas.append(obj.precio_promedio_no)
+                filas.append(obj.venta_organizada)
+                filas.append(obj.precio_promedio_orga)
+                filas.append(obj.get_maneja_display())
+        if modelo == '3':
+            procesados = encuesta.seguridadpprocesados_set.all()
+            for obj in procesados:
+                filas.append(obj.producto)
+                filas.append(obj.produccion)
+                filas.append(obj.auto_consumo)
+                filas.append(obj.perdidas)
+                filas.append(obj.venta_no)
+                filas.append(obj.precio_promedio_no)
+                filas.append(obj.venta_organizada)
+                filas.append(obj.maneja)
+        if modelo == '4':
+            servicio = encuesta.ingresoservicionegocio_set.all()
+            for obj in servicio:
+                filas.append(obj.servicios)
+                filas.append(obj.cantidad)
+                filas.append(obj.precio)
+                filas.append(obj.ingresos)
+                filas.append(obj.get_maneja_display())
+                filas.append(obj.get_plan_negocio_display())
+        if modelo == '5':
+            saf = encuesta.seguridadsaf_set.all()
+            for obj in saf:
+                filas.append(obj.cultivos)
+                filas.append(obj.area_desarrollo)
+                filas.append(obj.area_produccion)
+                filas.append(obj.produccion_total)
+                filas.append(obj.consumo_animal)
+                filas.append(obj.auto_consumo)
+                filas.append(obj.perdidas)
+                filas.append(obj.venta_no)
+                filas.append(obj.precio_promedio_no)
+                filas.append(obj.venta_organizada)
+                filas.append(obj.precio_promedio_orga)
+                filas.append(obj.rendimiento)
+        if modelo == '6':
+            seguridad = encuesta.seguridadalimentaria_set.all()
+            for obj in seguridad:
+                filas.append(obj.alimentos)
+                filas.append(obj.get_consumo_display())
+                filas.append(obj.comprar)
+        if modelo == '7':
             innovacion = encuesta.innovacion_set.all()
             for obj in innovacion:
                 filas.append(obj.innovacion)
                 filas.append(obj.get_aplica_display())
         resultados.append(filas)
 
-    dict = {'resultados':resultados}
+    dict = {'resultados':resultados, 'ayuda':ayuda}
     return dict
 
 def spss_xls(request, modela):

@@ -114,6 +114,9 @@ $(function () {
 
      <div class="panel-body">
              {% include "indicadores.html" %}
+             {% if user.is_authenticated %}
+                <a href="/exportar/5/"><strong>Descargar Excel</strong></a>
+              {% endif %}
               <div class="table-responsive tableScroll">
                  <table class="table" id="myTable">
                  <caption>Ingresos SAF</caption>
