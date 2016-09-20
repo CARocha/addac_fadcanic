@@ -856,14 +856,46 @@ def volcar_xls(request, modelo):
         if modelo == '6':
             seguridad = encuesta.seguridadalimentaria_set.all()
             for obj in seguridad:
-                filas.append(obj.alimentos)
-                filas.append(obj.get_consumo_display())
-                filas.append(obj.comprar)
+                try:
+                    filas.append(obj.alimentos)
+                    filas.append(obj.get_consumo_display())
+                    filas.append(obj.comprar)
+                except:
+                    pass
         if modelo == '7':
             innovacion = encuesta.innovacion_set.all()
             for obj in innovacion:
                 filas.append(obj.innovacion)
                 filas.append(obj.get_aplica_display())
+        if modelo == '8':
+            general = encuesta.finca_set.all()
+            for obj in general:
+                filas.append(obj.area_finca)
+                filas.append(obj.person)
+                filas.append(obj.animal_bovino)
+                filas.append(obj.animal_porcino)
+                filas.append(obj.animal_equino)
+                filas.append(obj.animal_aves)
+                filas.append(obj.animal_caprino)
+                filas.append(obj.get_tipo_casa_display())
+                filas.append(obj.area_casa)
+                filas.append(obj.get_seneamiento_display())
+                filas.append(obj.get_fuente_agua_display())
+                filas.append(obj.get_legalidad_display())
+                filas.append(obj.get_propietario_display())
+        if modelo == '9':
+            uso_tierra = encuesta.usotierra_set.all()
+            for obj in uso_tierra:
+                filas.append(obj.bosque_primario)
+                filas.append(obj.bosque_secundario)
+                filas.append(obj.tacotal)
+                filas.append(obj.cultivos_perennes)
+                filas.append(obj.cultivos_semiperennes)
+                filas.append(obj.cultivos_anuales)
+                filas.append(obj.potrero_sin_arboles)
+                filas.append(obj.potrero_arboles)
+                filas.append(obj.pastos_corte)
+                filas.append(obj.plantaciones_forestales)
         resultados.append(filas)
 
     dict = {'resultados':resultados, 'ayuda':ayuda}

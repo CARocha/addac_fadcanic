@@ -78,6 +78,33 @@
                 <th>Innovacion</th>
                 <th>Aplica </th>
             {% endif %}
+            {% if ayuda == '8' %}
+                <th>Area de la finca</th>
+                <th>Número de personas </th>
+                <th>Número de animal bovino </th>
+                <th>Número de animal porcino </th>
+                <th>Número de animales equinos </th>
+                <th>Número de aves </th>
+                <th>Número de animales pelibuey </th>
+                <th>Tipo de casa </th>
+                <th>Area de la casa </th>
+                <th>Saneamiento </th>
+                <th>Gestion del agua </th>
+                <th>Legalidad de la propiedad </th>
+                <th>Quien es el propietario </th>
+            {% endif %}
+            {% if ayuda == '9' %}
+                <th>Bosque primario</th>
+                <th>Bosque secundario </th>
+                <th>Tacotal </th>
+                <th>Cultivos perennes </th>
+                <th>Cultivos semi-perennes </th>
+                <th>Cultivos anuales </th>
+                <th>Potreros sin arboles </th>
+                <th>Potreros con arboles </th>
+                <th>Pastos cortos </th>
+                <th>Plantaciones forestales </th>
+            {% endif %}
 
         </tr>
     {% for obj in resultados  %}

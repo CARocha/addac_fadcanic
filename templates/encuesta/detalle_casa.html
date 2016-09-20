@@ -209,6 +209,9 @@
     <div class="tab-content">
     <div class="tab-pane active" id="tabla1">
         {% include "indicadores.html" %}
+        {% if user.is_authenticated %}
+                <a href="/exportar/8/"><strong>Descargar Excel</strong></a>
+              {% endif %}
        <div class="panel-body">
        <div class="container-fluid ">
         <div id="container1" style="max-width: 600px; height: 400px; margin: 0 auto"></div>
